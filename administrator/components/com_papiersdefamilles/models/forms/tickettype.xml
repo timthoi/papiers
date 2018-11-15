@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<form>
+
+	<fieldset name="tickettype.form" addfieldpath="/administrator/components/com_papiersdefamilles/models/fields">
+
+		<field name="num_id"
+				alias="num_id"
+				label="PAPIERSDEFAMILLES_FIELD_NUM_ID"
+				filter="STRING"
+				type="cktext"/>
+
+		<field name="destination"
+				alias="destination"
+				label="PAPIERSDEFAMILLES_FIELD_DESTINATION"
+				filter="STRING"
+				type="cktext"
+				required="true"
+				class="validate[required]"/>
+
+		<field name="continent_id"
+				alias="_continent_id_name"
+				label="PAPIERSDEFAMILLES_FIELD_CONTINENT"
+				filter="INT"
+				listKey="id"
+				labelKey="name"
+				type="ckcombo"
+				nullLabel="PAPIERSDEFAMILLES_JSEARCH_SELECT_CONTINENT"
+				required="true"
+				class="validate[required]"/>
+
+		<field name="country_id"
+				alias="_country_id_name"
+				label="PAPIERSDEFAMILLES_FIELD_COUNTRY"
+				filter="INT"
+				listKey="id"
+				labelKey="name"
+				type="ckcombo"
+				nullLabel="PAPIERSDEFAMILLES_JSEARCH_SELECT_COUNTRY"
+				required="true"
+				class="validate[required]"/>
+
+		<field name="city_id"
+				alias="_city_id_name"
+				label="PAPIERSDEFAMILLES_FIELD_CITY"
+				filter="INT"
+				listKey="id"
+				labelKey="name"
+				type="ckcombo"
+				nullLabel="PAPIERSDEFAMILLES_JSEARCH_SELECT_CITY"
+				required="true"
+				class="validate[required]"/>
+
+		
+		<field name="pricelist"
+				type="subform"
+				label="PAPIERSDEFAMILLES_LAYOUT_PRICE_LIST"
+				min="1"
+				max="200"
+				required= "true"            
+				formsource= "administrator/components/com_papiersdefamilles/models/forms/subpricelist.xml"
+				multiple= "true"
+				default= '[{"departure_city_id":"", "month_id":"", "year":"", "price_1":"", "price_2":""}]'
+				buttons= "add,remove"
+				layout="joomla.form.field.subform.repeatable-table"
+				groupByFieldset="false"/>
+
+		<field name="short_presentation"
+				alias="short_presentation"
+				label="PAPIERSDEFAMILLES_FIELD_SHORT_PRESENTATION"
+				filter="STRING"
+				type="cktextarea"
+				required="true"
+				class="validate[required]"/>
+
+		<field name="long_presentation"
+				alias="long_presentation"
+				label="PAPIERSDEFAMILLES_FIELD_LONG_PRESENTATION"
+				filter="STRING"
+				type="cktextarea"
+				required="true"
+				class="validate[required]"/>
+
+		<field name="main_pic"
+				alias="main_pic"
+				label="PAPIERSDEFAMILLES_FIELD_MAIN_PIC"
+				filter="STRING"
+				type="hidden"/>
+
+		<field name="gallery_pic"
+				alias="gallery_pic"
+				label="PAPIERSDEFAMILLES_FIELD_GALLERY_PIC"
+				filter="STRING"
+				type="hidden"/>
+
+		<field name="is_online"
+				alias="is_online"
+				label="PAPIERSDEFAMILLES_FIELD_IS_ONLINE"
+				filter="BOOL"
+				listKey="value"
+				type="ckradio"
+				viewType="both"
+				required="true"
+				class="validate[required]">
+			<option value="0" icon="icomoon-cancel" color="danger">PAPIERSDEFAMILLES_FIELDS_BOOL_NO</option>
+			<option value="1" icon="icomoon-ok" color="success">PAPIERSDEFAMILLES_FIELDS_BOOL_YES</option>
+		</field>
+
+		<field name="is_online_quote"
+				alias="is_online_quote"
+				label="PAPIERSDEFAMILLES_FIELD_IS_ONLINE_QUOTE"
+				filter="BOOL"
+				listKey="value"
+				type="ckradio"
+				viewType="both"
+				required="true"
+				class="validate[required]">
+			<option value="0" icon="icomoon-cancel" color="danger">PAPIERSDEFAMILLES_FIELDS_BOOL_NO</option>
+			<option value="1" icon="icomoon-ok" color="success">PAPIERSDEFAMILLES_FIELDS_BOOL_YES</option>
+		</field>
+
+		<field name="is_good_plan"
+				alias="is_good_plan"
+				label="PAPIERSDEFAMILLES_FIELD_IS_GOOD_PLAN"
+				filter="BOOL"
+				listKey="value"
+				type="ckradio"
+				viewType="both">
+			<option value="0" icon="icomoon-cancel" color="danger">PAPIERSDEFAMILLES_FIELDS_BOOL_NO</option>
+			<option value="1" icon="icomoon-ok" color="success">PAPIERSDEFAMILLES_FIELDS_BOOL_YES</option>
+		</field>
+
+		<field name="insurance_rate"
+				alias="insurance_rate"
+				label="PAPIERSDEFAMILLES_FIELD_INSURANCE_RATE"
+				filter="FLOAT"
+				numericFormat="10,2"
+				type="cktext"/>
+
+		<field name="lowest_price"
+				alias="lowest_price"
+				label="PAPIERSDEFAMILLES_FIELD_LOWEST_PRICE"
+				filter="FLOAT"
+				numericFormat="10,2"
+				type="cktext"/>
+
+		<field name="luggage_refund_rate_grid"
+				alias="luggage_refund_rate_grid"
+				label="PAPIERSDEFAMILLES_FIELD_LUGGAGE_REFUND_RATE_GRID"
+				filter="FLOAT"
+				numericFormat="10,2"
+				type="cktext"/>
+
+		<field name="published"
+				alias="published"
+				label="PAPIERSDEFAMILLES_FIELD_PUBLISHED"
+				filter="INT"
+				access="core.edit.state"
+				listKey="value"
+				default="1"
+				type="ckstate">
+			<option value="0" icon="icomoon-cancel" color="danger">PAPIERSDEFAMILLES_FIELDS_BOOL_NO</option>
+			<option value="1" icon="icomoon-ok" color="success">PAPIERSDEFAMILLES_FIELDS_BOOL_YES</option>
+		</field>
+	</fieldset>
+
+	<fieldset name="default.filters" addfieldpath="/administrator/components/com_papiersdefamilles/models/fields">
+
+		<field name="filter_published"
+				type="ckstate"
+				access="core.edit.state"
+				submit="true"
+				nullLabel="PAPIERSDEFAMILLES_FILTER_NULL_SELECT_STATE"
+				display="combo"
+				label="State"
+				class="element-filter span-2"
+				ui="chosen"/>
+
+		<field name="filter_continent_id"
+				listKey="id"
+				labelKey="name"
+				type="ckcombo"
+				submit="true"
+				nullLabel="PAPIERSDEFAMILLES_FILTER_NULL_CONTINENT_NAME"
+				class="span-2 element-filter"
+				label="PAPIERSDEFAMILLES_JSEARCH_CONTINENT_NAME"
+				ui="chosen"/>
+
+		<field name="filter_country_id"
+				listKey="id"
+				labelKey="name"
+				type="ckcombo"
+				submit="true"
+				nullLabel="PAPIERSDEFAMILLES_FILTER_NULL_COUNTRY_NAME"
+				class="span-2 element-filter"
+				label="PAPIERSDEFAMILLES_JSEARCH_COUNTRY"
+				ui="chosen"/>
+
+		<field name="filter_city_id"
+				listKey="id"
+				labelKey="name"
+				type="ckcombo"
+				submit="true"
+				nullLabel="PAPIERSDEFAMILLES_FILTER_NULL_CITY_NAME"
+				class="span-2 element-filter"
+				label="PAPIERSDEFAMILLES_JSEARCH_CITY"
+				ui="chosen"/>
+
+		<field name="filter_departure_city_id"
+				listKey="id"
+				labelKey="name"
+				type="ckcombo"
+				submit="true"
+				nullLabel="PAPIERSDEFAMILLES_FILTER_NULL_DEPARTURE_CITY_NAME"
+				class="span-2 element-filter"
+				label="PAPIERSDEFAMILLES_JSEARCH_DEPARTURE_CITY_NAME"
+				ui="chosen"/>
+
+		<field name="filter_creation_date_from"
+				placeholder="PAPIERSDEFAMILLES_FILTER_CREATION_DATE_CREATION_DATE_FROM"
+				type="ckcalendar"
+				submit="true"
+				format="Y-m-d H:i"
+				label="PAPIERSDEFAMILLES_JSEARCH_CREATION_DATE"
+				class="element-filter input-small"
+				ui="chosen"/>
+
+		<field name="filter_creation_date_to"
+				placeholder="PAPIERSDEFAMILLES_FILTER_CREATION_DATE_CREATION_DATE_TO"
+				type="ckcalendar"
+				submit="true"
+				format="Y-m-d H:i"
+				label="PAPIERSDEFAMILLES_JSEARCH_CREATION_DATE"
+				class="element-filter input-small"
+				ui="chosen"/>
+
+		<field name="filter_created_by"
+				listKey="id"
+				labelKey="name"
+				type="ckcombo"
+				submit="true"
+				nullLabel="PAPIERSDEFAMILLES_FILTER_NULL_CREATED_BY_NAME"
+				class="span-2 element-filter"
+				label="PAPIERSDEFAMILLES_JSEARCH_CREATED_BY_NAME"
+				ui="chosen"/>
+
+		<field name="search_search"
+				type="cksearch"
+				placeholder="PAPIERSDEFAMILLES_FILTER_NULL_NUM_ID_MAIN_PIC_GALLERY_PIC_ALIAS"
+				label="PAPIERSDEFAMILLES_JSEARCH_NUM_ID_MAIN_PIC_GALLERY_PIC_ALIAS"
+				class="element-filter element-search search-query"
+				ui="chosen"/>
+
+		<field name="sortTable"
+				type="cksort"
+				responsive="hidden-phone"
+				submit="true"
+				nullLabel="JGLOBAL_SORT_BY"
+				class="span-2 element-filter"
+				label="Sort by"
+				ui="chosen"/>
+
+		<field name="directionTable"
+				type="ckdirection"
+				responsive="hidden-phone"
+				submit="true"
+				nullLabel="JFIELD_ORDERING_DESC"
+				class="span-2 element-filter"
+				label="Direction"
+				ui="chosen"/>
+
+		<field name="limit"
+				type="cklimit"
+				submit="true"
+				class="element-filter"
+				label="Limit"
+				ui="chosen"/>
+	</fieldset>
+
+	<fieldset name="modal.filters" addfieldpath="/administrator/components/com_papiersdefamilles/models/fields">
+
+		<field name="filter_published"
+				type="ckstate"
+				access="core.edit.state"
+				submit="true"
+				nullLabel="PAPIERSDEFAMILLES_FILTER_NULL_SELECT_STATE"
+				display="combo"
+				label="State"
+				class="element-filter span-2"
+				ui="chosen"/>
+
+		<field name="limit"
+				type="cklimit"
+				submit="true"
+				class="element-filter"
+				label="Limit"
+				ui="chosen"/>
+	</fieldset>
+</form>

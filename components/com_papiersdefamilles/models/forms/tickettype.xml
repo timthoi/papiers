@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<form>
+
+	<fieldset name="default.filters" addfieldpath="/administrator/components/com_papiersdefamilles/models/fields">
+		<field name="filter_published"
+				type="ckstate"
+				access="core.edit.state"
+				submit="true"
+				nullLabel="PAPIERSDEFAMILLES_FILTER_NULL_SELECT_STATE"
+				display="combo"
+				label="State"
+				class="element-filter span-2"
+				ui="chosen"/>
+
+		<field name="filter_continent_id"
+				listKey="id"
+				labelKey="name"
+				type="ckcombo"
+				submit="true"
+				nullLabel="PAPIERSDEFAMILLES_FILTER_NULL_CONTINENT_NAME"
+				class="span-2 element-filter"
+				label="PAPIERSDEFAMILLES_JSEARCH_CONTINENT_NAME"
+				ui="chosen"/>
+
+		<field name="filter_country_id"
+				listKey="id"
+				labelKey="name"
+				type="ckcombo"
+				submit="true"
+				nullLabel="PAPIERSDEFAMILLES_FILTER_NULL_COUNTRY_NAME"
+				class="span-2 element-filter"
+				label="PAPIERSDEFAMILLES_JSEARCH_COUNTRY"
+				ui="chosen"/>
+
+		<field name="filter_city_id"
+				listKey="id"
+				labelKey="name"
+				type="ckcombo"
+				submit="true"
+				nullLabel="PAPIERSDEFAMILLES_FILTER_NULL_CITY_NAME"
+				class="span-2 element-filter"
+				label="PAPIERSDEFAMILLES_JSEARCH_CITY"
+				ui="chosen"/>
+
+		<field name="filter_departure_city_id"
+				listKey="id"
+				labelKey="name"
+				type="ckcombo"
+				submit="true"
+				nullLabel="PAPIERSDEFAMILLES_FILTER_NULL_DEPARTURE_CITY_NAME"
+				class="span-2 element-filter"
+				label="PAPIERSDEFAMILLES_JSEARCH_DEPARTURE_CITY_NAME"
+				ui="chosen"/>
+				
+		<field name="search_search"
+				type="cksearch"
+				placeholder="PAPIERSDEFAMILLES_FILTER_NULL_NUM_ID_MAIN_PIC_GALLERY_PIC_ALIAS"
+				label="PAPIERSDEFAMILLES_JSEARCH_NUM_ID_MAIN_PIC_GALLERY_PIC_ALIAS"
+				class="element-filter element-search search-query"
+				ui="chosen"/>
+
+		<field name="sortTable"
+				type="cksort"
+				responsive="hidden-phone"
+				submit="true"
+				nullLabel="JGLOBAL_SORT_BY"
+				class="span-2 element-filter"
+				label="Sort by"
+				ui="chosen"/>
+
+		<field name="directionTable"
+				type="ckdirection"
+				responsive="hidden-phone"
+				submit="true"
+				nullLabel="JFIELD_ORDERING_DESC"
+				class="span-2 element-filter"
+				label="Direction"
+				ui="chosen"/>
+
+		<field name="limit"
+				type="cklimit"
+				submit="true"
+				class="element-filter"
+				label="Limit"
+				ui="chosen"/>
+	</fieldset>
+</form>

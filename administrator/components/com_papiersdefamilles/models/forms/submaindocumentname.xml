@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+    <field name="ordering"
+           alias="ordering"
+           label="PAPIERSDEFAMILLES_FIELD_ORDERING"
+           filter="STRING"
+           type="cktext"/>
+
+    <field name="surname"
+           alias="surname"
+           label="PAPIERSDEFAMILLES_FIELD_SURNAME"
+           filter="STRING"
+           type="cktext"/>
+
+    <field name="name"
+           alias="name"
+           label="PAPIERSDEFAMILLES_FIELD_NAME"
+           filter="STRING"
+           type="cktext"/>
+
+    <field
+            name="sex"
+            type="list"
+            default=""
+            required="true"
+            label="PAPIERSDEFAMILLES_FIELD_SEX"
+            description="">
+
+        <option value="">PAPIERSDEFAMILLES_JSEARCH_SELECT_SEX</option>
+        <option value="1">PAPIERSDEFAMILLES_ENUM_SEX_1</option>
+        <option value="2">PAPIERSDEFAMILLES_ENUM_SEX_2</option>
+    </field>
+</form>

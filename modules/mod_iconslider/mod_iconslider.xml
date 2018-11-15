@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.1" client="site" method="upgrade">
+	<name>Module Icon Finder</name>
+	<author>Harvey</author>
+	<creationDate>Dec 2017</creationDate>
+	<copyright>Copyright (C) 2017 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+	<description>PAPIERSDEFAMILLES_DESCRIPTION_ICON</description>
+
+
+	<files>
+		<filename module="Module Icon Finder">mod_iconslider.php</filename>
+		<folder>tmpl</folder>
+		<folder>css</folder>
+		<folder>js</folder>
+		<folder>language</folder>
+		<filename>helper.php</filename>
+		<filename>css/owl.carousel.min.css</filename>
+		<filename>css/owl.theme.default.min.css</filename>
+		<filename>js/owl.carousel.min.js</filename>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.mod_iconslider.ini</language>
+		<language tag="fr-FR">fr-FR/fr-FR.mod_iconslider.ini</language>
+	</languages>
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="intro"
+					   type="editor"
+					   default=""
+					   label="Description"
+					   description=""
+					   rows="5"
+					   filter="raw"/>
+
+				<field name= "icon_ids"
+					type= "subform"
+					label= "PAPIERSDEFAMILLES_FIELD_SELECT_ICON"
+					min="1"
+					max="1000"
+					required= "true"            
+					formsource= "modules/mod_iconslider/subiconslider.xml"
+					multiple= "true"
+					default= '[{"icon":"", "title":"", "link":""}]'
+					buttons= "add,remove"
+					layout="joomla.form.field.subform.repeatable-table"
+					groupByFieldset="false"/>
+
+			</fieldset>
+
+			<fieldset name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
+
+				<field
+					name="moduleclass_sfx"
+					type="textarea"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
+				/>
+
+			</fieldset>
+		</fields>
+	</config>
+</extension>

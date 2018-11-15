@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+    <field
+            name="region_id"
+            type="sql"
+            default="1"
+            label="PAPIERSDEFAMILLES_FIELD_REGION"
+            query="SELECT id, name FROM #__papiersdefamilles_regions WHERE published=1"
+            key_field="id"
+            value_field="name">
+        <option value="">PAPIERSDEFAMILLES_JSEARCH_SELECT_REGION</option>
+    </field>
+
+    <field
+            name="country_id"
+            type="sql"
+            default="1"
+            label="PAPIERSDEFAMILLES_FIELD_COUNTRY"
+            query="SELECT id, name FROM #__papiersdefamilles_countries WHERE published=1"
+            key_field="id"
+            value_field="name">
+        <option value="">PAPIERSDEFAMILLES_JSEARCH_SELECT_COUNTRY</option>
+    </field>
+
+    <field
+            name="province_id"
+            type="sql"
+            default="1"
+            label="PAPIERSDEFAMILLES_FIELD_PROVINCE"
+            query="SELECT id, name FROM #__papiersdefamilles_provinces WHERE published=1"
+            key_field="id"
+            value_field="name">
+        <option value="">PAPIERSDEFAMILLES_JSEARCH_SELECT_PROVINCE</option>
+    </field>
+
+    <field
+            name="city_id"
+            type="sql"
+            default="1"
+            label="PAPIERSDEFAMILLES_FIELD_CITY"
+            query="SELECT id, name FROM #__papiersdefamilles_cities WHERE published=1"
+            key_field="id"
+            value_field="name">
+        <option value="">PAPIERSDEFAMILLES_JSEARCH_SELECT_CITY</option>
+    </field>
+</form>

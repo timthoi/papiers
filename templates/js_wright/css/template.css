@@ -1,0 +1,173 @@
+/* RTL support */
+html[dir="rtl"] .nav-tabs .tabs,
+html[dir="rtl"] .navbar .nav,
+html[dir="rtl"] .nav-tabs:not(.nav-stacked) > li,
+html[dir="rtl"] .nav-pills > li,
+html[dir="rtl"] .radio input[type="radio"],
+html[dir="rtl"] .checkbox input[type="checkbox"] {
+  float: right;
+}
+html[dir="rtl"] .dropdown .caret {
+  margin-left: 0;
+  margin-right: 2px;
+}
+html[dir="rtl"] .list-striped,
+html[dir="rtl"] .row-striped,
+html[dir="rtl"] .table th,
+html[dir="rtl"] .table td,
+html[dir="rtl"] .popover {
+  text-align: right;
+}
+html[dir="rtl"] .radio input[type="radio"],
+html[dir="rtl"] .checkbox input[type="checkbox"] {
+  margin-left: 10px;
+}
+html[dir="rtl"] .contact-category .list-title {
+  margin-top: 30px;
+}
+html[dir="rtl"] ul.category,
+html[dir="rtl"] ul.nav {
+  margin-right: 0;
+}
+html[dir="rtl"] .dl-horizontal dd {
+  margin-right: 40px;
+}
+html[dir="rtl"] .dl-horizontal dt {
+  float: right;
+  text-align: left;
+  clear: right;
+  margin-right: 0;
+  margin-top: 0;
+}
+html[dir="rtl"] .form-horizontal .control-label {
+  float: right;
+  width: auto;
+  padding-left: 5px;
+  padding-right: 0;
+  text-align: right;
+}
+html[dir="rtl"] dd.tabs {
+  margin-left: 0;
+  margin-right: 0;
+}
+html[dir="rtl"] .pull-left.item-image {
+  margin-right: 0 !important;
+  margin-left: 1em !important;
+}
+html[dir="rtl"] .pull-right.item-image {
+  margin-right: 1em !important;
+  margin-left: 0 !important;
+}
+html[dir="rtl"] .btn-group > .btn:first-child,
+html[dir="rtl"] .radio.btn-group > label:first-of-type {
+  -webkit-border-bottom-left-radius: 0;
+  border-bottom-left-radius: 0;
+  -webkit-border-top-left-radius: 0;
+  border-top-left-radius: 0;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-topleft: 0;
+  -webkit-border-bottom-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  -webkit-border-top-right-radius: 4px;
+  border-top-right-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -moz-border-radius-topright: 4px;
+}
+html[dir="rtl"] .btn-group > .btn:last-child,
+html[dir="rtl"] .btn-group > .dropdown-toggle {
+  -webkit-border-top-right-radius: 0px;
+  border-top-right-radius: 0px;
+  -webkit-border-bottom-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  -moz-border-radius-topright: 0px;
+  -moz-border-radius-bottomright: 0px;
+  -webkit-border-top-left-radius: 4px;
+  border-top-left-radius: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  -moz-border-radius-topleft: 4px;
+  -moz-border-radius-bottomleft: 4px;
+}
+html[dir="rtl"] .btn-group > .btn.large:first-child {
+  -webkit-border-bottom-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 0px;
+  border-top-left-radius: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 0px;
+  margin-right: 0;
+  -webkit-border-bottom-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  -webkit-border-top-right-radius: 6px;
+  border-top-right-radius: 6px;
+  -moz-border-radius-bottomright: 6px;
+  -moz-border-radius-topright: 6px;
+}
+html[dir="rtl"] .btn-group > .btn.large:last-child,
+html[dir="rtl"] .btn-group > .large.dropdown-toggle {
+  -webkit-border-top-right-radius: 0px;
+  border-top-right-radius: 0px;
+  -webkit-border-bottom-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  -moz-border-radius-topright: 0px;
+  -moz-border-radius-bottomright: 0px;
+  -webkit-border-top-left-radius: 6px;
+  border-top-left-radius: 6px;
+  -webkit-border-bottom-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  -moz-border-radius-topleft: 6px;
+  -moz-border-radius-bottomleft: 6px;
+}
+html[dir="rtl"] .btn-group > .btn:first-child:last-child {
+  -webkit-border-top-left-radius: 4px;
+  border-top-left-radius: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  -moz-border-radius-topleft: 4px;
+  -moz-border-radius-bottomleft: 4px;
+  -webkit-border-bottom-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  -webkit-border-top-right-radius: 4px;
+  border-top-right-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -moz-border-radius-topright: 4px;
+}
+#mod-search-searchword + .button {
+  margin-bottom: 5px;
+}
+#mod-search-searchword + .button {
+  margin-bottom: 5px;
+}
+dl.article-info dd,
+dl.article-info dd > div {
+  padding: 0 5px;
+}
+.footer1,
+.footer2 {
+  text-align: center;
+}
+#footer .footer-content a:hover {
+  color: #555;
+}
+#footer {
+  color: #fff;
+  overflow: hidden;
+  background-color: #1b1b1b;
+  background-repeat: repeat-x;
+  border-color: #252525;
+}
+.contact .thumbnail {
+  background: #fff;
+}
+.contact .dl-horizontal.contact-position dd {
+  margin-left: 0;
+  font-size: 1.5em;
+}
+.contact .dl-horizontal dt {
+  text-align: center;
+  width: 31px;
+}
+.contact .dl-horizontal dd {
+  margin-left: 40px;
+  margin-bottom: 5px;
+}

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<extension type="component" version="1.6" method="upgrade">
+	<name><![CDATA[papiersdefamilles]]></name>
+	<author><![CDATA[]]></author>
+	<creationDate><![CDATA[07 Apr 2018]]></creationDate>
+	<copyright><![CDATA[]]></copyright>
+	<authorEmail><![CDATA[]]></authorEmail>
+	<authorUrl><![CDATA[]]></authorUrl>
+	<version><![CDATA[]]></version>
+	<license><![CDATA[]]></license>
+	<description><![CDATA[]]></description>
+
+	<files folder="site">
+		<folder>controllers</folder>
+		<folder>css</folder>
+		<folder>files</folder>
+		<folder>images</folder>
+		<folder>layouts</folder>
+		<folder>models</folder>
+		<folder>views</folder>
+		<filename>controller.php</filename>
+		<filename>papiersdefamilles.php</filename>
+		<filename>index.html</filename>
+		<filename>router.php</filename>
+	</files>
+
+	<languages folder="site">
+		<language tag="en-GB">language/en-GB.com_papiersdefamilles.ini</language>
+		<language tag="fr-FR">language/fr-FR.com_papiersdefamilles.ini</language>
+	</languages>
+
+	<administration>
+
+		<files folder="admin">
+			<folder>classes</folder>
+			<folder>controllers</folder>
+			<folder>css</folder>
+			<folder>helpers</folder>
+			<folder>images</folder>
+			<folder>js</folder>
+			<folder>layouts</folder>
+			<folder>models</folder>
+			<folder>sql</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>papiersdefamilles.php</filename>
+			<filename>index.html</filename>
+		</files>
+
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB.com_papiersdefamilles.ini</language>
+			<language tag="en-GB">language/en-GB.com_papiersdefamilles.sys.ini</language>
+			<language tag="fr-FR">language/fr-FR.com_papiersdefamilles.ini</language>
+			<language tag="fr-FR">language/fr-FR.com_papiersdefamilles.sys.ini</language>
+		</languages>
+		<menu img="components/com_papiersdefamilles/images/icon-16-papiersdefamilles.png">PAPIERSDEFAMILLES_MENU_PAPIERSDEFAMILLES</menu>
+
+		<submenu>
+			<menu img="components/com_papiersdefamilles/images/icon-16-papiersdefamilles_cities.png" link="option=com_papiersdefamilles&amp;view=cities">PAPIERSDEFAMILLES_MENU_CITIES</menu>
+			
+			<menu img="components/com_papiersdefamilles/images/icon-16-papiersdefamilles_provinces.png" link="option=com_papiersdefamilles&amp;view=provinces">PAPIERSDEFAMILLES_MENU_PROVINCES</menu>
+
+			<menu img="components/com_papiersdefamilles/images/icon-16-papiersdefamilles_regions.png" link="option=com_papiersdefamilles&amp;view=regions">PAPIERSDEFAMILLES_MENU_REGIONS</menu>
+			
+			<menu img="components/com_papiersdefamilles/images/icon-16-papiersdefamilles_countries.png" link="option=com_papiersdefamilles&amp;view=countries">PAPIERSDEFAMILLES_MENU_COUNTRIES</menu>
+
+			<menu img="components/com_papiersdefamilles/images/icon-16-papiersdefamilles_subscriptionplans.png" link="option=com_papiersdefamilles&amp;view=subscriptionplans">PAPIERSDEFAMILLES_MENU_SUBSCRIPTIONPLANS</menu>
+
+			<menu img="components/com_papiersdefamilles/images/icon-16-papiersdefamilles_categories.png" link="option=com_papiersdefamilles&amp;view=categories">PAPIERSDEFAMILLES_MENU_CATEGORIES</menu>
+
+			<menu img="components/com_papiersdefamilles/images/icon-16-papiersdefamilles_typedocuments.png" link="option=com_papiersdefamilles&amp;view=typedocuments">PAPIERSDEFAMILLES_MENU_TYPEDOCUMENTS</menu>
+
+			<menu img="components/com_papiersdefamilles/images/icon-16-papiersdefamilles_documents.png" link="option=com_papiersdefamilles&amp;view=documents">PAPIERSDEFAMILLES_MENU_DOCUMENTS</menu>
+
+			<menu img="components/com_papiersdefamilles/images/icon-16-papiersdefamilles_orders.png" link="option=com_papiersdefamilles&amp;view=orders">PAPIERSDEFAMILLES_MENU_ORDERS</menu>
+		</submenu>
+	</administration>
+	<scriptfile>script.php</scriptfile>
+
+	<install>
+
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+
+	<update>
+
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql</schemapath>
+		</schemas>
+	</update>
+
+	<uninstall>
+
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+</extension>

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<form>
+
+	<fieldset name="document.form" addfieldpath="/administrator/components/com_papiersdefamilles/models/fields">
+		<field name="num_id"
+			   alias="num_id"
+			   label="PAPIERSDEFAMILLES_FIELD_CODE"
+			   filter="STRING"
+			   type="cktext"/>
+
+		<field name="categories"
+			   alias="id"
+			   label="PAPIERSDEFAMILLES_FIELD_CATEGORY"
+			   filter="array"
+			   type="relation"
+			   multiple="true"
+			   labelKey="name"/>
+
+		<field name="typedocuments"
+			   alias="id"
+			   label="PAPIERSDEFAMILLES_FIELD_TYPE"
+			   filter="array"
+			   type="relation"
+			   multiple="true"
+			   labelKey="name"/>
+
+		<field
+				name="birthday"
+				hint="dd-mm-yyyy"
+				type="calendar"
+				label="PAPIERSDEFAMILLES_FIELD_BIRTHDAY"
+				format="%d-%m-%Y"
+				filter="user_utc"/>
+
+		<field name="age"
+			   alias="age"
+			   label="PAPIERSDEFAMILLES_FIELD_AGE"
+			   filter="STRING"
+			   type="cktext"/>
+
+		<field
+				name="format_document"
+				type="list"
+				default=""
+				required="true"
+				label="PAPIERSDEFAMILLES_FIELD_FORMAT_DOCUMENT"
+				description="">
+
+			<option value="">PAPIERSDEFAMILLES_JSEARCH_SELECT_FORMAT_DOCUMENT</option>
+			<option value="1">PAPIERSDEFAMILLES_ENUM_FORMAT_DOCUMENT_1</option>
+			<option value="2">PAPIERSDEFAMILLES_ENUM_FORMAT_DOCUMENT_2</option>
+			<option value="3">PAPIERSDEFAMILLES_ENUM_FORMAT_DOCUMENT_3</option>
+		</field>
+
+		<field
+				name="qualities"
+				type="list"
+				default=""
+				required="true"
+				label="PAPIERSDEFAMILLES_FIELD_QUALITIES"
+				description="">
+
+			<option value="">PAPIERSDEFAMILLES_JSEARCH_SELECT_QUALITY</option>
+			<option value="1">PAPIERSDEFAMILLES_ENUM_QUALITY_1</option>
+			<option value="2">PAPIERSDEFAMILLES_ENUM_QUALITY_2</option>
+			<option value="3">PAPIERSDEFAMILLES_ENUM_QUALITY_3</option>
+			<option value="4">PAPIERSDEFAMILLES_ENUM_QUALITY_4</option>
+			<option value="5">PAPIERSDEFAMILLES_ENUM_QUALITY_5</option>
+		</field>
+
+
+		<field name="number_of_pages"
+				alias="number_of_pages"
+				label="PAPIERSDEFAMILLES_FIELD_NUMBER_OF_PAGES"
+				filter="STRING"
+				type="cktext"/>
+
+
+		<field name="locations"
+			   type="subform"
+			   label="PAPIERSDEFAMILLES_LAYOUT_LOCATION"
+			   min="1"
+			   max="200"
+			   required= "true"
+			   formsource= "administrator/components/com_papiersdefamilles/models/forms/subdocumentlocation.xml"
+			   multiple= "true"
+			   default= '[{"region_id":"","country_id":"", "province_id":"", "city_id":""}]'
+			   buttons= "add,remove"
+			   layout="joomla.form.field.subform.repeatable-table"
+			   groupByFieldset="false"/>
+
+		<field name="main_persons"
+				type="subform"
+				label="PAPIERSDEFAMILLES_LAYOUT_MAIN_PERSONS"
+				min="1"
+				max="200"
+				required= "true"
+				formsource= "administrator/components/com_papiersdefamilles/models/forms/submaindocumentname.xml"
+				multiple= "true"
+				default= '[{"ordering":"","surname":"", "name":"", "sex":""}]'
+				buttons= "add,remove"
+				layout="joomla.form.field.subform.repeatable-table"
+				groupByFieldset="false"/>
+
+		<field name="secondary_persons"
+			   type="subform"
+			   label="PAPIERSDEFAMILLES_LAYOUT_SECONDARY_PERSONS"
+			   min="1"
+			   max="200"
+			   required= "true"
+			   formsource= "administrator/components/com_papiersdefamilles/models/forms/subsecondarydocumentname.xml"
+			   multiple= "true"
+			   default= '[{"name":""}]'
+			   buttons= "add,remove"
+			   layout="joomla.form.field.subform.repeatable-table"
+			   groupByFieldset="false"/>
+
+		<field name="description"
+				alias="description"
+				label="PAPIERSDEFAMILLES_FIELD_DESCRIPTION"
+				filter="STRING"
+				type="cktextarea"/>
+
+		<field name="note"
+			   alias="note"
+			   label="PAPIERSDEFAMILLES_FIELD_NOTE"
+			   filter="STRING"
+			   type="cktextarea"/>
+D
+		<field name="main_pic"
+				alias="main_pic"
+				label="PAPIERSDEFAMILLES_FIELD_MAIN_PIC"
+				filter="STRING"
+				type="hidden"/>
+
+		<field name="gallery_pic"
+				alias="gallery_pic"
+				label="PAPIERSDEFAMILLES_FIELD_GALLERY_PIC"
+				filter="STRING"
+				type="hidden"/>
+
+		<field name="gallery_demo_pic"
+			   alias="gallery_demo_pic"
+			   label="PAPIERSDEFAMILLES_FIELD_GALLERY_DEMO_PIC"
+			   filter="STRING"
+			   type="hidden"/>
+
+		<field name="is_sale"
+				alias="is_sale"
+				label="PAPIERSDEFAMILLES_FIELD_IS_SALE"
+				filter="BOOL"
+				listKey="value"
+				type="ckradio"
+				viewType="both"
+				required="true"
+			    default="0"
+				class="validate[required]">
+			<option value="0" icon="icomoon-cancel" color="danger">PAPIERSDEFAMILLES_FIELDS_BOOL_NO</option>
+			<option value="1" icon="icomoon-ok" color="success">PAPIERSDEFAMILLES_FIELDS_BOOL_YES</option>
+		</field>
+
+		<field name="is_sale_ebay"
+				alias="is_sale_ebay"
+				label="PAPIERSDEFAMILLES_FIELD_IS_SALE_EBAY"
+				filter="BOOL"
+				listKey="value"
+				type="ckradio"
+				viewType="both"
+				required="true"
+			    default="1"
+				class="validate[required]">
+			<option value="0" icon="icomoon-cancel" color="danger">PAPIERSDEFAMILLES_FIELDS_BOOL_NO</option>
+			<option value="1" icon="icomoon-ok" color="success">PAPIERSDEFAMILLES_FIELDS_BOOL_YES</option>
+		</field>
+
+		<field name="published"
+				alias="published"
+				label="PAPIERSDEFAMILLES_FIELD_PUBLISHED"
+				filter="INT"
+				access="core.edit.state"
+				listKey="value"
+				default="1"
+				type="ckstate">
+			<option value="0" icon="icomoon-cancel" color="danger">PAPIERSDEFAMILLES_FIELDS_BOOL_NO</option>
+			<option value="1" icon="icomoon-ok" color="success">PAPIERSDEFAMILLES_FIELDS_BOOL_YES</option>
+		</field>
+	</fieldset>
+
+	<fieldset name="default.filters" addfieldpath="/administrator/components/com_papiersdefamilles/models/fields">
+
+		<field name="filter_published"
+				type="ckstate"
+				access="core.edit.state"
+				submit="true"
+				nullLabel="PAPIERSDEFAMILLES_FILTER_NULL_SELECT_STATE"
+				display="combo"
+				label="State"
+				class="element-filter span-2"
+				ui="chosen"/>
+
+
+		<field name="filter_creation_date_from"
+				placeholder="PAPIERSDEFAMILLES_FILTER_CREATION_DATE_CREATION_DATE_FROM"
+				type="ckcalendar"
+				submit="true"
+				format="Y-m-d H:i"
+				label="PAPIERSDEFAMILLES_JSEARCH_CREATION_DATE"
+				class="element-filter input-small"
+				ui="chosen"/>
+
+		<field name="filter_creation_date_to"
+				placeholder="PAPIERSDEFAMILLES_FILTER_CREATION_DATE_CREATION_DATE_TO"
+				type="ckcalendar"
+				submit="true"
+				format="Y-m-d H:i"
+				label="PAPIERSDEFAMILLES_JSEARCH_CREATION_DATE"
+				class="element-filter input-small"
+				ui="chosen"/>
+
+		<field name="filter_created_by"
+				listKey="id"
+				labelKey="name"
+				type="ckcombo"
+				submit="true"
+				nullLabel="PAPIERSDEFAMILLES_FILTER_NULL_CREATED_BY_NAME"
+				class="span-2 element-filter"
+				label="PAPIERSDEFAMILLES_JSEARCH_CREATED_BY_NAME"
+				ui="chosen"/>
+
+		<field name="search_search"
+				type="cksearch"
+				placeholder="PAPIERSDEFAMILLES_FILTER_NULL_NUM_ID_MAIN_PIC_GALLERY_PIC_ALIAS"
+				label="PAPIERSDEFAMILLES_JSEARCH_NUM_ID_MAIN_PIC_GALLERY_PIC_ALIAS"
+				class="element-filter element-search search-query"
+				ui="chosen"/>
+
+		<field name="sortTable"
+				type="cksort"
+				responsive="hidden-phone"
+				submit="true"
+				nullLabel="JGLOBAL_SORT_BY"
+				class="span-2 element-filter"
+				label="Sort by"
+				ui="chosen"/>
+
+		<field name="directionTable"
+				type="ckdirection"
+				responsive="hidden-phone"
+				submit="true"
+				nullLabel="JFIELD_ORDERING_DESC"
+				class="span-2 element-filter"
+				label="Direction"
+				ui="chosen"/>
+
+		<field name="limit"
+				type="cklimit"
+				submit="true"
+				class="element-filter"
+				label="Limit"
+				ui="chosen"/>
+	</fieldset>
+
+	<fieldset name="modal.filters" addfieldpath="/administrator/components/com_papiersdefamilles/models/fields">
+
+		<field name="filter_published"
+				type="ckstate"
+				access="core.edit.state"
+				submit="true"
+				nullLabel="PAPIERSDEFAMILLES_FILTER_NULL_SELECT_STATE"
+				display="combo"
+				label="State"
+				class="element-filter span-2"
+				ui="chosen"/>
+
+		<field name="limit"
+				type="cklimit"
+				submit="true"
+				class="element-filter"
+				label="Limit"
+				ui="chosen"/>
+	</fieldset>
+</form>

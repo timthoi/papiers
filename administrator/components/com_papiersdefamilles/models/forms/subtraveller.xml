@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+  <field name="name" type="text" default="" label="PAPIERSDEFAMILLES_FIELD_NAME" description=""/>
+  <field name="surname" type="text" default="" label="PAPIERSDEFAMILLES_FIELD_SURNAME" description=""/>
+   <field
+        name="birthday"
+        hint="dd-mm-yyyy"
+        type="calendar"
+        label="PAPIERSDEFAMILLES_FIELD_BIRTHDAY"
+        format="%d-%m-%Y"
+        filter="user_utc"
+    />
+</form>

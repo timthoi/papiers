@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.1" client="site" method="upgrade">
+	<name>Module Logo</name>
+	<author>Harvey</author>
+	<creationDate>Dec 2017</creationDate>
+	<copyright>Copyright (C) 2017 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+	<description>Module Logo</description>
+
+
+	<files>
+		<filename module="Module Logo">mod_logo.php</filename>
+		<folder>tmpl</folder>
+		<filename>helper.php</filename>
+	</files>
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+			
+			</fieldset>
+			<fieldset name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
+
+				<field
+					name="moduleclass_sfx"
+					type="textarea"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
+				/>
+
+			</fieldset>
+		</fields>
+	</config>
+</extension>

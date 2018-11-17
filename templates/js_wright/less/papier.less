@@ -71,12 +71,12 @@ ul.menutop-menu.nav {
   }
 }
 .menu-header {
-  background-color: @green;
+  background-color: @greenLight;
   .navbar
   {
     margin-bottom: 0px;
     .navbar-inner {
-      background-color: @green;
+      background-color: @greenLight;
       box-shadow: none;
       border: none;
       .nav {
@@ -107,36 +107,140 @@ ul.menutop-menu.nav {
     }
   }
 }
+.tp-bannershadow.tp-shadow2 {
+  display: none;
+}
 .module-homepage-1 {
   h3 {
-    font-family: MyriadPro;
-    color: @brown;
-    font-family: 40px;
+    font-family: 'Open Sans', sans-serif;
+    color: @orange;
+    font-size: 40px;
     text-align: center;
+    font-weight: 100;
   }
   .content {
     color: @brown;
     text-align: center;
-    margin: 0 20px;
-    font-size: 25px;
-    line-height: 30px;
+    margin: 0px auto;
+    font-size: 20px;
+    line-height: 27px;
     margin-bottom: 40px;
   }
   .block-content {
     .span6 {
-      background-color: @green;
       color: @white;
-      font-style: italic;
       p {
         margin: 10px;
+      }
+    }
+    .auteur {
+      display: block;
+      text-align: right;
+      margin-top: 0px;
+      padding-top: 0px;
+    }
+    .trec_b1 {
+      position: absolute;
+      width: 140px;
+      right: 90px;
+    }
+    .trec_b2 {
+      position: absolute;
+      width: 140px;
+      left: 90px;
+    }
+    .bulle_1_home, .bulle_2_home {
+      padding: 25px 50px;
+      background: @greenLight;
+      color: @white;
+      border-radius: 50px;
+      text-align: left;
+      font-size: 15px;
+      text-shadow: 0px 1px 1px rgba(0,0,0,0.1);
+      position: relative;
+      margin: 0px 120px 0px 20px;
+    }
+  }
+  .zone_champs_home {
+    background: @white;
+    text-align: left;
+    padding: 20px;
+    margin: 50px 0px 20px 0px;
+    .title {
+      font-size: 17px;
+      margin-bottom: 15px;
+    }
+    .form-control {
+      display: block;
+      width: 250px;
+      height: auto;
+      padding: 11px 12px;
+      line-height: 1.42857143;
+      color: #555;
+      background-color: @white;
+      border: 1px solid #38373a;
+      border-radius: 10px;
+      box-shadow: none;
+    }
+    .champ_home {
+      margin-bottom: 20px;
+      border: 1px solid #cccccc;
+      color: @black;
+      font-style: normal;
+      font-size: 14px;
+    }
+    .center {
+      .btn_champ_home {
+        font-size: 15px;
+        color: #ccc;
+      }
+    }
+    .btn_champ_home {
+      font-size: 60px;
+      color: #dcdcdc;
+      line-height: 55px;
+      text-align: center;
+      display: block;
+      &:hover {
+        color: #23527c;
+      }
+    }
+  }
+}
+.hr2 {
+  display: block;
+  width: 50px;
+  height: 5px;
+  margin: 30px auto;
+  background: #808080;
+  border-radius: 5px;
+}
+.menu-header .navbar .navbar-inner {
+  .right-menu {
+    float: right;
+    margin-right: -15px;
+    > li > a{
+      color: @white;
+      text-transform: uppercase;
+      background: @white;
+      color: @orange;
+      padding: 7px 10px;
+      border-radius: 6px;
+      margin-top: 7px;
+      margin-left: 10px;
+      text-transform: none!important;
+      &:hover, &:focus {
+        color: @white;
+        background: @orange;
       }
     }
   }
 }
 #footer {
-  background-color: @gray;
+  background-color:  @gray;
+  background-image: url(https://www.transparenttextures.com/patterns/concrete-wall.png);
   text-align: center;
-  padding: 20px 0;
+  padding: 60px 0px;
   img {
     widtH: 200px
   }
@@ -153,16 +257,16 @@ ul.menutop-menu.nav {
       display: inline-block;
       border-right: 1px solid @grayLight;
       a {
+        font-size: 12px;
         display: block;
         color: @white;
         text-align: center;
         font-family: @baseFontFamily;
         margin: 0 5px;
       }
-      a:hover {
-        background-color: #d8d8d8;
-        color: #66574c;
-        font-weight: bold;
+      a:hover, a:focus {
+        background: none!important;
+        color: @white;
       }
       &:last-child {
         border-right: none;
@@ -188,6 +292,14 @@ ul.menutop-menu.nav {
 .homepage-grid-2 {
   background-color: #ead9c0;
   padding: 40px 0;
+  padding: 60px 0px 75px 0px;
+  text-align: center;
+  background-image: url(../images/home_bibli.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: 0px 1px 3px rgba(0,0,0,0.4);
+  position: relative;
+  z-index: 80;
 }
 
 .homepage-grid-1 {
@@ -196,7 +308,6 @@ ul.menutop-menu.nav {
 }
 
 .mod_iconsliders {
-  background-color: #ead9c0;
   .content {
       color: #55282c;
       text-align: center;
@@ -207,19 +318,34 @@ ul.menutop-menu.nav {
   }
   .owl-item
   {
+    position: relative;
     text-align: center;
     margin: 0 auto;
+    height: 200px;
     .item {
+      border-radius: 100%;
+      background: rgba(60, 226, 212, 0.8);
+      width: 140px;
+      margin: 0px auto;
+      height: 140px;
+
+      line-height: 140px;
       img {
-        width: 100px;
+        widtH: auto;
         text-align: center;
         margin: 0 auto;
+        padding-top: 20px;
       }
       p {
+        position: absolute;
+        bottom: 0px;
+        width: 100%;
+        line-height: 18px;
         margin-top: 10px;
         font-size: 25px;
-        font-weight: bold;
-        color: @brown;
+        left: 50%;
+        transform: translate(-50%, 0);
+        color: @orange;
       }
     }
   }

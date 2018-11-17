@@ -432,10 +432,10 @@ class Wright
 
 		if (version_compare(JVERSION, '3.0', 'ge'))
 		{
-			unset($doc->_styleSheets[$this->_urlTemplate . '/css/jui/bootstrap.min.css']);
+			/*unset($doc->_styleSheets[$this->_urlTemplate . '/css/jui/bootstrap.min.css']);
 			unset($doc->_styleSheets[$this->_urlTemplate . '/css/jui/bootstrap-responsive.min.css']);
 			unset($doc->_styleSheets[$this->_urlTemplate . '/css/jui/bootstrap-extended.css']);
-            unset($doc->_styleSheets[JURI::root(true) . '/media/jui/css/bootstrap-rtl.css']);
+            unset($doc->_styleSheets[JURI::root(true) . '/media/jui/css/bootstrap-rtl.css']);*/
 		}
 
         $styles['template'][] = 'papier.css';

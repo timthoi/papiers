@@ -125,6 +125,36 @@ CREATE TABLE IF NOT EXISTS `#__papiersdefamilles_documents` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- - 8< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-- Create table : documentregions
+-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - >8 -
+CREATE TABLE IF NOT EXISTS `#__papiersdefamilles_documentregions` (
+	`id` BIGINT(20) UNSIGNED NOT NULL auto_increment,
+	`document_id`  BIGINT(20) UNSIGNED NOT NULL ,
+	`region`  VARCHAR(255),
+	PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- - 8< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-- Create table : documentcities
+-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - >8 -
+CREATE TABLE IF NOT EXISTS `#__papiersdefamilles_documentcities` (
+	`id` BIGINT(20) UNSIGNED NOT NULL auto_increment,
+	`document_id`  BIGINT(20) UNSIGNED NOT NULL ,
+	`city`  VARCHAR(255),
+	PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- - 8< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-- Create table : documentcountries
+-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - >8 -
+CREATE TABLE IF NOT EXISTS `#__papiersdefamilles_documentcountries` (
+  `id` BIGINT(20) UNSIGNED NOT NULL auto_increment,
+  `document_id`  BIGINT(20) UNSIGNED NOT NULL ,
+  `country`  VARCHAR(255),
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- - 8< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- Create table : documentsecondarynames
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - >8 -
 CREATE TABLE IF NOT EXISTS `#__papiersdefamilles_documentsecondarynames` (
@@ -189,7 +219,7 @@ CREATE TABLE IF NOT EXISTS `#__papiersdefamilles_orders` (
 	`price_total` VARCHAR(255) ,
 	`discount` VARCHAR(255) ,
 	`is_paypal` TINYINT ,
-	`is_paypalO_refund` TINYINT ,
+	`is_paypal_refund` TINYINT ,
 	`paypal_status` TINYINT ,
 	`created_by` BIGINT(20) UNSIGNED ,
 	`modified_by` BIGINT(20) UNSIGNED ,

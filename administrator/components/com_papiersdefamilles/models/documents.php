@@ -227,6 +227,7 @@ class PapiersdefamillesModelDocuments extends PapiersdefamillesClassModelList
             . 'a.birthday,'
             . 'a.format_document,'
             . 'a.qualities,'
+            . 'a.state_document,'
             . 'a.number_of_pages,'
             . 'a.locations,'
             . 'a.main_persons,'

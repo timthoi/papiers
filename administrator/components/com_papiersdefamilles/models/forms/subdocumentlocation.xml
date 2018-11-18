@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
-    <field
-            name="region_id"
-            type="sql"
-            default="1"
-            label="PAPIERSDEFAMILLES_FIELD_REGION"
-            query="SELECT id, name FROM #__papiersdefamilles_regions WHERE published=1"
-            key_field="id"
-            value_field="name">
-        <option value="">PAPIERSDEFAMILLES_JSEARCH_SELECT_REGION</option>
-    </field>
+    <field name="region_id"
+           alias="region_id"
+           label="PAPIERSDEFAMILLES_FIELD_REGION"
+           filter="STRING"
+           type="cktext"/>
+
+    <field name="city_id"
+           alias="city_id"
+           label="PAPIERSDEFAMILLES_FIELD_CITY"
+           filter="STRING"
+           type="cktext"/>
 
     <field
             name="country_id"
@@ -22,15 +23,4 @@
         <option value="">PAPIERSDEFAMILLES_JSEARCH_SELECT_COUNTRY</option>
     </field>
 
-    <field name="province_id"
-           alias="province_id"
-           label="PAPIERSDEFAMILLES_FIELD_PROVINCE"
-           filter="STRING"
-           type="cktext"/>
-
-    <field name="city_id"
-           alias="city_id"
-           label="PAPIERSDEFAMILLES_FIELD_CITY"
-           filter="STRING"
-           type="cktext"/>
 </form>

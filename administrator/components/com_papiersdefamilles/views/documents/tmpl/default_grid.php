@@ -54,13 +54,21 @@ JDom::_('framework.sortablelist', array(
 				</th>
 				<?php endif; ?>
 
-				<?php if ($model->canEditState()): ?>
-				<th style="text-align:center">
-					<?php echo JHTML::_('grid.sort',  "PAPIERSDEFAMILLES_HEADING_ORDERING", 'a.ordering', $listDirn, $listOrder ); ?>
-				</th>
-				<?php endif; ?>
+                <?php if ($model->canEditState()): ?>
+                    <th style="text-align:center">
+                        <?php echo JHTML::_('grid.sort',  "PAPIERSDEFAMILLES_FIELD_CODE", 'a.code', $listDirn, $listOrder ); ?>
+                    </th>
+                <?php endif; ?>
 
-				<th style="text-align:center">
+                <th style="text-align:center">
+                    <?php echo JText::_("PAPIERSDEFAMILLES_FIELD_CODE"); ?>
+                </th>
+
+                <th style="text-align:left">
+                    <?php echo JText::_("PAPIERSDEFAMILLES_FIELD_MAIN_PIC"); ?>
+                </th>
+
+                <th style="text-align:center">
 					<?php echo JText::_("PAPIERSDEFAMILLES_FIELD_DESCRIPTION"); ?>
 				</th>
 
@@ -72,13 +80,9 @@ JDom::_('framework.sortablelist', array(
 					<?php echo JText::_("PAPIERSDEFAMILLES_FIELD_NUMBER_OF_PAGES"); ?>
 				</th>
 
-				<th style="text-align:left">
-					<?php echo JText::_("PAPIERSDEFAMILLES_FIELD_MAIN_PIC"); ?>
-				</th>
-
-				<th style="text-align:left">
-					<?php echo JText::_("PAPIERSDEFAMILLES_FIELD_MAIN_PERSON"); ?>
-				</th>
+                <th style="text-align:left">
+                    <?php echo JText::_("PAPIERSDEFAMILLES_FIELD_STATE_DOCUMENT"); ?>
+                </th>
 
 				<th style="text-align:left">
 					<?php echo JText::_("PAPIERSDEFAMILLES_FIELD_IS_SALE"); ?>
@@ -140,34 +144,14 @@ JDom::_('framework.sortablelist', array(
 				</td>
 				<?php endif; ?>
 
-				<td style="text-align:center">
-					<?php echo JDom::_('html.fly', array(
-						'dataKey' => 'description',
-						'dataObject' => $row,
-						'route' => array('view' => 'document','layout' => 'document','cid[]' => $row->id)
-					));?>
-				</td>
 
-				<td style="text-align:left">
-					<?php echo JDom::_('html.fly', array(
-						'dataKey' => 'format_document',
-						'dataObject' => $row
-					));?>
-				</td>
-
-				<td style="text-align:left">
-					<?php echo JDom::_('html.fly', array(
-						'dataKey' => 'qualities',
-						'dataObject' => $row
-					));?>
-				</td>
-
-				<td style="text-align:left">
-					<?php echo JDom::_('html.fly', array(
-						'dataKey' => 'number_of_pages',
-						'dataObject' => $row
-					));?>
-				</td>
+                <td style="text-align:center">
+                    <?php echo JDom::_('html.fly', array(
+                        'dataKey' => 'num_id',
+                        'dataObject' => $row,
+                        'route' => array('view' => 'document','layout' => 'document','cid[]' => $row->id)
+                    ));?>
+                </td>
 
                 <td style="text-align:center">
                     <?php
@@ -193,14 +177,34 @@ JDom::_('framework.sortablelist', array(
 
                     <img src="<?php echo $scrTmp?>" alt="main pic" style="width: 100px">
                 </td>
+				<td style="text-align:center">
+					<?php echo JDom::_('html.fly', array(
+						'dataKey' => 'description',
+						'dataObject' => $row,
+						'route' => array('view' => 'document','layout' => 'document','cid[]' => $row->id)
+					));?>
+				</td>
+
+				<td style="text-align:left">
+                    <?php echo PapiersdefamillesHelperEnum::_('format_documents')[$row->format_document]['text'] ?>
+				</td>
+
 
 				<td style="text-align:left">
 					<?php echo JDom::_('html.fly', array(
-						'dataKey' => 'main_persons',
+						'dataKey' => 'number_of_pages',
 						'dataObject' => $row
 					));?>
 				</td>
 
+                <td style="text-align:center">
+                    <?php echo JDom::_('html.fly.bool', array(
+                        'dataKey' => 'state_document',
+                        'dataObject' => $row,
+                        'togglable' => false,
+                        'viewType' => 'icon'
+                    ));?>
+                </td>
 
 				<td style="text-align:center">
 					<?php echo JDom::_('html.fly.bool', array(
@@ -224,7 +228,7 @@ JDom::_('framework.sortablelist', array(
                     <?php echo mb_substr($row->note, 0, 20) . '...';?>
                 </td>
 
-				<?php if ($model->canEditState()): ?>
+                <?php if ($model->canEditState()): ?>
 				<td style="text-align:center">
 					<?php echo JDom::_('html.grid.publish', array(
 						'ctrl' => 'documents',

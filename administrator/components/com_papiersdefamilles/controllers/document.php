@@ -443,7 +443,7 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
 
 					foreach ($data['locations'] as $promotion)
 					{
-						$tmp .= '{"region_id":"' . $promotion['region_id'] . '", "country_id":"' . $promotion['country_id'] . '", "province_id":"' . $promotion['province_id'] . '", "city_id":"' . $promotion['city_id'] . '"},';
+						$tmp .= '{"region_id":"' . $promotion['region_id'] . '", "city_id":"' . $promotion['city_id'] . '", "country_id":"' . $promotion['country_id'] . '"},';
 					}
 
 					$tmp  = rtrim($tmp, ",");

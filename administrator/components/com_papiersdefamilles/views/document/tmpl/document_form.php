@@ -29,7 +29,9 @@ JText::script('PAPIERSDEFAMILLES_ERROR_DUPLICATE');
 
 ?>
 
-<?php $fieldSet = $this->form->getFieldset('document.form');?>
+<?php $fieldSet = $this->form->getFieldset('document.form');
+
+?>
 <fieldset class="fieldsform form-horizontal">
 	<div class="drag_drop_zone_2">
 		<div class="control-group-heading">
@@ -94,35 +96,7 @@ JText::script('PAPIERSDEFAMILLES_ERROR_DUPLICATE');
         </div>
     </div>
 
-    <?php
-    // age
-    $field = $fieldSet['jform_age'];
-    ?>
-    <div class="control-group <?php echo 'field-' . $field->id . $field->responsive; ?>">
-        <div class="control-label">
-            <?php echo $field->label; ?>
-        </div>
 
-        <div class="controls">
-            <?php echo $field->input; ?>
-        </div>
-    </div>
-    <?php echo(PapiersdefamillesHelperHtmlValidator::loadValidator($field)); ?>
-
-    <?php
-    // birthday
-    $field = $fieldSet['jform_birthday'];
-    ?>
-    <div class="control-group <?php echo 'field-' . $field->id . $field->responsive; ?>">
-        <div class="control-label">
-            <?php echo $field->label; ?>
-        </div>
-
-        <div class="controls">
-            <?php echo $field->input; ?>
-        </div>
-    </div>
-    <?php echo(PapiersdefamillesHelperHtmlValidator::loadValidator($field)); ?>
 
     <?php
     // format document
@@ -139,6 +113,37 @@ JText::script('PAPIERSDEFAMILLES_ERROR_DUPLICATE');
         <div class="controls">
 			<?php echo $field->input; ?>
 		</div>
+    </div>
+    <?php echo(PapiersdefamillesHelperHtmlValidator::loadValidator($field)); ?>
+
+
+    <?php
+    // state_document
+    $field = $fieldSet['jform_state_document'];
+    ?>
+    <div class="control-group <?php echo 'field-' . $field->id . $field->responsive; ?>">
+        <div class="control-label">
+            <?php echo $field->label; ?>
+        </div>
+
+        <div class="controls">
+            <?php echo $field->input; ?>
+        </div>
+    </div>
+    <?php echo(PapiersdefamillesHelperHtmlValidator::loadValidator($field)); ?>
+
+    <?php
+    // description
+    $field = $fieldSet['jform_description'];
+    ?>
+    <div class="control-group <?php echo 'field-' . $field->id . $field->responsive; ?>">
+        <div class="control-label">
+            <?php echo $field->label; ?>
+        </div>
+
+        <div class="controls">
+            <?php echo $field->input; ?>
+        </div>
     </div>
     <?php echo(PapiersdefamillesHelperHtmlValidator::loadValidator($field)); ?>
 
@@ -175,53 +180,95 @@ JText::script('PAPIERSDEFAMILLES_ERROR_DUPLICATE');
 	</div>
 	<?php echo(PapiersdefamillesHelperHtmlValidator::loadValidator($field)); ?>
 
-    <?php
-    // locations
-    $field = $fieldSet['jform_locations'];
 
-    ?>
-    <div class="control-group <?php echo 'field-' . $field->id . $field->responsive; ?>">
-        <div class="control-label">
-            <?php echo $field->label; ?>
+    <fieldset class="main_locations">
+        <div class="control-group-heading">
+            <h2><?php echo JText::_('PAPIERSDEFAMILLES_LAYOUT_LOCATIONS')?></h2>
         </div>
 
-        <div class="controls">
-            <?php echo $field->input; ?>
+        <?php
+        // locations
+        $field = $fieldSet['jform_locations'];
+
+        ?>
+        <div class="control-group <?php echo 'field-' . $field->id . $field->responsive; ?>">
+            <div class="">
+                <?php echo $field->input; ?>
+            </div>
         </div>
-    </div>
+    </fieldset>
+
     <?php echo (PapiersdefamillesHelperHtmlValidator::loadValidator($field)); ?>
 
-	<?php	
-	// main persons
-	$field = $fieldSet['jform_main_persons'];
-	
-	?>
-	<div class="control-group <?php echo 'field-' . $field->id . $field->responsive; ?>">
-		<div class="control-label">
-			<?php echo $field->label; ?>
-		</div>
+    <fieldset class="main_persons">
+        <div class="control-group-heading">
+            <h2><?php echo JText::_('PAPIERSDEFAMILLES_FIELD_MAIN_PERSONS')?></h2>
+        </div>
 
-		<div class="controls">
-			<?php echo $field->input; ?>
-		</div>
-	</div>
-	<?php echo (PapiersdefamillesHelperHtmlValidator::loadValidator($field)); ?>
+        <?php
+        // birthday
+        $field = $fieldSet['jform_birthday'];
+        ?>
+        <div class="control-group <?php echo 'field-' . $field->id . $field->responsive; ?>">
+            <div class="control-label">
+                <?php echo $field->label; ?>
+            </div>
+
+            <div class="controls">
+                <?php echo $field->input; ?>
+            </div>
+        </div>
+        <?php echo(PapiersdefamillesHelperHtmlValidator::loadValidator($field)); ?>
+
+        <?php
+        // age
+        $field = $fieldSet['jform_age'];
+        ?>
+        <div class="control-group <?php echo 'field-' . $field->id . $field->responsive; ?>">
+            <div class="control-label">
+                <?php echo $field->label; ?>
+            </div>
+
+            <div class="controls">
+                <?php echo $field->input; ?>
+            </div>
+        </div>
+        <?php echo(PapiersdefamillesHelperHtmlValidator::loadValidator($field)); ?>
 
 
-	<?php
-	// secondary persons
-	$field = $fieldSet['jform_secondary_persons'];
-	?>
-	<div class="control-group <?php echo 'field-' . $field->id . $field->responsive; ?>">
-		<div class="control-label">
-			<?php echo $field->label; ?>
-		</div>
+        <?php
+        // main persons
+        $field = $fieldSet['jform_main_persons'];
 
-	    <div class="controls">
-			<?php echo $field->input; ?>
-		</div>
-	</div>
-	<?php echo(PapiersdefamillesHelperHtmlValidator::loadValidator($field)); ?>
+        ?>
+        <div class="control-group <?php echo 'field-' . $field->id . $field->responsive; ?>">
+
+            <div class="">
+                <?php echo $field->input; ?>
+            </div>
+        </div>
+        <?php echo (PapiersdefamillesHelperHtmlValidator::loadValidator($field)); ?>
+
+
+    </fieldset>
+
+    <fieldset class="secondary_persons">
+        <div class="control-group-heading">
+            <h2><?php echo JText::_('PAPIERSDEFAMILLES_LAYOUT_SECONDARY_PERSONS')?></h2>
+        </div>
+
+        <?php
+        // secondary persons
+        $field = $fieldSet['jform_secondary_persons'];
+        ?>
+        <div class="control-group <?php echo 'field-' . $field->id . $field->responsive; ?>">
+            <div class="">
+                <?php echo $field->input; ?>
+            </div>
+        </div>
+        <?php echo(PapiersdefamillesHelperHtmlValidator::loadValidator($field)); ?>
+
+    </fieldset>
 
 
 	<?php
@@ -253,22 +300,6 @@ JText::script('PAPIERSDEFAMILLES_ERROR_DUPLICATE');
 		</div>
 	</div>
 	<?php echo (PapiersdefamillesHelperHtmlValidator::loadValidator($field)); ?>
-
-
-	<?php
-	// description
-	$field = $fieldSet['jform_description'];
-	?>
-	<div class="control-group <?php echo 'field-' . $field->id . $field->responsive; ?>">
-		<div class="control-label">
-			<?php echo $field->label; ?>
-		</div>
-
-	    <div class="controls">
-			<?php echo $field->input; ?>
-		</div>
-	</div>
-	<?php echo(PapiersdefamillesHelperHtmlValidator::loadValidator($field)); ?>
 
 
 

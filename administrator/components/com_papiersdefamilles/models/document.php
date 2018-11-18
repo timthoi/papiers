@@ -158,11 +158,11 @@ class PapiersdefamillesModelDocument extends PapiersdefamillesClassModelItem
                 $data->birthday          = null;
                 $data->description       = null;
                 $data->note              = null;
-                $data->locations              = null;
-
-                $data->main_pic         = null;
-                $data->gallery_pic      = null;
-                $data->gallery_demo_pic = null;
+                $data->locations         = null;
+                $data->state_document    = null;
+                $data->main_pic          = null;
+                $data->gallery_pic       = null;
+                $data->gallery_demo_pic  = null;
 
                 $data->is_sale      = null;
                 $data->is_sale_ebay = null;
@@ -243,6 +243,7 @@ class PapiersdefamillesModelDocument extends PapiersdefamillesClassModelItem
             . 'a.main_persons,'
             . 'a.secondary_persons,'
             . 'a.main_pic,'
+            . 'a.state_document,'
             . 'a.gallery_pic,'
             . 'a.gallery_demo_pic,'
             . 'a.is_sale,'

@@ -40,6 +40,12 @@
 			   filter="STRING"
 			   type="cktext"/>
 
+		<field name="state_document"
+			   alias="state_document"
+			   label="PAPIERSDEFAMILLES_FIELD_STATE_DOCUMENT"
+			   filter="STRING"
+			   type="cktext"/>
+
 		<field
 				name="format_document"
 				type="list"
@@ -86,7 +92,7 @@
 			   required= "true"
 			   formsource= "administrator/components/com_papiersdefamilles/models/forms/subdocumentlocation.xml"
 			   multiple= "true"
-			   default= '[{"region_id":"","country_id":"", "province_id":"", "city_id":""}]'
+			   default= '[{"region_id":"","city_id":"", "country_id":""}]'
 			   buttons= "add,remove"
 			   layout="joomla.form.field.subform.repeatable-table"
 			   groupByFieldset="false"/>
@@ -118,17 +124,21 @@
 			   groupByFieldset="false"/>
 
 		<field name="description"
-				alias="description"
-				label="PAPIERSDEFAMILLES_FIELD_DESCRIPTION"
-				filter="STRING"
-				type="cktextarea"/>
+			   alias="description"
+			   label="PAPIERSDEFAMILLES_FIELD_DESCRIPTION"
+			   filter="RAW"
+			   type="ckeditor"
+			   rows="10"
+			   height="100px"/>
 
 		<field name="note"
 			   alias="note"
 			   label="PAPIERSDEFAMILLES_FIELD_NOTE"
-			   filter="STRING"
-			   type="cktextarea"/>
-D
+			   filter="RAW"
+			   type="ckeditor"
+			   rows="10"
+			   height="100px"/>
+
 		<field name="main_pic"
 				alias="main_pic"
 				label="PAPIERSDEFAMILLES_FIELD_MAIN_PIC"

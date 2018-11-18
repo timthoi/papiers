@@ -11,12 +11,12 @@ defined('_JEXEC') or die;
 ?>
 <div class="module-logo">
     <div class="row">
-        <div class="logo span6">
+        <div class="logo col-md-6">
             <a href="<?php echo JRoute::_('index.php'); ?>"><img
                         src="images/Logo-papiersdefamilles.png" alt="Logo Papiersdefamilles"></a>
         </div>
 
-        <div class="search span6">
+        <div class="search col-md-6">
             <div class="input-prepend">
                 <input id="search" type="text" class="form-control" name="search_search" value="" placeholder=""
                        autocomplete="off">

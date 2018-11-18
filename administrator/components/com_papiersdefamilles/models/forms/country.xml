@@ -74,7 +74,7 @@
 				nullLabel="PAPIERSDEFAMILLES_FILTER_NULL_COUNTRY_NAME"
 				class="span-2 element-filter"
 				label="PAPIERSDEFAMILLES_JSEARCH_COUNTRY_NAME"
-				ui="chosen"/>	
+				ui="chosen"/>
 
 
 		<field name="search_search"

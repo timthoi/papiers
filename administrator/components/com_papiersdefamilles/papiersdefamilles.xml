@@ -60,10 +60,6 @@
 		<menu img="components/com_papiersdefamilles/images/icon-16-papiersdefamilles.png">PAPIERSDEFAMILLES_MENU_PAPIERSDEFAMILLES</menu>
 
 		<submenu>
-			<menu img="components/com_papiersdefamilles/images/icon-16-papiersdefamilles_cities.png" link="option=com_papiersdefamilles&amp;view=cities">PAPIERSDEFAMILLES_MENU_CITIES</menu>
-			
-			<menu img="components/com_papiersdefamilles/images/icon-16-papiersdefamilles_provinces.png" link="option=com_papiersdefamilles&amp;view=provinces">PAPIERSDEFAMILLES_MENU_PROVINCES</menu>
-
 			<menu img="components/com_papiersdefamilles/images/icon-16-papiersdefamilles_regions.png" link="option=com_papiersdefamilles&amp;view=regions">PAPIERSDEFAMILLES_MENU_REGIONS</menu>
 			
 			<menu img="components/com_papiersdefamilles/images/icon-16-papiersdefamilles_countries.png" link="option=com_papiersdefamilles&amp;view=countries">PAPIERSDEFAMILLES_MENU_COUNTRIES</menu>

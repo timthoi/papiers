@@ -22,25 +22,15 @@
         <option value="">PAPIERSDEFAMILLES_JSEARCH_SELECT_COUNTRY</option>
     </field>
 
-    <field
-            name="province_id"
-            type="sql"
-            default="1"
-            label="PAPIERSDEFAMILLES_FIELD_PROVINCE"
-            query="SELECT id, name FROM #__papiersdefamilles_provinces WHERE published=1"
-            key_field="id"
-            value_field="name">
-        <option value="">PAPIERSDEFAMILLES_JSEARCH_SELECT_PROVINCE</option>
-    </field>
+    <field name="province_id"
+           alias="province_id"
+           label="PAPIERSDEFAMILLES_FIELD_PROVINCE"
+           filter="STRING"
+           type="cktext"/>
 
-    <field
-            name="city_id"
-            type="sql"
-            default="1"
-            label="PAPIERSDEFAMILLES_FIELD_CITY"
-            query="SELECT id, name FROM #__papiersdefamilles_cities WHERE published=1"
-            key_field="id"
-            value_field="name">
-        <option value="">PAPIERSDEFAMILLES_JSEARCH_SELECT_CITY</option>
-    </field>
+    <field name="city_id"
+           alias="city_id"
+           label="PAPIERSDEFAMILLES_FIELD_CITY"
+           filter="STRING"
+           type="cktext"/>
 </form>

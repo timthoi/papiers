@@ -31,7 +31,7 @@ class PapiersdefamillesModelCountries extends PapiersdefamillesClassModelList
 	*
 	* @var string
 	*/
-	protected $view_item = 'city';
+	protected $view_item = 'country';
 
 	/**
 	* Constructor

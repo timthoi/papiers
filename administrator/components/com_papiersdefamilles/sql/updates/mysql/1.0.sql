@@ -1,19 +1,4 @@
 
--- - 8< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
--- Create table : Cities
--- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - >8 -
-
-CREATE TABLE IF NOT EXISTS `#__papiersdefamilles_cities` (
-	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`name` varchar(255) NOT NULL,
-	`alias` varchar(255) NOT NULL,
-	`description` text,
-	`note` text,
-	`published` tinyint(11) NOT NULL,
-	`ordering` bigint(20) NOT NULL,
-	PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
 
 -- - 8< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- Create table : countries
@@ -48,21 +33,6 @@ CREATE TABLE IF NOT EXISTS `#__papiersdefamilles_regions` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 
-
--- - 8< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
--- Create table : provinces
--- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - >8 -
-
-CREATE TABLE IF NOT EXISTS `#__papiersdefamilles_provinces` (
-	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`name` varchar(255) NOT NULL,
-	`alias` varchar(255) NOT NULL,
-	`description` text,
-	`note` text,
-	`published` tinyint(11) NOT NULL,
-	`ordering` bigint(20) NOT NULL,
-	PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- - 8< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- Create table : subscription plans

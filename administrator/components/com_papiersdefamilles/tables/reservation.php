@@ -2,7 +2,7 @@
 /**
 * @version		
 * @package		Papiersdefamilles
-* @subpackage	Countries
+* @subpackage	Reservations
 * @copyright	
 * @author		 Harvey - timthoi
 * @license		
@@ -22,9 +22,9 @@ defined('_JEXEC') or die('Restricted access');
 * Papiersdefamilles Table class
 *
 * @package	Papiersdefamilles
-* @subpackage	Order
+* @subpackage	Reservation
 */
-class PapiersdefamillesTableOrder extends PapiersdefamillesClassTable
+class PapiersdefamillesTableReservation extends PapiersdefamillesClassTable
 {
 	/**
 	* Constructor
@@ -36,7 +36,7 @@ class PapiersdefamillesTableOrder extends PapiersdefamillesClassTable
 	*
 	* @return	void
 	*/
-	public function __construct(&$db, $tbl = '#__papiersdefamilles_orders', $key = 'id')
+	public function __construct(&$db, $tbl = '#__papiersdefamilles_reservations', $key = 'id')
 	{
 		parent::__construct($tbl, $key, $db);
 	}

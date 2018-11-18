@@ -156,14 +156,13 @@ class PapiersdefamillesHelper
 					case 'menu':
 					default:
 						$links = array(
-
                             'admin.regions.default',
                             'admin.countries.default',
                             'admin.subscriptionplans.default',
                             'admin.categories.default',
                             'admin.typedocuments.default',
                             'admin.documents.default',
-                            'admin.orders.default'
+                            'admin.reservations.default'
 						);
 
 						if ($alias != 'cpanel')
@@ -472,18 +471,18 @@ class PapiersdefamillesHelper
 			'icon'   => 'papiersdefamilles_documents'
 		);
 
+        $items['admin.reservations.default'] = array(
+            'label'  => 'PAPIERSDEFAMILLES_LAYOUT_RESERVATIONS',
+            'view'   => 'reservations',
+            'layout' => 'default',
+            'icon'   => 'papiersdefamilles_reservations'
+        );
+
 		$items['admin.cpanel.default'] = array(
 			'label'  => 'PAPIERSDEFAMILLES_LAYOUT_CONTROL_PANEL',
 			'view'   => 'cpanel',
 			'layout' => 'default',
 			'icon'   => 'papiersdefamilles_cpanel'
-		);
-
-		$items['site.orders.default'] = array(
-			'label'  => 'PAPIERSDEFAMILLES_LAYOUT_ORDERS',
-			'view'   => 'orders',
-			'layout' => 'default',
-			'icon'   => 'papiersdefamilles_orders'
 		);
 
 		$items['site.cpanel.default'] = array(

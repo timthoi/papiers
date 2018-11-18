@@ -203,7 +203,7 @@ CREATE TABLE IF NOT EXISTS `#__papiersdefamilles_documentcategories` (
 -- - 8< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- Create table : Orders
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - >8 -
-CREATE TABLE IF NOT EXISTS `#__papiersdefamilles_orders` (
+CREATE TABLE IF NOT EXISTS `#__papiersdefamilles_reservations` (
 	`id` BIGINT(20) UNSIGNED NOT NULL auto_increment,
 	`joomla_user_id` BIGINT(20) UNSIGNED,
 	`name` VARCHAR(255) ,
@@ -215,12 +215,13 @@ CREATE TABLE IF NOT EXISTS `#__papiersdefamilles_orders` (
 	`email` VARCHAR(255) ,
 	`birthday` DATE ,
 	`subscriptionplan_id` BIGINT(20) UNSIGNED ,
-	`subscriptionplant_price` VARCHAR(255) ,
+	`subscriptionplan_price` VARCHAR(255) ,
 	`price_total` VARCHAR(255) ,
 	`discount` VARCHAR(255) ,
 	`is_paypal` TINYINT ,
 	`is_paypal_refund` TINYINT ,
-	`paypal_status` TINYINT ,
+	`payment_status` TINYINT ,
+	`note` text,
 	`created_by` BIGINT(20) UNSIGNED ,
 	`modified_by` BIGINT(20) UNSIGNED ,
 	`creation_date` DATETIME ,

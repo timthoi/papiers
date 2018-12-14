@@ -2,7 +2,7 @@
 
 /**
  * @package   	JCE
- * @copyright 	Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -42,7 +42,7 @@ class WFPreviewPlugin extends WFEditorPlugin {
         $language = JFactory::getLanguage();
 
         // reset document type
-        $document = JFactory::getDocument();
+        $document = &JFactory::getDocument();
         $document->setType('html');
         // required by module loadposition
         jimport('joomla.application.module.helper');
@@ -51,31 +51,32 @@ class WFPreviewPlugin extends WFEditorPlugin {
 
         wfimport('admin.helpers.extension');
 
+        // Get variables
+        $component_id = JRequest::getInt('component_id');
         // get post data
         $data = JRequest::getVar('data', '', 'POST', 'STRING', JREQUEST_ALLOWRAW);
 
         // cleanup data
         $data = preg_replace(array('#<!DOCTYPE([^>]+)>#i', '#<(head|title|meta)([^>]*)>([\w\W]+)<\/1>#i', '#<\/?(html|body)([^>]*)>#i'), '', rawurldecode($data));
 
-        $extension_id   = JRequest::getInt('extension_id');
-        $extension      = WFExtensionHelper::getComponent($extension_id);
+        $component = WFExtensionHelper::getComponent($component_id);
 
         // create params registry object
         $params = new JRegistry();
 
         // create empty params string
-        if (!isset($extension->params)) {
-            $extension->params = '';
+        if (!isset($component->params)) {
+            $component->params = '';
         }
 
         // process attribs (com_content etc.)
-        if ($extension->attribs) {
-            $params->loadString($extension->attribs);
+        if ($component->attribs) {
+            $params->loadString($component->attribs);
         } else {
             if (class_exists('JParameter')) {
-                $params = new JParameter($extension->params);
+                $params = new JParameter($component->params);
             } else {
-                $params->loadString($extension->params);
+                $params->loadString($component->params);
             }
         }
 
@@ -93,9 +94,8 @@ class WFPreviewPlugin extends WFEditorPlugin {
 
           require_once(JPATH_SITE . '/components/com_content/helpers/route.php');
 
-          // set error reporting off to produce empty string on Fatal error
+          // set error reporting off to return empty string on error
           error_reporting(0);
-
           $dispatcher->trigger('onPrepareContent', array(& $article, & $params, $limitstart));
         }
 

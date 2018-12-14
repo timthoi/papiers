@@ -2,7 +2,7 @@
 
 /**
  * @package   	JCE
- * @copyright 	Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -22,6 +22,7 @@ abstract class WFText {
         $language = JFactory::getLanguage();
 
         // replace legacy JCE_ prefix
+        $string = str_replace('JCE_', 'WF_', $string);
         $translated = $language->_($string);
 
         if ($translated == $string) {
@@ -29,10 +30,10 @@ abstract class WFText {
                 return $default;
             }
 
-            if (strpos($string, 'WF_') !== false || strpos($string, 'JCE_') !== false) {
+            if (strpos($string, 'WF_') !== false) {
                 $view = JRequest::getWord('view', '');
                 // remove prefix
-                $translated = preg_replace(array('#^(WF|JCE)_#', '#(LABEL|OPTION|FILEGROUP|' . strtoupper($view) . ')_#', '#_(DESC|TITLE)#'), '', $string);
+                $translated = preg_replace(array('#^(WF_)#', '#(LABEL|OPTION|FILEGROUP|' . strtoupper($view) . ')_#', '#_(DESC|TITLE)#'), '', $string);
                 $translated = ucwords(strtolower(str_replace('_', ' ', $translated)));
             }
         }

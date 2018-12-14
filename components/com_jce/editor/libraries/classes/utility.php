@@ -2,7 +2,7 @@
 
 /**
  * @package    JCE
- * @copyright    Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright    Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @license    GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -27,7 +27,7 @@ abstract class WFUtility
 
     public static function cleanPath($path, $ds = DIRECTORY_SEPARATOR, $prefix = '')
     {
-        $path = trim(rawurldecode($path));
+        $path = trim(urldecode($path));
 
         // check for UNC path on IIS and set prefix
         if ($ds == '\\' && $path[0] == '\\' && $path[1] == '\\') {
@@ -75,7 +75,8 @@ abstract class WFUtility
         $path = urldecode($path);
 
         if (self::checkCharValue($path) === false || strpos($path, '..') !== false) {
-            throw new InvalidArgumentException('Invalid path');
+            JError::raiseError(403, 'INVALID PATH'); // don't translate
+            exit();
         }
     }
 
@@ -91,7 +92,7 @@ abstract class WFUtility
         return self::cleanPath($a . $ds . $b, $ds);
     }
 
-    private static function utf8_latin_to_ascii($subject)
+    public static function utf8_latin_to_ascii($subject)
     {
         static $CHARS = NULL;
 
@@ -141,16 +142,16 @@ abstract class WFUtility
         return str_replace(array_keys($CHARS), array_values($CHARS), $subject);
     }
 
-    protected static function changeCase($string, $case)
+    public static function changeCase($string, $case)
     {
         if (!function_exists('mb_strtolower') || !function_exists('mb_strtoupper')) {
             return $string;
         }
 
         if (is_array($string)) {
-          array_walk($string, function(&$value, $key, $case) {
-            $value = WFUtility::changeCase($value, $case);
-          }, $case);
+            array_walk($string, function(&$value, $key, $case) {
+              $value = WFUtility::changeCase($value, $case);
+            }, $case);
         } else {
             switch ($case) {
                 case 'lowercase':
@@ -314,20 +315,8 @@ abstract class WFUtility
      */
     public static function convertSize($value)
     {
-        $unit = '';
-        
-        preg_match('#([0-9]+)\s?([a-z]+)#i', $value, $matches);
-
-        if (isset($matches[1])) {
-            $value = (int) $matches[1];
-        }
-
-        if (isset($matches[2])) {
-            $unit = $matches[2];
-        }
-        
         // Convert to bytes
-        switch (strtolower($unit)) {
+        switch (strtolower($value{strlen($value) - 1})) {
             case 'g':
                 $value = intval($value) * 1073741824;
                 break;
@@ -343,6 +332,63 @@ abstract class WFUtility
     }
 
     /**
+     * Remove exif data from an image by rewriting it
+     * @param $image
+     * @return bool
+     */
+    public static function removeExifData($image)
+    {
+        if (extension_loaded('imagick')) {
+            try {
+                $img = new Imagick($image);
+                $img->stripImage();
+                $img->writeImage($image);
+                $img->clear();
+                $img->destroy();
+
+                return true;
+            } catch (Exception $e) {
+            }
+        } else if (extension_loaded('gd')) {
+            try {
+                $info = @getimagesize($image);
+
+                if (!empty($info)) {
+
+                    if ($info[2] === IMAGETYPE_JPEG) {
+                        $handle = imagecreatefromjpeg($image);
+
+                        if (is_resource($handle)) {
+                            imagejpeg($handle, $image);
+                            @imagedestroy($handle);
+
+                            return true;
+                        }
+                    }
+
+                    if ($info[2] === IMAGETYPE_PNG) {
+                        $handle = imagecreatefrompng($image);
+
+                        if (is_resource($handle)) {
+                            // Allow transparency for the new image handle.
+                            imagealphablending($handle, false);
+                            imagesavealpha($handle, true);
+
+                            imagepng($handle, $image);
+                            @imagedestroy($handle);
+
+                            return true;
+                        }
+                    }
+                }
+            } catch (Exception $e) {
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Checks an upload for suspicious naming, potential PHP contents, valid image and HTML tags.
      */
     public static function isSafeFile($file)
@@ -350,13 +396,13 @@ abstract class WFUtility
         // null byte check
         if (strstr($file['name'], "\x00")) {
             @unlink($file['tmp_name']);
-            throw new InvalidArgumentException('The file name contains a null byte.');
+            throw new InvalidArgumentException('Upload Failed: The file name contains a null byte.');
         }
 
         // check name for invalid extensions
         if (self::validateFileName($file['name']) !== true) {
             @unlink($file['tmp_name']);
-            throw new InvalidArgumentException('The file name contains an invalid extension.');
+            throw new InvalidArgumentException('Upload Failed: The file name contains an invalid extension.');
         }
 
         $isImage = preg_match('#\.(jpeg|jpg|jpe|png|gif|wbmp|bmp|tiff|tif|webp|psd|swc|iff|jpc|jp2|jpx|jb2|xbm|ico|xcf|odg)$#i', $file['name']);
@@ -372,7 +418,7 @@ abstract class WFUtility
                 // we can only reliably check for the full <?php tag here (short tags conflict with valid exif xml data), so users are reminded to disable short_open_tag
                 if (stristr($data, '<?php')) {
                     @unlink($file['tmp_name']);
-                    throw new InvalidArgumentException('The file contains PHP code.');
+                    throw new InvalidArgumentException('Upload Failed: The file contains PHP code.');
                 }
 
                 $data = substr($data, -10);
@@ -384,7 +430,7 @@ abstract class WFUtility
         // validate image
         if ($isImage && @getimagesize($file['tmp_name']) === false) {
             @unlink($file['tmp_name']);
-            throw new InvalidArgumentException('The file is not a valid image.');
+            throw new InvalidArgumentException('Upload Failed: The file is not a valid image.');
         }
 
         return true;
@@ -424,50 +470,6 @@ abstract class WFUtility
 
         return true;
     }
-
-    /**
-* array_merge_recursive does indeed merge arrays, but it converts values with duplicate
-* keys to arrays rather than overwriting the value in the first array with the duplicate
-* value in the second array, as array_merge does. I.e., with array_merge_recursive,
-* this happens (documented behavior):
-*
-* array_merge_recursive(array('key' => 'org value'), array('key' => 'new value'));
-*     => array('key' => array('org value', 'new value'));
-*
-* array_merge_recursive_distinct does not change the datatypes of the values in the arrays.
-* Matching keys' values in the second array overwrite those in the first array, as is the
-* case with array_merge, i.e.:
-*
-* array_merge_recursive_distinct(array('key' => 'org value'), array('key' => 'new value'));
-*     => array('key' => array('new value'));
-*
-* Parameters are passed by reference, though only for performance reasons. They're not
-* altered by this function.
-*
-* @param array $array1
-* @param array $array2
-* @return array
-* @author Daniel <daniel (at) danielsmedegaardbuus (dot) dk>
-* @author Gabriel Sobrinho <gabriel (dot) sobrinho (at) gmail (dot) com>
-*/
-public static function array_merge_recursive_distinct ( array &$array1, array &$array2 )
-{
-  $merged = $array1;
-
-  foreach ( $array2 as $key => &$value )
-  {
-    if ( is_array ( $value ) && isset ( $merged [$key] ) && is_array ( $merged [$key] ) )
-    {
-      $merged [$key] = self::array_merge_recursive_distinct ( $merged [$key], $value );
-    }
-    else
-    {
-      $merged [$key] = $value;
-    }
-  }
-
-  return $merged;
-}
 }
 
 ?>

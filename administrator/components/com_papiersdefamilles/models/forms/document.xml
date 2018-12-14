@@ -29,10 +29,9 @@
 		<field
 				name="birthday"
 				hint="dd-mm-yyyy"
-				type="calendar"
 				label="PAPIERSDEFAMILLES_FIELD_BIRTHDAY"
-				format="%d-%m-%Y"
-				filter="user_utc"/>
+				filter="STRING"
+				type="cktext"/>
 
 		<field name="age"
 			   alias="age"
@@ -106,7 +105,7 @@
 				formsource= "administrator/components/com_papiersdefamilles/models/forms/submaindocumentname.xml"
 				multiple= "true"
 				default= '[{"ordering":"","surname":"", "name":"", "sex":""}]'
-				buttons= "add,remove"
+				buttons= "move,add,remove"
 				layout="joomla.form.field.subform.repeatable-table"
 				groupByFieldset="false"/>
 
@@ -118,8 +117,8 @@
 			   required= "true"
 			   formsource= "administrator/components/com_papiersdefamilles/models/forms/subsecondarydocumentname.xml"
 			   multiple= "true"
-			   default= '[{"name":""}]'
-			   buttons= "add,remove"
+			   default= '[{"name":"","first_name":""}]'
+			   buttons= "move,add,remove"
 			   layout="joomla.form.field.subform.repeatable-table"
 			   groupByFieldset="false"/>
 
@@ -128,16 +127,16 @@
 			   label="PAPIERSDEFAMILLES_FIELD_DESCRIPTION"
 			   filter="RAW"
 			   type="ckeditor"
-			   rows="10"
-			   height="100px"/>
+			   rows="5"
+			   height="50px"/>
 
 		<field name="note"
 			   alias="note"
 			   label="PAPIERSDEFAMILLES_FIELD_NOTE"
 			   filter="RAW"
 			   type="ckeditor"
-			   rows="10"
-			   height="100px"/>
+			   rows="5"
+			   height="50px"/>
 
 		<field name="main_pic"
 				alias="main_pic"

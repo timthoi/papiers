@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @package       JCE
- * @copyright     Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
- * @license       GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @package   	JCE
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
+ * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
  * is derivative of works licensed under the GNU General Public License or
@@ -12,9 +12,7 @@
 defined('_JEXEC') or die('RESTRICTED');
 
 // load base model
-require_once dirname(__FILE__) . '/model.php';
-
-wfimport('admin.models.plugins');
+require_once(dirname(__FILE__) . '/model.php');
 
 /**
  * Profiles Model
@@ -22,16 +20,14 @@ wfimport('admin.models.plugins');
  * @package    JCE
  * @subpackage Components
  */
-class WFModelProfiles extends WFModel
-{
+class WFModelProfiles extends WFModel {
 
     /**
      * Convert row string into array
      * @param object $rows
-     * @return array $rows
+     * @return 
      */
-    public function getRowArray($rows)
-    {
+    public function getRowArray($rows) {
         $out = array();
         $rows = explode(';', $rows);
         $i = 1;
@@ -45,10 +41,9 @@ class WFModelProfiles extends WFModel
     /**
      * Get a plugin's extensions
      * @param object $plugin
-     * @return array extensions
+     * @return 
      */
-    public function getExtensions($plugin)
-    {
+    public function getExtensions($plugin) {
         wfimport('admin.models.plugins');
 
         $model = new WFModelplugins();
@@ -58,10 +53,12 @@ class WFModelProfiles extends WFModel
 
         $item = null;
 
-        if (is_file($plugin->manifest)) {
-            $xml = WFXMLElement::load($plugin->manifest);
+        $manifest = WF_EDITOR_PLUGINS . '/' . $plugin . '/' . $plugin . '.xml';
 
-            // get the plugin xml file
+        if (is_file($manifest)) {
+            $xml = WFXMLElement::load($manifest);
+
+            // get the plugin xml file    
             if ($xml) {
                 // get extensions supported by the plugin
                 if ((string) $xml->extensions) {
@@ -71,42 +68,46 @@ class WFModelProfiles extends WFModel
         }
 
         foreach ($model->getExtensions() as $extension) {
+            $type = $extension->folder;
+
             // the plugin only supports some extensions, move along
-            if (!in_array($extension->folder, $supported)) {
+            if (!in_array($type, $supported)) {
                 continue;
             }
 
             // this extension only supports some plugins, move along
-            if (!empty($extension->plugins) && !in_array($plugin->name, $extension->plugins)) {
+            if (!empty($extension->plugins) && !in_array($plugin, $extension->plugins)) {
                 continue;
             }
 
-            $extensions[$extension->folder][] = $extension;
+            $extensions[$type][] = $extension;
         }
 
         return $extensions;
     }
 
-    public function getPlugins($plugins = array())
-    {
+    public function getPlugins($plugins = array()) {
+        wfimport('admin.models.plugins');
+
+        $model = new WFModelplugins();
+
         $commands = array();
 
         if (empty($plugins)) {
-            $commands = WFModelplugins::getCommands();
+            $commands = $model->getCommands();
         }
 
         // only need plugins with xml files
-        foreach (WFModelplugins::getPlugins() as $name => $plugin) {
-            if (is_file($plugin->manifest)) {
-                $plugins[$name] = $plugin;
+        foreach ($model->getPlugins() as $plugin => $properties) {
+            if (is_file(JPATH_SITE . $properties->path . '/' . $plugin . '.xml')) {
+                $plugins[$plugin] = $properties;
             }
         }
 
         return array_merge($commands, $plugins);
     }
 
-    public function getUserGroups($area)
-    {
+    public function getUserGroups($area) {
         $db = JFactory::getDBO();
 
         if (defined('JPATH_PLATFORM')) {
@@ -153,12 +154,12 @@ class WFModelProfiles extends WFModel
             $front = array(
                 '19',
                 '20',
-                '21',
+                '21'
             );
             $back = array(
                 '23',
                 '24',
-                '25',
+                '25'
             );
         }
 
@@ -181,8 +182,7 @@ class WFModelProfiles extends WFModel
      * Create the Profiles table
      * @return boolean
      */
-    public function createProfilesTable()
-    {
+    public function createProfilesTable() {
         jimport('joomla.installer.helper');
 
         $mainframe = JFactory::getApplication();
@@ -201,7 +201,7 @@ class WFModelProfiles extends WFModel
             case 'sqlzure':
                 $driver = 'sqlsrv';
                 break;
-            case 'postgresql':
+            case 'postgresql' :
                 $driver = 'postgresql';
                 break;
         }
@@ -218,16 +218,16 @@ class WFModelProfiles extends WFModel
 
                 // Postgresql needs special attention because of the query syntax
                 if ($driver == 'postgresql') {
-                    $query = "CREATE OR REPLACE FUNCTION create_table_if_not_exists (create_sql text)
-                    RETURNS bool as $$
-                    BEGIN
-                        BEGIN
-                            EXECUTE create_sql;
-                            EXCEPTION WHEN duplicate_table THEN RETURN false;
-                        END;
-                        RETURN true;
-                    END; $$
-                    LANGUAGE plpgsql;
+                    $query = "CREATE OR REPLACE FUNCTION create_table_if_not_exists (create_sql text) 
+                    RETURNS bool as $$ 
+                    BEGIN 
+                        BEGIN 
+                            EXECUTE create_sql; 
+                            EXCEPTION WHEN duplicate_table THEN RETURN false; 
+                        END; 
+                        RETURN true; 
+                    END; $$ 
+                    LANGUAGE plpgsql; 
                     SELECT create_table_if_not_exists ('" . $query . "');";
                 }
                 // set query
@@ -255,8 +255,7 @@ class WFModelProfiles extends WFModel
      * @return boolean
      * @param object $install[optional]
      */
-    public function installProfiles()
-    {
+    public function installProfiles() {
         $app = JFactory::getApplication();
         $db = JFactory::getDBO();
 
@@ -288,8 +287,7 @@ class WFModelProfiles extends WFModel
         return false;
     }
 
-    private static function buildCountQuery($name = '')
-    {
+    private static function buildCountQuery($name = '') {
         $db = JFactory::getDBO();
 
         $query = $db->getQuery(true);
@@ -316,10 +314,9 @@ class WFModelProfiles extends WFModel
      * Process import data from XML file
      * @param object $file XML file
      * @param boolean $install Can be used by the package installer
-     * @return boolean
+     * @return 
      */
-    public function processImport($file)
-    {
+    public function processImport($file) {
         $app = JFactory::getApplication();
         $db = JFactory::getDBO();
         $view = JRequest::getCmd('view');
@@ -336,7 +333,7 @@ class WFModelProfiles extends WFModel
 
             foreach ($xml->profiles->children() as $profile) {
                 $row = JTable::getInstance('profiles', 'WFTable');
-                // get profile name
+                // get profile name                 
                 $name = (string) $profile->attributes()->name;
 
                 // backwards compatability
@@ -424,10 +421,9 @@ class WFModelProfiles extends WFModel
 
     /**
      * Get default profile data
-     * @return object Profile table object
+     * @return $row  Profile table object
      */
-    public function getDefaultProfile()
-    {
+    function getDefaultProfile() {
         $mainframe = JFactory::getApplication();
         $file = JPATH_COMPONENT . '/models/profiles.xml';
 
@@ -464,8 +460,7 @@ class WFModelProfiles extends WFModel
         return null;
     }
 
-    public function getEditorParams(&$row)
-    {
+    function getEditorParams(&$row) {
         // get params definitions
         $xml = WF_EDITOR_LIBRARIES . '/xml/config/profiles.xml';
 
@@ -480,8 +475,7 @@ class WFModelProfiles extends WFModel
         $row->editor_groups = $groups;
     }
 
-    public function getLayoutParams(&$row)
-    {
+    function getLayoutParams(&$row) {
         // get params definitions
         $xml = WF_EDITOR_LIBRARIES . '/xml/config/layout.xml';
 
@@ -496,13 +490,11 @@ class WFModelProfiles extends WFModel
         $row->layout_groups = $groups;
     }
 
-    public function getPluginParameters()
-    {
-
+    function getPluginParameters() {
+        
     }
 
-    public function getThemes()
-    {
+    function getThemes() {
         jimport('joomla.filesystem.folder');
         $path = WF_EDITOR_THEMES . '/advanced/skins';
 
@@ -514,8 +506,7 @@ class WFModelProfiles extends WFModel
      * @return boolean
      * @param string $table Table name
      */
-    public static function checkTable()
-    {
+    public static function checkTable() {
         $db = JFactory::getDBO();
 
         $tables = $db->getTableList();
@@ -540,8 +531,7 @@ class WFModelProfiles extends WFModel
      * @return integer
      * @param string $table Table name
      */
-    public static function checkTableContents()
-    {
+    public static function checkTableContents() {
         $db = JFactory::getDBO();
 
         self::buildCountQuery();
@@ -549,8 +539,7 @@ class WFModelProfiles extends WFModel
         return $db->loadResult();
     }
 
-    private function getIconType($icon)
-    {
+    private function getIconType($icon) {
         // TODO - Enhance this later to get the type from xml
 
         if (in_array($icon, array('styleselect', 'formatselect', 'fontselect', 'fontsizeselect'))) {
@@ -564,8 +553,7 @@ class WFModelProfiles extends WFModel
         return 'mceButton';
     }
 
-    public function getIcon($plugin)
-    {
+    public function getIcon($plugin) {
         if ($plugin->type == 'command') {
             $base = 'components/com_jce/editor/tiny_mce/themes/advanced/img';
         } else {
@@ -584,7 +572,7 @@ class WFModelProfiles extends WFModel
 
         foreach ($icons as $icon) {
             if ($icon == '|' || $icon == 'spacer') {
-                continue;
+                $span .= '<span class="mceSeparator"></span>';
             } else {
                 $path = $base . $icon . '.png';
 
@@ -592,15 +580,14 @@ class WFModelProfiles extends WFModel
                     $img = '<img src="' . JURI::root(true) . $path . '" alt="' . WFText::_($plugin->title) . '" />';
                 }
 
-                $span .= '<div data-button="' . preg_replace('/[^\w]/i', '', $icon) . '" class="' . self::getIconType($icon) . '"><span class="mceIcon mce_' . preg_replace('/[^\w]/i', '', $icon) . '">' . $img . '</span></div>';
+                $span .= '<span data-button="' . preg_replace('/[^\w]/i', '', $icon) . '" class="' . self::getIconType($icon) . '"><span class="mceIcon mce_' . preg_replace('/[^\w]/i', '', $icon) . '">' . $img . '</span></span>';
             }
         }
 
         return $span;
     }
 
-    public function saveOrder($cid, $order)
-    {
+    public function saveOrder($cid, $order) {
         $db = JFactory::getDBO();
         $total = count($cid);
 
@@ -627,9 +614,8 @@ class WFModelProfiles extends WFModel
                         break;
                     }
                 }
-                if (!$found) {
+                if (!$found)
                     $conditions[] = array($row->id, $condition);
-                }
             }
         }
 

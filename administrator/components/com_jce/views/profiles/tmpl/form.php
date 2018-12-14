@@ -2,7 +2,7 @@
 
 /**
  * @package   	JCE
- * @copyright 	Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -11,12 +11,9 @@
  */
 defined('_JEXEC') or die('RESTRICTED');
 
-$language   = JFactory::getLanguage();
-$direction  = $language->isRTL() ? 'right' : 'left';
-
 ?>
-<div class="ui-jce loading">
-  <form action="index.php" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+<form action="index.php" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+    <div id="jce" class="loading">
         <div class="progress progress-striped active">
             <div class="bar" style="width: 100%;"><?php echo JText :: _('WF_MESSAGE_LOAD');?></div>
         </div>
@@ -34,11 +31,11 @@ $direction  = $language->isRTL() ? 'right' : 'left';
                 <div id="tabs-features" class="tab-pane">
                     <?php echo $this->loadTemplate('features'); ?>
                 </div>
-                <div id="tabs-editor" class="tab-pane tabbable tabs-<?php echo $direction;?>">
+                <div id="tabs-editor" class="tab-pane tabbable tabs-left">
                     <ul class="nav nav-tabs">
                         <?php
                         $x = 0;
-                        foreach ($this->profile->editor_groups as $group) :
+                        foreach ($this->profile->editor_groups as $group) :                            
                             echo '<li><a href="#tabs-editor-' . $group . '"><span>' . WFText::_('WF_PROFILES_EDITOR_' . strtoupper($group)) . '</span></a></li>';
                             $x++;
                         endforeach;
@@ -46,21 +43,21 @@ $direction  = $language->isRTL() ? 'right' : 'left';
                     </ul>
                     <?php echo $this->loadTemplate('editor'); ?>
                 </div>
-                <div id="tabs-plugins" class="tab-pane tabbable tabs-<?php echo $direction;?>">
+                <div id="tabs-plugins" class="tab-pane tabbable tabs-left">
                     <ul class="nav nav-tabs">
                         <?php
                         // Build tabs
-                        foreach ($this->plugins as $name => $plugin) :
-                            if ($plugin->editable) :
+                        foreach ($this->plugins as $plugin) :
+                            if ($plugin->editable && is_file(JPATH_SITE . '/' . $plugin->path . '/' . $plugin->name . '.xml')) :
                                 $icon   = '';
                                 $class  = '';
                                 if ($plugin->icon) :
                                     $icon = $this->model->getIcon($plugin);
                                 endif;
 
-                                $class = in_array($name, explode(',', $this->profile->plugins)) ? '' : 'tab-disabled';
+                                $class = in_array($plugin->name, explode(',', $this->profile->plugins)) ? '' : 'tab-disabled';
 
-                                echo '<li class="defaultSkin ' . $class . '" data-name="' . $name . '"><a href="#tabs-plugin-' . $name . '" class="mceToolBarItem">' . $icon . '<span class="tabs-label">' . WFText::_($plugin->title) . '</span></a></li>';
+                                echo '<li class="defaultSkin ' . $class . '" data-name="' . $plugin->name . '"><a href="#tabs-plugin-' . $plugin->name . '">' . $icon . '<span class="tabs-label">' . WFText::_($plugin->title) . '</span></a></li>';
                             endif;
                         endforeach;
                         ?>
@@ -71,12 +68,12 @@ $direction  = $language->isRTL() ? 'right' : 'left';
                 </div>
             </div>
         </div>
+    </div>
     <input type="hidden" name="users[]" value="" />
     <input type="hidden" name="option" value="com_jce" />
     <input type="hidden" name="id" value="<?php echo $this->profile->id; ?>" />
     <input type="hidden" name="cid[]" value="<?php echo $this->profile->id; ?>" />
     <input type="hidden" name="view" value="profiles" />
     <input type="hidden" name="task" value="" />
-    <?php echo JHTML::_('form.token'); ?>
+<?php echo JHTML::_('form.token'); ?>
 </form>
-</div>

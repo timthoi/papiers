@@ -2,7 +2,7 @@
 
 /**
  * @package   	JCE
- * @copyright 	Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -104,7 +104,8 @@ class WFParameter {
     public function loadSetupFile($path) {
         $result = false;
 
-        if ($path && is_file($path)) {
+        if ($path) {
+
             $controls = explode(':', $this->control);
 
             if ($xml = WFXMLElement::load($path)) {
@@ -346,16 +347,8 @@ class WFParameter {
         return $results;
     }
 
-    private static function isEmpty($value) {
-        if (is_string($value)) {
-            return $value === "";
-        }
-
-        if (is_array($value)) {
-            return empty($value);
-        }
-        
-        return false;
+    private function isEmpty($value) {
+        return (is_string($value) && $value == "") || (is_array($value) && empty($value));
     }
 
     /**
@@ -367,7 +360,7 @@ class WFParameter {
      * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
      */
     public function get($path, $default = '', $allowempty = true) {
-        // set default value as result
+        // set default value as result	
         $result = $default;
 
         // Explode the registry path into an array
@@ -389,8 +382,10 @@ class WFParameter {
 
         if ($found) {
             $result = $node;
-            if ($allowempty === false && self::isEmpty($result)) {
-                $result = $default;
+            if ($allowempty === false) {
+                if (self::isEmpty($result)) {
+                    $result = $default;
+                }
             }
         }
         // convert to float if numeric
@@ -415,49 +410,18 @@ class WFParameter {
         }
 
         $results = array();
-
-        // depends on parent parameter
         $parent = (string) $this->xml[$group]->attributes()->parent;
-
-        // external xml file
-        $file = (string) $this->xml[$group]->attributes()->file;
-
-        if ($file) {
-            $this->loadSetupFile(JPATH_SITE . '/' . $file);
-        }
 
         foreach ($this->xml[$group]->children() as $param) {
 
-            if (in_array((string) $param->attributes()->name, $exclude)) {
+            if (!empty($exclude) && in_array((string) $param->attributes()->name, $exclude)) {
                 continue;
             }
 
-            // external xml file
-            $file = (string) $param->attributes()->file;
+            $results[] = $this->getParam($param, $name, $group, $parent);
 
-            if ($file) {
-                $instance = new WFParameter($this->data, JPATH_SITE . '/' . $file);
-                $params   = $instance->getParams($name, $group, $exclude);
-
-                if (!empty($params)) {
-                  $results  = array_merge($results, $params);
-                }
-
-                continue;
-            }
-
-            $result = $this->getParam($param, $name, $group, $parent);
-            
-            if (!isset($result['element'])) {
-            	$result['element'] = '';
-            	$result['label'] = '<em>Element not defined for type &quot;' . (string) $param->attributes()->type . '&quot;</em>';
-            }
-            
-            $results[] = $result;
-
-            // get sub-parameters
             $parameters = (string) $param->attributes()->parameters;
-
+            // get sub-parameters
             if ($parameters) {
                 jimport('joomla.filesystem.folder');
 
@@ -518,15 +482,19 @@ class WFParameter {
         return $element->render($node, $value, $control_name);
     }
 
+    private function cleanAttribute($matches) {
+        return $matches[1] . '="' . preg_replace('#([^\w]+)#i', '', $matches[2]) . '"';
+    }
+
     public function render($name = 'params', $group = '_default', $exclude = array()) {
         $params = $this->getParams($name, $group, $exclude);
         $html = '';
 
         if (!empty($params)) {
+            $html .= '<ul class="adminformlist">';
+
             foreach ($params as $item) {
-
-                $html .= '<div class="control-group">';
-
+                //if (is_a($item, 'WFParameter')) {
                 if ($item instanceof WFParameter) {
                     foreach ($item->getGroups() as $group) {
                         $label = $group;
@@ -545,11 +513,14 @@ class WFParameter {
                         $html .= '</div>';
                     }
                 } else {
-                    $html .= $item['label'] . $item['element'];
-                }
+                    $label = preg_replace_callback('#(for|id)="([^"]+)"#', array($this, 'cleanAttribute'), $item[0]);
+                    $element = preg_replace_callback('#(id)="([^"]+)"#', array($this, 'cleanAttribute'), $item[1]);
 
-                $html .= '</div>';
+                    $html .= '<li>' . $label . $element;
+                }
             }
+
+            $html .= '</li></ul>';
         }
 
         return $html;
@@ -632,7 +603,4 @@ class WFParameter {
         return $this->data;
     }
 
-    public function getControl() {
-        return $this->control;
-    }
 }

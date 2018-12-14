@@ -6,15 +6,15 @@
            filter="STRING"
            type="cktext"/>
 
-    <field name="surname"
-           alias="surname"
-           label="PAPIERSDEFAMILLES_FIELD_SURNAME"
-           filter="STRING"
-           type="cktext"/>
-
     <field name="name"
            alias="name"
            label="PAPIERSDEFAMILLES_FIELD_NAME"
+           filter="STRING"
+           type="cktext"/>
+
+    <field name="surname"
+           alias="surname"
+           label="PAPIERSDEFAMILLES_FIELD_SURNAME"
            filter="STRING"
            type="cktext"/>
 

@@ -2,7 +2,7 @@
 
 /**
  * @package   	JCE
- * @copyright 	Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -36,6 +36,8 @@ class WFFormatselectPluginConfig {
     );
 
     public static function getConfig(&$settings) {
+        wfimport('admin.models.editor');
+        $model = new WFModelEditor();
         $wf = WFEditor::getInstance();
 
         // html5 block elements
@@ -43,23 +45,23 @@ class WFFormatselectPluginConfig {
         // get current schema
         $schema = $wf->getParam('editor.schema', 'html4');
         $verify = (bool) $wf->getParam('editor.verify_html', 0);
-
+        
         $legacy     = $wf->getParam('editor.theme_advanced_blockformats');
         $default    = 'p,div,address,pre,h1,h2,h3,h4,h5,h6,code,samp,span,section,article,aside,figure,dt,dd';
 
         // get blockformats from parameter
-        $blockformats = $wf->getParam('formatselect.blockformats');
-
+        $blockformats = $wf->getParam('formatselect.blockformats', $default, $default);
+        
         // handle empty list
         if (empty($blockformats)) {
             if (!empty($legacy)) {
                 $blockformats = $legacy;
             } else {
-                return "";
+                $blockformats = $default;
             }
         }
 
-        $list   = array();
+        $list = array();
         $blocks = array();
 
         // make an array
@@ -68,26 +70,26 @@ class WFFormatselectPluginConfig {
         }
 
         // create label / value list using default
-        foreach ($blockformats as $key) {
+        foreach ($blockformats as $v) {
 
-            if (array_key_exists($key, self::$formats)) {
-                $label = self::$formats[$key];
+            if (array_key_exists($v, self::$formats)) {
+                $key = self::$formats[$v];
             }
 
             // skip html5 blocks for html4 schema
-            if ($verify && $schema == 'html4' && in_array($key, $html5)) {
+            if ($verify && $schema == 'html4' && in_array($v, $html5)) {
                 continue;
             }
 
-            if (isset($label)) {
-                $list[$key] = $label;
+            if (isset($key)) {
+                $list[$key] = $v;
             }
 
-            $blocks[] = $key;
-
+            $blocks[] = $v;
+            
             // add div container
-            if ($key === 'div') {
-                $list['div_container'] = 'advanced.div_container';
+            if ($v === 'div') {
+                $list['advanced.div_container'] = 'div_container';
             }
         }
 

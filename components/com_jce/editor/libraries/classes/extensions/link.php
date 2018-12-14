@@ -2,7 +2,7 @@
 
 /**
  * @package   	JCE
- * @copyright 	Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -32,9 +32,9 @@ class WFLinkExtension extends WFExtension {
 
         $extensions = self::loadExtensions('links');
 
-        // Load all link extensions
+        // Load all link extensions		
         foreach ($extensions as $link) {
-            $this->extensions[] = $this->getLinkExtension($link->name);
+            $this->extensions[] = $this->getLinkExtension($link);
         }
 
         $request = WFRequest::getInstance();
@@ -50,6 +50,9 @@ class WFLinkExtension extends WFExtension {
 
     public function display() {
         parent::display();
+
+        $document = WFDocument::getInstance();
+        $document->addScript(array('link.full'), 'libraries');
 
         foreach ($this->extensions as $extension) {
             $extension->display();
@@ -67,7 +70,7 @@ class WFLinkExtension extends WFExtension {
 
         return self::$links[$name];
     }
-
+    
     public function getLists() {
         $list = array();
 
@@ -76,7 +79,7 @@ class WFLinkExtension extends WFExtension {
                 $list[] = $extension->getList();
             }
         }
-
+        
         return $list;
     }
 
@@ -138,7 +141,7 @@ class WFLinkExtension extends WFExtension {
         $query = $db->getQuery(true);
 
         $where = array();
-
+        
         $version    = new JVersion();
         $language   = $version->isCompatible('3.0') ? ', language' : '';
 
@@ -258,5 +261,5 @@ class WFLinkExtension extends WFExtension {
 }
 
 abstract class WFLinkBrowser extends WFLinkExtension {
-
+    
 }

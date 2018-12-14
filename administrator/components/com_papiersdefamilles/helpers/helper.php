@@ -156,7 +156,6 @@ class PapiersdefamillesHelper
 					case 'menu':
 					default:
 						$links = array(
-                            'admin.regions.default',
                             'admin.countries.default',
                             'admin.subscriptionplans.default',
                             'admin.categories.default',
@@ -428,13 +427,6 @@ class PapiersdefamillesHelper
 		// -> give your opinion on j-cook.pro/forum
 
 		$items = array();
-
-        $items['admin.regions.default'] = array(
-            'label'  => 'PAPIERSDEFAMILLES_LAYOUT_REGIONS',
-            'view'   => 'regions',
-            'layout' => 'default',
-            'icon'   => 'papiersdefamilles_regions'
-        );
 
         $items['admin.countries.default'] = array(
             'label'  => 'PAPIERSDEFAMILLES_LAYOUT_COUNTRIES',

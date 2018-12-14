@@ -2,7 +2,7 @@
 
 /**
  * @package   	JCE
- * @copyright 	Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -29,7 +29,20 @@ class WFModelPreferences extends WFModel {
     }
 
     public function getForm($group = null) {
-        $component = WFExtensionHelper::getComponent();
+        jimport('joomla.form.form');
+
+        if (class_exists('JForm')) {
+            JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_jce');
+
+            $form = JForm::getInstance('com_jce.component', 'config', array('control' => 'params'), false, '/config');
+
+            if ($group) {
+                return $form->getFieldset($group);
+            }
+
+            return $form;
+        } else {
+            $component = WFExtensionHelper::getComponent();
             // get params definitions
             $params = json_decode($component->params);
             $rules = isset($params->access) ? $params->access : null;
@@ -41,7 +54,7 @@ class WFModelPreferences extends WFModel {
             $groups = $this->getUserGroups();
 
             $tabs = array('<ul class="nav nav-tabs">');
-            $content = array('<div class="tab-content">');
+            $content = array('<div class="tabs-content">');
 
             foreach ($groups as $group) {
                 $difLevel = $group->level - $curLevel;
@@ -64,7 +77,7 @@ class WFModelPreferences extends WFModel {
 
                 foreach ($actions as $action) {
                     $content[] = '<tr>';
-                    $content[] = '<td><label class="hasTip" for="' . $action->name . '_' . $group->value . '" title="' . htmlspecialchars(WFText::_($action->title) . '::' . WFText::_($action->description), ENT_COMPAT, 'UTF-8') . '">' . WFText::_($action->title) . '</label></td>';
+                    $content[] = '<td><label class="tooltip" for="' . $action->name . '_' . $group->value . '" title="' . htmlspecialchars(WFText::_($action->title) . '::' . WFText::_($action->description), ENT_COMPAT, 'UTF-8') . '">' . WFText::_($action->title) . '</label></td>';
                     $content[] = '<td>';
                     $content[] = '<select name="params[rules][' . $action->name . '][' . $group->value . ']" id="' . $action->name . '_' . $group->value . '" title="' . WFText::sprintf('WF_RULES_SELECT_ALLOW_DENY_GROUP', WFText::_($action->title), trim($group->text)) . '">';
 
@@ -87,6 +100,7 @@ class WFModelPreferences extends WFModel {
             $content[] = '</div>';
 
             return implode('', array_merge($tabs, $content));
+        }
 
         return null;
     }

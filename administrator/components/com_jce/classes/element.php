@@ -2,7 +2,7 @@
 
 /**
  * @package   	JCE
- * @copyright 	Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -58,16 +58,6 @@ class WFElement extends JObject
 	}
 
 	/**
-	 * Get the element paernt
-	 *
-	 * @return  object
-	 */
-	public function getParent()
-	{
-		return $this->_parent;
-	}
-
-	/**
 	 * Method to render an xml element
 	 *
 	 * @param   string  &$xmlElement   Name of the element
@@ -78,24 +68,18 @@ class WFElement extends JObject
 	 */
 	public function render(&$xmlElement, $value, $control_name = 'params')
 	{
-		$name   			= (string) $xmlElement->attributes()->name;
-		$label  			= (string) $xmlElement->attributes()->label;
-		$description  = (string) $xmlElement->attributes()->description;
+		$name   = (string) $xmlElement->attributes()->name;
+		$label  = (string) $xmlElement->attributes()->label;
+		$descr  = (string) $xmlElement->attributes()->description;
 
 		//make sure we have a valid label
 		$label = $label ? $label : $name;
-
-		$element = $this->fetchElement($name, $value, $xmlElement, $control_name);
-
-		// fix for "<div class="controls">" added to radiolist in Joomla 3+
-		if (!empty($element) && strpos($element, '<div class="controls">') !== 0) {
-			$element = '<div class="controls">' . $element . '</div>';
-		}
-
-		$result = array(
-			"label" 	=> $this->fetchTooltip($label, $description, $xmlElement, $control_name, $name),
-			"element"	=> $element
-		);
+		$result[0] = $this->fetchTooltip($label, $descr, $xmlElement, $control_name, $name);
+		$result[1] = $this->fetchElement($name, $value, $xmlElement, $control_name);
+		$result[2] = $descr;
+		$result[3] = $label;
+		$result[4] = $value;
+		$result[5] = $name;
 
 		return $result;
 	}
@@ -113,24 +97,26 @@ class WFElement extends JObject
 	 */
 	public function fetchTooltip($label, $description, &$xmlElement, $control_name = '', $name = '')
 	{
-		$id = preg_replace('#[\W]+#', '', $control_name . $name);
-
-		$output = '<label id="' . $id . '-lbl" for="' . $id . '" class="control-label' . ($description ? ' wf-tooltip' : '') . '"';
+		$output = '<label id="' . $control_name . $name . '-lbl" for="' . $control_name . $name . '"';
 		$label  = WFText::_($label);
-
-    	if ($description) {
-			$description = WFText::_($description);
-
-			if (strpos($description, '::') === false) {
-				$title = $label . '::' . $description;
-			} else {
-				$title = $description;
-			}
-
-			$output .= ' title="' . $title . '"';
+                
+                if ($description)
+		{
+                    $description    = WFText::_($description);
+                    
+                    if (strpos($description, '::') === false) {
+                        $title = $label . '::' . $description;
+                    } else {
+                        $title = $description;
+                    }
+                    
+                    $output .= ' class="wf-tooltip" title="' . $title . '">';
 		}
-
-		$output .= '>' . $label . '</label>';
+		else
+		{
+			$output .= '>';
+		}
+		$output .= $label . '</label>';
 
 		return $output;
 	}
@@ -147,6 +133,5 @@ class WFElement extends JObject
 	 */
 	public function fetchElement($name, $value, &$xmlElement, $control_name)
 	{
-		return "";
 	}
 }

@@ -2,7 +2,7 @@
 
 /**
  * @package   	JCE
- * @copyright 	Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -50,7 +50,7 @@ class WFElementLinkSearch extends WFElement {
             $language->load($extension . '.sys') || $language->load($extension . '.sys', JPATH_ADMINISTRATOR);
 
             $checked = (in_array($plugin->element, $value)) ? ' checked="checked"' : '';
-            $html   .= '<li><input type="checkbox" name="' . $control_name . '[' . $name . '][]" value="' . $plugin->element . '"' . $checked . ' /><label class="checkbox inline">' . JText::_($plugin->name) . '</label></li>';
+            $html   .= '<li><input type="checkbox" name="' . $control_name . '[' . $name . '][]" value="' . $plugin->element . '"' . $checked . ' /><label>' . JText::_($plugin->name) . '</label></li>';
         }
 
         $html .= '</ul></span>';

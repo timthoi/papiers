@@ -2,7 +2,7 @@
 
 /**
  * @package   	JCE
- * @copyright 	Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -33,12 +33,12 @@ class WFElementBlockformats extends WFElement {
      * @param array $insert_array
      */
     protected static function array_insert(&$array, $position, $insert_array) {
-        $first_array = array_splice($array, 0, $position);
+        $first_array = array_splice($array, 0, $position);       
         $array = array_merge($first_array, $insert_array, $array);
     }
 
     public function fetchElement($name, $value, &$node, $control_name) {
-
+        
         if (empty($value)) {
             $data = array_keys(self::$formats);
             $value = array();
@@ -50,14 +50,14 @@ class WFElementBlockformats extends WFElement {
         $output = array();
 
         $output[] = '<div class="blockformats">';
-        $output[] = '<ul class="unstyled">';
+        $output[] = '<ul>';
 
         // create default font structure
         foreach ($data as $format) {
             if (array_key_exists($format, self::$formats) === false) {
                 continue;
             }
-
+            
             if (empty($value) || in_array($format, $value)) {
                 $output[] = '<li><input type="checkbox" value="' . $format . '" checked="checked" /><span class="blockformat-' . $format . '">' . self::$formats[$format] . '</span></li>';
             } else {

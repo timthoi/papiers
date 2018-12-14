@@ -2,7 +2,7 @@
 
 /**
  * @package   	JCE
- * @copyright 	Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -51,9 +51,9 @@ class WFViewPreferences extends WFView {
         $this->addScript('components/com_jce/media/js/preferences.js');
 
         if (JRequest::getInt('close') == 1) {
-            $this->addScriptDeclaration('jQuery(document).ready(function($){Wf.preferences.close();});');
+            $this->addScriptDeclaration('jQuery(document).ready(function($){$.jce.Preferences.close();});');
         } else {
-            $this->addScriptDeclaration('jQuery(document).ready(function($){Wf.preferences.init();});');
+            $this->addScriptDeclaration('jQuery(document).ready(function($){$.jce.Preferences.init();});');
         }
 
         parent::display($tpl);

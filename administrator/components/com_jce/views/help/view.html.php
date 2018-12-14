@@ -2,7 +2,7 @@
 
 /**
  * @package   	JCE
- * @copyright 	Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -63,7 +63,8 @@ class WFViewHelp extends WFView {
             'pattern' => $pattern
         );
 
-        $this->addScriptDeclaration('jQuery(document).ready(function($){Wf.help.init(' . json_encode($options) . ');});');
+        $this->addStyleSheet(JURI::root(true) . '/components/com_jce/editor/libraries/css/help.css');
+        $this->addScriptDeclaration('jQuery(document).ready(function($){$.jce.Help.init(' . json_encode($options) . ');});');
 
         parent::display($tpl);
     }

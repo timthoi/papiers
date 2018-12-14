@@ -48,8 +48,8 @@ class PapiersdefamillesViewDocuments extends PapiersdefamillesClassView
 	{
 		$this->model		= $model	= $this->getModel();
 
-        $model->loadRelations('categories');
-        $model->loadRelations('types');
+    /*    $model->loadRelations('categories');
+        $model->loadRelations('types');*/
 
 		$this->state		= $state	= $this->get('State');
 		$this->params 		= JComponentHelper::getParams('com_papiersdefamilles', true);

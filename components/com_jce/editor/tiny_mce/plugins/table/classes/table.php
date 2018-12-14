@@ -2,7 +2,7 @@
 
 /**
  * @package   	JCE
- * @copyright 	Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -19,8 +19,8 @@ class WFTablesPlugin extends WFEditorPlugin {
         parent::__construct(array('colorpicker' => true));
     }
 
-    public function getLayout() {
-        return JRequest::getWord('layout', 'table');
+    public function getContext() {
+        return JRequest::getWord('context', 'table');
     }
 
     /**
@@ -29,16 +29,10 @@ class WFTablesPlugin extends WFEditorPlugin {
     public function display() {
         parent::display();
 
-        $layout = $this->getLayout();
         $document = WFDocument::getInstance();
 
         $document->addScript(array('table'), 'plugins');
         $document->addStyleSheet(array('table'), 'plugins');
-
-        // update title
-        if ($layout !== "table") {
-            $document->setTitle(WFText::_('WF_TABLE_' . strtoupper($layout) . '_TITLE'));
-        }
 
         $settings = $this->getSettings();
 
@@ -46,7 +40,7 @@ class WFTablesPlugin extends WFEditorPlugin {
 
         $tabs = WFTabs::getInstance(array('base_path' => WF_EDITOR_PLUGIN));
 
-        if ($layout == 'merge') {
+        if ($this->getContext() == 'merge') {
             // Add tabs
             $tabs->addTab('merge');
         } else {
@@ -58,8 +52,12 @@ class WFTablesPlugin extends WFEditorPlugin {
     public function getSettings($settings = array()) {
         $profile = $this->getProfile();
 
-        $settings['file_browser'] = $this->getParam('file_browser', 1) && in_array('browser', explode(',', $profile->plugins));
+        $settings = array(
+            'file_browser' => $this->getParam('file_browser', 1) && in_array('browser', explode(',', $profile->plugins)),
+        );
 
         return parent::getSettings($settings);
     }
 }
+
+?>

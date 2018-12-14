@@ -2,7 +2,7 @@
 
 /**
  * @package   	JCE
- * @copyright 	Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -21,7 +21,7 @@ class JoomlalinksMenu extends JObject {
      * @access	protected
      */
     public function __construct($options = array()) {
-
+        
     }
 
     /**
@@ -51,7 +51,7 @@ class JoomlalinksMenu extends JObject {
         $wf = WFEditorPlugin::getInstance();
 
         if ($wf->checkAccess('links.joomlalinks.menu', 1)) {
-            return '<li id="index.php?option=com_menu" class="folder menu nolink"><div class="uk-tree-row"><a href="#"><span class="uk-tree-icon"></span><span class="uk-tree-text">' . WFText::_('WF_LINKS_JOOMLALINKS_MENU') . '</span></a></div></li>';
+            return '<li id="index.php?option=com_menu"><div class="tree-row"><div class="tree-image"></div><span class="folder menu nolink"><a href="javascript:;">' . WFText::_('WF_LINKS_JOOMLALINKS_MENU') . '</a></span></div></li>';
         }
     }
 
@@ -80,14 +80,9 @@ class JoomlalinksMenu extends JObject {
                 foreach ($menus as $menu) {
 
                     $class = array();
-
+                    
                     if (defined('JPATH_PLATFORM')) {
-                        // bypass errors in menu parameters syntax
-                        try {
-                            $params = new JRegistry($menu->params);
-                        } catch (Exception $e) {
-                            $params = new JRegistry();
-                        }
+                        $params = new JRegistry($menu->params);
                     } else {
                         $params = new JParameter($menu->params);
                     }
@@ -124,7 +119,7 @@ class JoomlalinksMenu extends JObject {
                     if ($params->get('secure')) {
                         $link = self::toSSL($link);
                     }
-
+                    
                     // language
                     if (isset($menu->language)) {
                         $link .= $this->getLangauge($menu->language);
@@ -159,7 +154,7 @@ class JoomlalinksMenu extends JObject {
 
                     // resolve link
                     $link = self::_resolveLink($menu);
-
+                    
                     // language
                     if (isset($menu->language)) {
                         $link .= $this->getLangauge($menu->language);
@@ -177,7 +172,6 @@ class JoomlalinksMenu extends JObject {
                 }
                 break;
         }
-
         return $items;
     }
 
@@ -203,13 +197,13 @@ class JoomlalinksMenu extends JObject {
         return $link;
     }
 
-    private static function _resolveLink($menu) {
+    private static function _resolveLink($menu, $secure) {
         $wf = WFEditorPlugin::getInstance();
 
         // get link from menu object
         $link = $menu->link;
 
-        // internal link
+        // internal link 
         if ($link && strpos($link, 'index.php') === 0) {
             if ($wf->getParam('links.joomlalinks.menu_resolve_alias', 1) == 1) {
                 // no Itemid

@@ -2,7 +2,7 @@
 
 /**
  * @package   	JCE
- * @copyright 	Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -82,7 +82,7 @@ abstract class WFExtensionHelper {
                 $plugin->load($id);
                 // map extension_id to id
                 $plugin->id = $plugin->extension_id;
-
+                
                 // store result
                 self::$plugin[$signature] = $plugin;
             } else {
@@ -90,18 +90,14 @@ abstract class WFExtensionHelper {
 
                 if (!$id) {
                     $db = JFactory::getDBO();
-                    $query = 'SELECT id FROM #__plugins' . ' WHERE folder = ' . $db->Quote($folder);
-
-                    if ($element) {
-                        $query .= ' AND element = ' . $db->Quote($element);
-                    }
+                    $query = 'SELECT id FROM #__plugins' . ' WHERE folder = ' . $db->Quote($folder) . ' AND element = ' . $db->Quote($element);
 
                     $db->setQuery($query);
                     $id = $db->loadResult();
                 }
 
                 $plugin->load($id);
-
+                
                 // store result
                 self::$plugin[$signature] = $plugin;
             }

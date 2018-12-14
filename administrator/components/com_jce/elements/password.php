@@ -2,7 +2,7 @@
 
 /**
  * @package   	JCE
- * @copyright 	Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
@@ -39,7 +39,7 @@ class WFElementPassword extends WFElement
 	{
 
 		$size   = ((string) $node->attributes()->size     ? 'size="' . (string) $node->attributes()->size . '"' : '');
-		$class  = ((string) $node->attributes()->class    ? 'class="' . (string) $node->attributes()->class . '"' : '');
+		$class  = ((string) $node->attributes()->class    ? 'class="' . (string) $node->attributes()->class . '"' : 'class="text_area"');
 
 		return '<input type="password" name="' . $control_name . '[' . $name . ']" id="' . $control_name . $name . '" value="' . $value . '" '
 			. $class . ' ' . $size . ' />';

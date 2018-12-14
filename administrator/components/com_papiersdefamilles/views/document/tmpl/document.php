@@ -35,6 +35,7 @@ JDom::_('html.toolbar');
 			<?php echo $this->renderToolbar();?>
 			<!-- BRICK : form -->
 			<?php echo $this->loadTemplate('form'); ?>
+
 		</div>
 	</div>
 
@@ -48,3 +49,10 @@ JDom::_('html.toolbar');
 				)));
 	?>
 </form>
+<div class="toolbar"></div>
+<script type="text/javascript">
+    jQuery(function($){
+        var $toolbar = $('#toolbar').clone();
+        $('.toolbar').html($toolbar);
+    });
+</script>

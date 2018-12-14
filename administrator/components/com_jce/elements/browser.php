@@ -2,7 +2,7 @@
 
 /**
  * @package   	JCE
- * @copyright 	Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -41,7 +41,7 @@ class WFElementBrowser extends WFElement {
          * htmlspecialchars_decode is not compatible with PHP 4
          */
         $value = htmlspecialchars(html_entity_decode($value, ENT_QUOTES), ENT_QUOTES);
-        $attributes['class'] = ((string) $node->attributes()->class ? (string) $node->attributes()->class : '' );
+        $attributes['class'] = ((string) $node->attributes()->class ? (string) $node->attributes()->class . ' text_area' : 'text_area' );
 
         $control = $control_name . '[' . $name . ']';
 
@@ -51,24 +51,23 @@ class WFElementBrowser extends WFElement {
         $attributes['type'] = 'text';
         $attributes['name'] = $control;
         $attributes['id'] = preg_replace('#[^a-z0-9_-]#i', '', $control_name . $name);
-
+        
         // pattern data attribute for editable select input box
         if ((string) $node->attributes()->parent) {
             $prefix = preg_replace(array('#^params#', '#([^\w]+)#'), '', $control_name);
-
+            
             $items = array();
-
+            
             foreach(explode(';', (string) $node->attributes()->parent) as $item) {
                 $items[] = $prefix . $item;
             }
-
+            
             $attributes['data-parent'] = implode(';', $items);
         }
 
         $filter = isset($attributes['data-filter']) ? $attributes['data-filter'] : '';
 
-        $html .= '<div class="input-append">';
-        $html .= '  <input';
+        $html .= '<input';
 
         foreach ($attributes as $k => $v) {
             if (!in_array($k, array('default', 'label', 'description'))) {
@@ -77,24 +76,20 @@ class WFElementBrowser extends WFElement {
         }
 
         $html .= ' />';
-
+        
         $component = WFExtensionHelper::getComponent();
         // get params definitions
         $params = new WFParameter($component->params, '', 'preferences');
-
+        
         $width  = (int) $params->get('browser_width', 780);
         $height = (int) $params->get('browser_height', 560);
-
+        
         wfimport('admin.models.model');
         $model = new WFModel();
-
+        
         $link = $model->getBrowserLink($attributes['id'], $filter);
 
-        if (!empty($link)) {
-            $html .= '  <span class="add-on"><a href="' . $link . '" id="' . $attributes['id'] . '_browser" class="browser" target="_blank" onclick="Joomla.modal(this, \'' . $link . '\', '. $width .', '. $height .');return false;" title="' . WFText::_('WF_BROWSER_TITLE') . '"><i class="icon-picture"></i></a></span>';
-        }
-        
-        $html .= '</div>';
+        $html .= '<a href="' . $link . '" id="' . $attributes['id'] . '_browser' . '" class="browser" target="_blank" onclick="Joomla.modal(this, \'' . $link . '\', '. $width .', '. $height .');return false;" title="' . WFText::_('WF_BROWSER_TITLE') . '"><span class="browser"></span></a>';
 
         return $html;
     }

@@ -12,7 +12,7 @@ window.JoomlaCalLocale = {
 	am : "am",
 	pm : "pm",
 	dateType : "gregorian",
-	minYear : 1900,
+	minYear : 1000,
 	maxYear : 2100,
 	exit: "Close",
 	clear: "Clear"

@@ -2,7 +2,7 @@
 
 /**
  * @package   	JCE
- * @copyright 	Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -19,30 +19,36 @@ class WFViewMediabox extends WFView {
 
         jimport('joomla.form.form');
 
-        $xml = JPATH_PLUGINS . '/system/jcemediabox/jcemediabox.xml';
-
         if (class_exists('JForm')) {
-            $control = 'config:fields:fieldset';
+            //JForm::addFormPath(JPATH_PLUGINS . '/system/jcemediabox');
+
+            $xml = JPATH_PLUGINS . '/system/jcemediabox/jcemediabox.xml';
+
+            $params = new WFParameter($data, $xml, '', array('control' => 'config:fields:fieldset'));
+            $params->addElementPath(JPATH_PLUGINS . '/system/jcemediabox/elements');
+            
+            $groups = array();
+            $array  = array();
+
+            foreach ($params->getGroups() as $group) {
+                $groups[] = $params->getParams('params', $group);
+            }
+
+            foreach ($groups as $group) {
+                $array = array_merge($array, $group);
+            }
+
+            return $array;
+            
         } else {
-            $control = 'params';
-             $xml = JPATH_PLUGINS . '/system/jcemediabox.xml';
+            // get params definitions
+            $params = new JParameter($data, JPATH_PLUGINS . '/system/jcemediabox.xml');
+
+            $xml = JPATH_PLUGINS . '/system/jcemediabox.xml';
+            $params->loadSetupFile($xml);
+
+            return $params->getParams();
         }
-
-        $params = new WFParameter($data, $xml, '', array('control' => $control));
-        $params->addElementPath(JPATH_PLUGINS . '/system/jcemediabox/elements');
-
-        $groups = array();
-        $array  = array();
-
-        foreach ($params->getGroups() as $group) {
-            $groups[] = $params->getParams('params', $group);
-        }
-
-        foreach ($groups as $group) {
-            $array = array_merge($array, $group);
-        }
-
-        return $array;
     }
 
     function display($tpl = null) {
@@ -60,7 +66,7 @@ class WFViewMediabox extends WFView {
 
         $this->assign('params', $params);
         $this->assign('client', $client);
-
+        
         wfimport('admin.models.editor');
 
         $options = array(
@@ -74,14 +80,13 @@ class WFViewMediabox extends WFView {
                 'apply' => WFText::_('WF_COLORPICKER_APPLY'),
                 'name' => WFText::_('WF_COLORPICKER_NAME')
             ),
-            'parent' => '.ui-jce'
+            'parent' => '#jce'
         );
 
         $this->addScriptDeclaration('jQuery(document).ready(function($){$("input.color").colorpicker(' . json_encode($options) . ');});');
 
         WFToolbarHelper::apply();
         WFToolbarHelper::save();
-        WFToolbarHelper::cancel();
         WFToolbarHelper::help('mediabox.config');
 
         parent::display($tpl);

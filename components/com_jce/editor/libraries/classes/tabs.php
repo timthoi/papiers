@@ -2,7 +2,7 @@
 
 /**
  * @package   	JCE
- * @copyright 	Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -71,9 +71,9 @@ final class WFTabs extends JObject {
      */
     private function loadPanel($panel, $state) {
         $view = new WFView(array(
-          'name'    => $panel,
-          'layout'  => $panel
-        ));
+                    'name' => $panel,
+                    'layout' => $panel
+                ));
 
         // add tab paths
         foreach ($this->_paths as $path) {
@@ -85,12 +85,12 @@ final class WFTabs extends JObject {
 
         return $view;
     }
-
+    
     public function getPanel($panel) {
         if (array_key_exists($panel, $this->_panels)) {
             return $this->_panels[$panel];
         }
-
+        
         return false;
     }
 
@@ -103,14 +103,15 @@ final class WFTabs extends JObject {
      */
     public function addTab($tab, $state = 1, $values = array()) {
         if (!array_key_exists($tab, $this->_tabs)) {
-
-            $this->_tabs[$tab] = (int) $state === 1 ? $tab : "";
+            if ($state) {
+                $this->_tabs[$tab] = $tab;
+            }
 
             $panel = $this->addPanel($tab, $state);
 
             // array is not empty and is associative
             if (!empty($values) && array_values($values) !== $values) {
-               $panel->assign($values);
+               $panel->assign($values); 
             }
         }
     }
@@ -120,10 +121,10 @@ final class WFTabs extends JObject {
      * @access	public
      * @param 	object $panel Panel name
      */
-    public function addPanel($tab, $state) {
+    public function addPanel($tab, $state = 1) {
         if (!array_key_exists($tab, $this->_panels)) {
             $this->_panels[$tab] = $this->loadPanel($tab, $state);
-
+            
             return $this->_panels[$tab];
         }
     }
@@ -144,68 +145,52 @@ final class WFTabs extends JObject {
      * @access	public
      */
     public function render() {
-        $output = "";
-
-        if (!empty($this->_tabs)) {
-            $output .= '<div id="tabs">';
-        }
+        $output = '';
 
         // add tabs
-        if (count($this->_tabs) > 1) {
-            $output .= '<ul class="uk-tab">' . "\n";
+        if (!empty($this->_tabs)) {
+            $output .= '<div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">';
+            $output .= '<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">' . "\n";
 
             $x = 0;
 
-            foreach ($this->_tabs as $name => $tab) {
-                $class = "";
+            foreach ($this->_tabs as $tab) {
+                $class = "ui-state-default ui-corner-top";
 
-                if ($x === 0) {
-                    $class .= " uk-active";
+                if ($x == 0) {
+                    $class .= " ui-tabs-active ui-state-active";
                 }
 
-                if (!$tab) {
-                    $class .= " uk-hidden";
-                }
-
-                $output .= "\t" . '<li class="' . $class . '"><a href="#' . $name . '_tab">' . WFText::_('WF_TAB_' . strtoupper($name)) . '</a></li>' . "\n";
+                $output .= "\t" . '<li class="' . $class . '"><a href="#' . $tab . '_tab">' . WFText::_('WF_TAB_' . strtoupper($tab)) . '</a></li>' . "\n";
                 $x++;
             }
 
             $output .= "</ul>\n";
         }
-
         // add panels
         if (!empty($this->_panels)) {
             $x = 0;
 
-            $output .= '<div class="uk-switcher">';
-
             foreach ($this->_panels as $key => $panel) {
-                $class = "";
-
-                if ($panel->state === 0) {
-                    $class .= " uk-hidden";
-                }
-
+                $state = $panel->state ? '' : ' style="display:none;"';
                 if (!empty($this->_tabs)) {
+                    $class = "ui-tabs-panel ui-widget-content ui-corner-bottom";
 
-                    if ($x === 0) {
-                        $class .= " uk-active";
-                    } else {
-                        $class .= " uk-tabs-hide";
+                    if ($x) {
+                        $class .= " ui-tabs-hide";
                     }
+
+                    $output .= '<div id="' . $key . '_tab"' . $state . ' class="' . $class . '">';
+                    $output .= $panel->loadTemplate();
+                    $output .= '</div>';
+                } else {
+                    $output .= '<div id="' . $key . '"' . $state . '>';
+                    $output .= $panel->loadTemplate();
+                    $output .= '</div>';
                 }
-
-                $output .= '<div id="' . $key . '_tab" class="' . $class . '">';
-                $output .= $panel->loadTemplate();
-                $output .= '</div>';
-
                 $x++;
             }
-
-            $output .= '</div>';
         }
-
         // add closing div
         if (!empty($this->_tabs)) {
             $output .= "</div>\n";

@@ -2,7 +2,7 @@
 
 /**
  * @package   	JCE
- * @copyright 	Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
@@ -25,19 +25,41 @@ class WFElementSpacer extends WFElement
 	 */
 	protected $_name = 'Spacer';
 
-	function fetchTooltip($label, $description, &$node, $control_name = '', $name = '') {
-		$html = "";
-		if ($label) {
-			$html .= '<h3>' . WFText::_($label) . '</h3>';
-		}
-
-		$html .= "<hr />";
-
-		return $html;
+	/**
+	 * Fetch tooltip for a radio button
+	 *
+	 * @param   string       $label         Element label
+	 * @param   string       $description   Element description for tool tip
+	 * @param   JXMLElement  &$node         JXMLElement node object containing the settings for the element
+	 * @param   string       $control_name  Control name
+	 * @param   string       $name          The name.
+	 *
+	 * @return  string
+	 */
+	public function fetchTooltip($label, $description, &$node, $control_name = '', $name = '')
+	{
+		return '&#160;';
 	}
 
-	function fetchElement($name, $value, &$node, $control_name)
+	/**
+	 * Fetch HTML for a radio button
+	 *
+	 * @param   string       $name          Element name
+	 * @param   string       $value         Element value
+	 * @param   JXMLElement  &$node         JXMLElement node object containing the settings for the element
+	 * @param   string       $control_name  Control name
+	 *
+	 * @return  string
+	 */
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		return "";
+		if ($value)
+		{
+			return JText::_($value);
+		}
+		else
+		{
+			return ' ';
+		}
 	}
 }

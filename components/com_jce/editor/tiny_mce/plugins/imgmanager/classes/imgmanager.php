@@ -2,7 +2,7 @@
 
 /**
  * @package   	JCE
- * @copyright 	Copyright (c) 2009-2017 Ryan Demmer. All rights reserved.
+ * @copyright 	Copyright (c) 2009-2016 Ryan Demmer. All rights reserved.
  * @license   	GNU/GPL 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * JCE is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -14,19 +14,18 @@ defined('_JEXEC') or die('RESTRICTED');
 // Load class dependencies
 wfimport('editor.libraries.classes.manager');
 
-class WFImageManagerPlugin extends WFMediaManager {
+final class WFImageManagerPlugin extends WFMediaManager {
 
-    public $_filetypes = 'jpg,jpeg,png,gif';
+    var $_filetypes = 'images=jpg,jpeg,png,gif';
 
     /**
      * @access	protected
      */
-    public function __construct($config = array()) {
-        $config['colorpicker'] = true;
+    public function __construct() {
+        parent::__construct(array('colorpicker' => true));
 
-        parent::__construct($config);
-
-        $this->addFileBrowserEvent('onUpload', array($this, 'onUpload'));
+        $browser = $this->getBrowser();
+        $browser->addEvent('onUpload', array($this, 'onUpload'));
     }
 
     /**
@@ -40,11 +39,11 @@ class WFImageManagerPlugin extends WFMediaManager {
 
         // create new tabs instance
         $tabs = WFTabs::getInstance(array(
-          'base_path' => WF_EDITOR_PLUGINS . '/imgmanager'
-        ));
+                    'base_path' => WF_EDITOR_PLUGIN
+                ));
 
         // Add tabs
-        $tabs->addTab('image', 1, array('plugin' => $this));
+        $tabs->addTab('image');
 
         $tabs->addTab('rollover', $this->getParam('tabs_rollover', 1));
         $tabs->addTab('advanced', $this->getParam('tabs_advanced', 1));
@@ -55,15 +54,25 @@ class WFImageManagerPlugin extends WFMediaManager {
         $document->addScriptDeclaration('ImageManagerDialog.settings=' . json_encode($this->getSettings()) . ';');
     }
 
-    public function onUpload($file, $relative = '') {
-        // inline upload
-        if (JRequest::getInt('inline', 0) === 1) {
+    function onUpload($file, $relative = '', $method = '') {
+        $browser = $this->getBrowser();
+        $filesystem = $browser->getFileSystem();
+
+        $params = $this->getParams();
+
+        // get method (with bc check)
+        if (empty($method)) {
+            $method = JRequest::getWord('method', '');
+        }
+
+        // dialog/form upload
+        if ($method == 'inline' || $method == 'dragdrop') {
             $result = array(
                 'file' => $relative,
                 'name' => basename($relative)
             );
 
-            if ($this->getParam('always_include_dimensions', 1)) {
+            if ($params->get('always_include_dimensions', 1)) {
                 $dim = @getimagesize($file);
 
                 if ($dim) {
@@ -135,7 +144,7 @@ class WFImageManagerPlugin extends WFMediaManager {
                         if ($k == 'direction') {
                             $k = 'dir';
                         }
-
+                        
                         if ($k == 'classes') {
                             $k = 'class';
                         }
@@ -155,22 +164,33 @@ class WFImageManagerPlugin extends WFMediaManager {
             return $result;
         }
 
-        return array();
+        return $browser->getResult();
     }
 
     public function getSettings($settings = array()) {
-        $params = $this->getParams(array('key' => 'imgmanager'));
+        $params = $this->getParams();
 
         $settings = array(
             'attributes' => array(
-                'dimensions' => $params->get('attributes_dimensions', 1),
-                'align' => $params->get('attributes_align', 1),
-                'margin' => $params->get('attributes_margin', 1),
-                'border' => $params->get('attributes_border', 1)
+                'dimensions' => $params->get('imgmanager.attributes_dimensions', 1),
+                'align' => $params->get('imgmanager.attributes_align', 1),
+                'margin' => $params->get('imgmanager.attributes_margin', 1),
+                'border' => $params->get('imgmanager.attributes_border', 1)
             ),
-            'always_include_dimensions' => $params->get('always_include_dimensions', 0)
+            'always_include_dimensions' => $params->get('imgmanager.always_include_dimensions', 0)
         );
 
         return parent::getSettings($settings);
     }
+
+    /**
+     * Get default parameters
+     * @return string parameters
+     */
+    public function getDefaults($defaults = array()) {
+        return parent::getDefaults($defaults);
+    }
+
 }
+
+?>

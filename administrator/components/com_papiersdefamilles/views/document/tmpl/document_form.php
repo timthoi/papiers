@@ -30,13 +30,44 @@ JText::script('PAPIERSDEFAMILLES_ERROR_DUPLICATE');
 ?>
 
 <?php $fieldSet = $this->form->getFieldset('document.form');
+$pathGalleries = json_decode($this->item->gallery_pic);
+$galleries = json_decode($this->item->galleries);
 
+$pathMainPics = json_decode($this->item->main_pic);
+$mainPic = json_decode($this->item->avatars);
 ?>
 <fieldset class="fieldsform form-horizontal">
+
+	<div class="wrapper-main-pic">
+        <?php
+        $srcPic = JUri::root() . $pathMainPics . '/' . $mainPic;
+        ?>
+		<div class="image" style="display: none">
+			<a rel="gallery" title="" href="<?php echo $srcPic?>">
+				<img src="<?php echo $srcPic?>">
+			</a>
+		</div>
+
+	</div>
+
+	<div class="wrapper-gallery-pic">
+		<?php foreach ($galleries as $pic):
+			$srcPic = JUri::root() . $pathGalleries . '/' . $pic;
+        ?>
+		<div class="image" style="display: none">
+			<a rel="gallery" title="" href="<?php echo $srcPic?>">
+				<img src="<?php echo $srcPic?>">
+			</a>
+		</div>
+        <?php endforeach;?>
+	</div>
+
+
 	<div class="row-fluid">
 		<div class="span4">
 			<div class="drag_drop_zone_2">
 				<div class="control-group-heading">
+					<a href="" class="see_gallery_pic">view pic</a><br>
 					<h4><?php echo JText::_('PAPIERSDEFAMILLES_FIELD_MAIN_PIC')?></h4>
 				</div>
 				<div class="clearfix"></div>
@@ -72,6 +103,22 @@ JText::script('PAPIERSDEFAMILLES_ERROR_DUPLICATE');
             <?php
             // code
             $field = $fieldSet['jform_num_id'];
+            ?>
+			<div class="control-group <?php echo 'field-' . $field->id . $field->responsive; ?>">
+				<div class="control-label">
+                    <?php echo $field->label; ?>
+				</div>
+
+				<div class="controls">
+                    <?php echo $field->input; ?>
+				</div>
+			</div>
+            <?php echo(PapiersdefamillesHelperHtmlValidator::loadValidator($field)); ?>
+
+
+            <?php
+            // traceability
+            $field = $fieldSet['jform_traceability'];
             ?>
 			<div class="control-group <?php echo 'field-' . $field->id . $field->responsive; ?>">
 				<div class="control-label">
@@ -392,8 +439,9 @@ $document->addScript($baseAdmin . '/js/dropzone.js');
 $document->addStyleSheet($baseAdmin . '/js/dropzone.css');
 $document->addStyleSheet($baseAdmin . '/js/basic.min.css');
 
+$document->addScript($baseAdmin . '/js/jquery.fullscreenslides.js');
+$document->addStyleSheet($baseAdmin . '/js/fullscreenstyle.css');
 ?>
-
 <style>
 	.field-location {
 		padding: 0 40px;
@@ -408,6 +456,67 @@ $document->addStyleSheet($baseAdmin . '/js/basic.min.css');
 <script>
 
     jQuery(document).ready(function($){
+        $('.image img').fullscreenslides();
+        jQuery(document).on('click', '.see_gallery_pic', function(e) {
+			$('.wrapper-main-pic .image:first-child a').click();
+
+            e.preventDefault();
+            return false;
+        });
+        // All events are bound to this container element
+        var $container = $('#fullscreenSlideshowContainer');
+
+        $container
+        //This is triggered once:
+            .bind("init", function() {
+                // The slideshow does not provide its own UI, so add your own
+                // check the fullscreenstyle.css for corresponding styles
+                $container
+                    .append('<div class="ui" id="fs-close">&times;</div>')
+                    .append('<div class="ui" id="fs-loader">Loading...</div>')
+                    .append('<div class="ui" id="fs-prev">&lt;</div>')
+                    .append('<div class="ui" id="fs-next">&gt;</div>')
+                    .append('<div class="ui" id="fs-caption"><span></span></div>');
+
+                // Bind to the ui elements and trigger slideshow events
+                $('#fs-prev').click(function(){
+                    // You can trigger the transition to the previous slide
+                    $container.trigger("prevSlide");
+                });
+                $('#fs-next').click(function(){
+                    // You can trigger the transition to the next slide
+                    $container.trigger("nextSlide");
+                });
+                $('#fs-close').click(function(){
+                    // You can close the slide show like this:
+                    $container.trigger("close");
+                });
+
+            })
+            // When a slide starts to load this is called
+            .bind("startLoading", function() {
+                // show spinner
+                $('#fs-loader').show();
+            })
+            // When a slide stops to load this is called:
+            .bind("stopLoading", function() {
+                // hide spinner
+                $('#fs-loader').hide();
+            })
+            // When a slide is shown this is called.
+            // The "loading" events are triggered only once per slide.
+            // The "start" and "end" events are called every time.
+            // Notice the "slide" argument:
+            .bind("startOfSlide", function(event, slide) {
+                // set and show caption
+                $('#fs-caption span').text(slide.title);
+                $('#fs-caption').show();
+            })
+            // before a slide is hidden this is called:
+            .bind("endOfSlide", function(event, slide) {
+                $('#fs-caption').hide();
+            });
+
         function isValidDate(dateString) {
             var regEx = /^\d{4}-\d{2}-\d{2}$/;
             return dateString.match(regEx) != null;

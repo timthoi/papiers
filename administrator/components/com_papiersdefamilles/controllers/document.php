@@ -333,6 +333,7 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
 
                     if (isset($path[1]) && !empty($path[1]))
                     {
+                        $mainPath = $path[0];
                         $folderClean = $path[1];
                     }
                     else
@@ -340,13 +341,15 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
                         $folderClean = JUserHelper::genRandomPassword(40);
                         $folderClean = preg_replace('/[^A-Za-z0-9 _\-\+\&]/', '', $folderClean);
                         $folderClean = strtolower($folderClean);
+
+                        $mainPath = 'images_documents';
                     }
 
-                    if ( ! file_exists(JURI::root() . 'images_documents')) {
-                        $restultCreate = JFolder::create(JPATH_SITE . DS . "images_documents");
+                    if ( ! file_exists(JURI::root() . $mainPath)) {
+                        $restultCreate = JFolder::create(JPATH_SITE . '/' . $mainPath);
                     }
 
-                    $ticketPath = JPATH_SITE . DS . 'images_documents/' . $folderClean;
+                    $ticketPath = JPATH_SITE . '/' . $mainPath . '/'  . $folderClean;
 
                     if ( ! file_exists($ticketPath)) {
                         $restultCreate = JFolder::create($ticketPath);
@@ -354,7 +357,7 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
                         //5ccfedad413baa37af09caf72e264a5e7d672346
                         $token = JUserHelper::genRandomPassword($length);
 
-                        chmod(JPATH_SITE . DS . 'images_documents', 0777);
+                        chmod(JPATH_SITE . '/' . $mainPath, 0777);
                         chmod($ticketPath, 0777);
 
                         // Create 2 folder in this foldernum_id
@@ -366,13 +369,13 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
                             $restultCreate = JFolder::create($galleryPath);
 
 
-                            chmod(JPATH_SITE . DS . 'images_documents/', 0777);
+                            chmod(JPATH_SITE . '/' . $mainPath . '/', 0777);
                             chmod($ticketPath . '/document_avatar/', 0777);
                             chmod($ticketPath . '/', 0777);
 
                             $flagUpdate          = true;
-                            $object->gallery_pic = json_encode('images_documents/' . $folderClean . '/');
-                            $object->main_pic    = json_encode('images_documents/' . $folderClean . '/document_avatar');
+                            $object->gallery_pic = json_encode($mainPath . '/' . $folderClean . '/');
+                            $object->main_pic    = json_encode($mainPath . '/' . $folderClean . '/document_avatar');
                             $uploadDirectory     = $object->gallery_pic;
                             $uploadDirectory2    = $object->main_pic;
                         }
@@ -395,13 +398,13 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
 
                     foreach ($avatarImages as $image) {
                         $fileName = uniqid('document', true);
-                        $target   = JPATH_SITE . DS . $uploadDirectory2 . '/' . $fileName . '.jpg';
+                        $target   = JPATH_SITE . '/' . $uploadDirectory2 . '/' . $fileName . '.jpg';
 
                         if ( ! empty($image)) {
                             if (isset($galleryImages) && ! empty($galleryImages) && in_array($image, $galleryImages)) {
-                                copy(JPATH_SITE . DS . $image, $target);
+                                copy(JPATH_SITE . '/' . $image, $target);
                             } else {
-                                rename(JPATH_SITE . DS . $image, $target);
+                                rename(JPATH_SITE . '/' . $image, $target);
                             }
                         }
 
@@ -415,9 +418,9 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
                     foreach ($galleryImages as $image) {
                         if ( ! empty($image)) {
                             $fileName = uniqid('document', true);
-                            $target   = JPATH_SITE . DS . $uploadDirectory . DS . $fileName . '.jpg';
+                            $target   = JPATH_SITE . '/' . $uploadDirectory . '/' . $fileName . '.jpg';
 
-                            $tmp = rename(JPATH_SITE . DS . $image, $target);
+                            $tmp = rename(JPATH_SITE . '/' . $image, $target);
 
                         }
 

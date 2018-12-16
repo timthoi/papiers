@@ -16,7 +16,7 @@
             type="sql"
             default=""
             label="PAPIERSDEFAMILLES_FIELD_CITY"
-            query="SELECT id, name FROM #__papiersdefamilles_cities WHERE published=1"
+            query="SELECT id, name FROM #__papiersdefamilles_cities WHERE published=1 ORDER BY id LIMIT 50"
             key_field="id"
             value_field="name">
         <option value="">PAPIERSDEFAMILLES_JSEARCH_SELECT_CITY</option>

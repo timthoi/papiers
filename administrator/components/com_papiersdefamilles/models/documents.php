@@ -47,6 +47,8 @@ class PapiersdefamillesModelDocuments extends PapiersdefamillesClassModelList
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = array(
                 'ordering', 'a.ordering',
+                'id', 'a.id',
+                'num_id', 'a.num_id',
             );
         }
 
@@ -192,7 +194,7 @@ class PapiersdefamillesModelDocuments extends PapiersdefamillesClassModelList
 
 
         parent::populateState(
-            ($ordering ? $ordering : 'a.ordering'),
+            ($ordering ? $ordering : 'a.id'),
             ($direction ? $direction : 'asc')
         );
 
@@ -240,16 +242,27 @@ class PapiersdefamillesModelDocuments extends PapiersdefamillesClassModelList
             . 'a.age,'
             . 'a.birthday,'
             . 'a.description,'
+            . 'a.traceability,'
             . 'a.note,'
             . 'a.created_by,'
             . 'a.published');
 
         // SELECT
         $this->addSelect('_created_by_.name AS `_created_by_name`');
+        // SELECT
+        $this->addSelect('_documentmainnames_.name AS `_documentmainnames_name`');
+        $this->addSelect('_documentmainnames_.sur_name AS `_documentmainnames_sur_name`');
+
+       /* $this->addSelect('_documentsecondarynames_.name AS `_documentsecondarynames_name`');
+        $this->addSelect('_documentsecondarynames_.first_name AS `_documentsecondarynames_first_name`');*/
 
         // JOIN
         $this->addJoin('`#__users` AS _created_by_ ON _created_by_.id = a.created_by', 'LEFT');
+        $this->addJoin('`#__papiersdefamilles_documentmainnames` AS _documentmainnames_ ON _documentmainnames_.document_id = a.id', 'INNER');
+       /* $this->addJoin('`#__papiersdefamilles_documentsecondarynames` AS _documentsecondarynames_ ON _documentsecondarynames_.document_id = a.id', 'INNER');*/
 
+        // Group by
+        $this->addGroupBy('a.id');
 
         switch ($this->getState('context', 'all')) {
             case 'documents.default':
@@ -318,8 +331,13 @@ class PapiersdefamillesModelDocuments extends PapiersdefamillesClassModelList
 
         // WHERE - SEARCH : search_search : search on Num ID + Main Pic + Gallery Pic + Alias
         $search_search = $this->getState('search.search');
-        $this->addSearch('search', 'a.main_pic', 'like');
-        $this->addSearch('search', 'a.gallery_pic', 'like');
+        $this->addSearch('search', 'a.num_id', 'like');
+        $this->addSearch('search', 'a.id', 'like');
+        $this->addSearch('search', '_documentmainnames_.name', 'like');
+        $this->addSearch('search', '_documentmainnames_.sur_name', 'like');
+     /*   $this->addSearch('search', '_documentsecondarynames_.name', 'like');
+        $this->addSearch('search', '_documentsecondarynames_.first_name', 'like');*/
+
         if (($search_search != '') && ($search_search_val = $this->buildSearch('search', $search_search))) {
             $this->addWhere($search_search_val);
         }

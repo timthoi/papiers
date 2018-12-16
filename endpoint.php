@@ -10,7 +10,7 @@ if (!isset($_FILES['file']))
 $file = $_FILES['file'];
 
 $uploadDirectory = 'images';
-$fileName = uniqid('tickettype', true);
+$fileName = uniqid('document', true);
 $target = $uploadDirectory . DIRECTORY_SEPARATOR . $fileName;
 
 $result = null;

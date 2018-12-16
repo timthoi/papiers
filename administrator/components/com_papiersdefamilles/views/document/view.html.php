@@ -103,7 +103,7 @@ class PapiersdefamillesViewDocument extends PapiersdefamillesClassView
 
 		if (!empty($this->item->main_pic))
 		{
-			$this->item->avatars = JFolder::files(JPATH_SITE . DS .  json_decode($this->item->main_pic), '.jpg|.png|.jpeg', false, false, array());
+			$this->item->avatars = JFolder::files(JPATH_SITE . DS .  json_decode($this->item->main_pic), '.jpg|.png|.jpeg|.pdf', false, false, array());
 			
 			if (isset($this->item->avatars[0]))
 			{
@@ -121,7 +121,7 @@ class PapiersdefamillesViewDocument extends PapiersdefamillesClassView
 
 		if (!empty($this->item->gallery_pic))
 		{
-			$this->item->galleries = JFolder::files(JPATH_SITE . DS .  json_decode($this->item->gallery_pic), '.jpg|.png|.jpeg', false, false, array());
+			$this->item->galleries = JFolder::files(JPATH_SITE . DS .  json_decode($this->item->gallery_pic), '.jpg|.png|.jpeg|.pdf', false, false, array());
 			$this->item->galleries = json_encode($this->item->galleries);
 		}
 		else

@@ -148,7 +148,7 @@ class PapiersdefamillesModelDocument extends PapiersdefamillesClassModelItem
                 $jinput = JFactory::getApplication()->input;
 
                 $data->id = 0;
-
+                $data->traceability = null;
                 $data->format_documents  = null;
                 $data->qualities         = null;
                 $data->number_of_pages   = null;
@@ -251,6 +251,7 @@ class PapiersdefamillesModelDocument extends PapiersdefamillesClassModelItem
             . 'a.age,'
             . 'a.birthday,'
             . 'a.description,'
+            . 'a.traceability,'
             . 'a.note,'
             . 'a.created_by,'
             . 'a.published');

@@ -26,7 +26,7 @@ $user      = JFactory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$saveOrder = $listOrder == 'a.ordering' && $listDirn != 'desc';
+$saveOrder = $listOrder == 'a.id' && $listDirn != 'desc';
 JDom::_('framework.sortablelist', array(
     'domId'                  => 'grid-documents',
     'listOrder'              => $listOrder,
@@ -56,13 +56,14 @@ JDom::_('framework.sortablelist', array(
 
             <?php if ($model->canEditState()): ?>
 				<th style="text-align:center">
-                    <?php echo JHTML::_('grid.sort', "PAPIERSDEFAMILLES_FIELD_ORDERING", 'a.code', $listDirn,
+                    <?php echo JHTML::_('grid.sort', "PAPIERSDEFAMILLES_FIELD_ORDERING", 'a.ordering', $listDirn,
                         $listOrder); ?>
 				</th>
             <?php endif; ?>
 
 			<th style="text-align:center">
-                <?php echo JText::_("PAPIERSDEFAMILLES_FIELD_CODE"); ?>
+                <?php echo JHTML::_('grid.sort', "PAPIERSDEFAMILLES_FIELD_CODE", 'a.num_id', $listDirn,
+                    $listOrder); ?>
 			</th>
 
 			<th style="text-align:left">
@@ -190,8 +191,8 @@ JDom::_('framework.sortablelist', array(
 				<td style="text-align:left">
                     <?php
                     $tmpName = json_decode($row->main_persons);
-                    echo $tmpName[0]->name;
 
+                    echo (isset($tmpName[0]->name)) ? $tmpName[0]->name : '-';
                     ?>
 				</td>
 
@@ -210,7 +211,7 @@ JDom::_('framework.sortablelist', array(
 				<td style="text-align:center">
                     <?php
 
-                    $qualities = PapiersdefamillesHelperEnum::_('qualities')[$row->qualities]['text'];
+                    $qualities = (isset(PapiersdefamillesHelperEnum::_('qualities')[$row->qualities])) ?  PapiersdefamillesHelperEnum::_('qualities')[$row->qualities]['text'] : '-';
                     echo $qualities; ?>
 				</td>
 

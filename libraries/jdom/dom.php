@@ -381,7 +381,7 @@ class JDom extends JObject
 
 		if ($optionValue !== null)
 			$this->$name = $this->options[$name];
-		else if (($i !== null) && (count($args) > $i))
+		else if (($i !== null) && is_array($args) && (count($args) > $i))
 			if ($args[$i] !== null)
 				$this->$name = $args[$i];
 			else

@@ -10,6 +10,12 @@
 			   filter="STRING"
 			   type="cktext"/>
 
+		<field name="traceability"
+			   alias="traceability"
+			   label="PAPIERSDEFAMILLES_FIELD_TRACEABILITY"
+			   filter="STRING"
+			   type="cktext"/>
+
 		<field name="categories"
 			   alias="id"
 			   label="PAPIERSDEFAMILLES_FIELD_CATEGORY"

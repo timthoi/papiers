@@ -46,18 +46,27 @@ class PapiersdefamillesModelDocuments extends PapiersdefamillesClassModelList
         // Define the sortables fields (in lists)
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = array(
-                'ordering', 'a.ordering',
-                'id', 'a.id',
-                'num_id', 'a.num_id',
+                'ordering',
+                'a.ordering',
+                'id',
+                'a.id',
+                'num_id',
+                'a.num_id',
             );
         }
 
         //Define the filterable fields
         $this->set('filter_vars', array(
-            'published'      => 'cmd',
-            'sortTable'      => 'cmd',
-            'directionTable' => 'cmd',
-            'limit'          => 'cmd',
+            'published'          => 'cmd',
+            'sortTable'          => 'cmd',
+            'directionTable'     => 'cmd',
+            'limit'              => 'cmd',
+            'region_id'          => 'cmd',
+            'country_id'         => 'cmd',
+            'city_id'            => 'cmd',
+            'district_id'        => 'cmd',
+            'category_id'        => 'cmd',
+            'typedocument_id'    => 'cmd',
             'creation_date_from' => 'varchar',
             'creation_date_to'   => 'varchar',
             'created_by'         => 'cmd'
@@ -157,8 +166,12 @@ class PapiersdefamillesModelDocuments extends PapiersdefamillesClassModelList
         $id .= ':' . $this->getState('directionTable');
         $id .= ':' . $this->getState('limit');
         $id .= ':' . $this->getState('filter.published');
-
-
+        $id .= ':' . $this->getState('filter.country_id');
+        $id .= ':' . $this->getState('filter.city_id');
+        $id .= ':' . $this->getState('filter.district_id');
+        $id .= ':' . $this->getState('filter.region_id');
+        $id .= ':' . $this->getState('filter.typedocument_id');
+        $id .= ':' . $this->getState('filter.category_id');
         $id .= ':' . $this->getState('filter.creation_date');
         $id .= ':' . $this->getState('filter.created_by');
         $id .= ':' . $this->getState('search.search');
@@ -243,23 +256,27 @@ class PapiersdefamillesModelDocuments extends PapiersdefamillesClassModelList
             . 'a.birthday,'
             . 'a.description,'
             . 'a.traceability,'
+            . 'a.categories,'
+            . 'a.types,'
             . 'a.note,'
+            . 'a.price,'
             . 'a.created_by,'
             . 'a.published');
 
         // SELECT
         $this->addSelect('_created_by_.name AS `_created_by_name`');
         // SELECT
-        $this->addSelect('_documentmainnames_.name AS `_documentmainnames_name`');
-        $this->addSelect('_documentmainnames_.sur_name AS `_documentmainnames_sur_name`');
+       /* $this->addSelect('_documentmainnames_.name AS `_documentmainnames_name`');
+        $this->addSelect('_documentmainnames_.sur_name AS `_documentmainnames_sur_name`');*/
 
-       /* $this->addSelect('_documentsecondarynames_.name AS `_documentsecondarynames_name`');
-        $this->addSelect('_documentsecondarynames_.first_name AS `_documentsecondarynames_first_name`');*/
+        /* $this->addSelect('_documentsecondarynames_.name AS `_documentsecondarynames_name`');
+         $this->addSelect('_documentsecondarynames_.first_name AS `_documentsecondarynames_first_name`');*/
 
         // JOIN
         $this->addJoin('`#__users` AS _created_by_ ON _created_by_.id = a.created_by', 'LEFT');
-        $this->addJoin('`#__papiersdefamilles_documentmainnames` AS _documentmainnames_ ON _documentmainnames_.document_id = a.id', 'INNER');
-       /* $this->addJoin('`#__papiersdefamilles_documentsecondarynames` AS _documentsecondarynames_ ON _documentsecondarynames_.document_id = a.id', 'INNER');*/
+       /* $this->addJoin('`#__papiersdefamilles_documentmainnames` AS _documentmainnames_ ON _documentmainnames_.document_id = a.id',
+            'INNER');*/
+        /* $this->addJoin('`#__papiersdefamilles_documentsecondarynames` AS _documentsecondarynames_ ON _documentsecondarynames_.document_id = a.id', 'INNER');*/
 
         // Group by
         $this->addGroupBy('a.id');
@@ -309,6 +326,57 @@ class PapiersdefamillesModelDocuments extends PapiersdefamillesClassModelList
             $query->where('(a.published = 0 OR a.published = 1 OR a.published IS NULL)');
         }
 
+        $flagLocation = 0;
+
+        if ($filterRegionId = $this->getState('filter.region_id')) {
+            if ($filterRegionId > 0) {
+                $flagLocation = 1;
+                $this->addWhere("_documentlocations_.region_id = " . (int)$filterRegionId);
+            }
+        }
+
+        if ($filterCountryId = $this->getState('filter.country_id')) {
+            if ($filterCountryId > 0) {
+                $flagLocation = 1;
+                $this->addWhere("_documentlocations_.country_id = " . (int)$filterCountryId);
+            }
+        }
+
+        if ($filterCityId = $this->getState('filter.city_id')) {
+            if ($filterCityId > 0) {
+                $flagLocation = 1;
+                $this->addWhere("_documentlocations_.city_id = " . (int)$filterCityId);
+            }
+        }
+
+        if ($filterDistrictId = $this->getState('filter.district_id')) {
+            if ($filterDistrictId > 0) {
+                $flagLocation = 1;
+                $this->addWhere("_documentlocations_.departement_id = " . (int)$filterDistrictId);
+            }
+        }
+
+        if ($flagLocation) {
+            $this->addJoin('`#__papiersdefamilles_documentlocations` AS _documentlocations_ ON _documentlocations_.document_id = a.id',
+                'LEFT');
+        }
+
+        if ($filterCategoryId = $this->getState('filter.category_id')) {
+            if ($filterCategoryId > 0) {
+                $this->addWhere("_documentcategories_.category_id = " . (int)$filterCategoryId);
+                $this->addJoin('`#__papiersdefamilles_documentcategories` AS _documentcategories_ ON _documentcategories_.document_id = a.id',
+                    'LEFT');
+            }
+        }
+
+        if ($filterTypeDocumentId = $this->getState('filter.typedocument_id')) {
+            if ($filterTypeDocumentId > 0) {
+                $this->addWhere("_documenttype_.type_document_id = " . (int)$filterTypeDocumentId);
+                $this->addJoin('`#__papiersdefamilles_documenttypes` AS _documenttype_ ON _documenttype_.document_id = a.id',
+                    'LEFT');
+            }
+        }
+
         if ($filterCreationDateFrom = $this->getState('filter.creation_date_from')) {
             if ($filterCreationDateFrom !== null) {
                 $this->addWhere("a.creation_date >= " . $this->_db->Quote($filterCreationDateFrom));
@@ -332,16 +400,22 @@ class PapiersdefamillesModelDocuments extends PapiersdefamillesClassModelList
         // WHERE - SEARCH : search_search : search on Num ID + Main Pic + Gallery Pic + Alias
         $search_search = $this->getState('search.search');
         $this->addSearch('search', 'a.num_id', 'like');
+        $this->addSearch('search', 'a.traceability', 'like');
         $this->addSearch('search', 'a.id', 'like');
-        $this->addSearch('search', '_documentmainnames_.name', 'like');
-        $this->addSearch('search', '_documentmainnames_.sur_name', 'like');
-     /*   $this->addSearch('search', '_documentsecondarynames_.name', 'like');
-        $this->addSearch('search', '_documentsecondarynames_.first_name', 'like');*/
+        $this->addSearch('search', 'a.main_persons', 'like');
+        $this->addSearch('search', 'a.secondary_persons', 'like');
+
+        // Not show
+        $this->addWhere("a.num_id != ''");
+        //$this->addSearch('search', '_documentmainnames_.sur_name', 'like');
+        /*   $this->addSearch('search', '_documentsecondarynames_.name', 'like');
+           $this->addSearch('search', '_documentsecondarynames_.first_name', 'like');*/
 
         if (($search_search != '') && ($search_search_val = $this->buildSearch('search', $search_search))) {
             $this->addWhere($search_search_val);
         }
 
+        // var_dump($query->__toString());
         // Apply all SQL directives to the query
         $this->applySqlStates($query);
     }

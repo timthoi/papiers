@@ -69,8 +69,8 @@ JText::script('PAPIERSDEFAMILLES_ERROR_NOT_HAVE_TICKET');
 
 
 <form action="<?php echo(JRoute::_("index.php")); ?>" method="post" name="adminForm3" id="adminForm3" class='' enctype='multipart/form-data'>
-	<div class="row-fluid reservation">
-		<div id="contents" class="span12">
+	<div class="row reservation">
+		<div id="contents" class="">
 
 			<ul class="main nav nav-tabs">
 				<li class="active"><a data-toggle="tab" href="#step1" class="btt-tab-step1"><?php echo JText::_('PAPIERSDEFAMILLES_TEXT_STEP1')?></a></li>

@@ -327,3 +327,58 @@ ul.menutop-menu.nav li a:hover {
   transform: translate(-50%, 0);
   color: #f36809;
 }
+.documents-container {
+  margin: 120px 0;
+  min-height: 500px;
+}
+.documents-container #search_search {
+  border-radius: 3px;
+  border: 1px solid #e2e2e2;
+  padding: 5px 20px 9px 20px;
+  box-shadow: none;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: black;
+  height: 35px;
+}
+.documents-container input[type="text"],
+.documents-container input[type="password"],
+.documents-container input[type="datetime"],
+.documents-container input[type="datetime-local"],
+.documents-container input[type="date"],
+.documents-container input[type="month"],
+.documents-container input[type="time"],
+.documents-container input[type="week"],
+.documents-container input[type="number"],
+.documents-container input[type="email"],
+.documents-container input[type="url"],
+.documents-container input[type="search"],
+.documents-container input[type="tel"],
+.documents-container input[type="color"],
+.documents-container .uneditable-input,
+.documents-container .input-append .add-on,
+.documents-container .input-prepend .add-on,
+.documents-container .input-append a.btn,
+.documents-container .input-prepend a.btn {
+  height: 35px;
+  border-radius: 0px;
+}
+.documents-container #sidebar .nav-filters {
+  margin-top: 0px;
+}
+.documents-container .form-horizontal .control-label {
+  text-align: left;
+}
+.documents-container .form-horizontal .control-label label {
+  font-weight: bold;
+}
+.documents-container .chzn-container {
+  width: 150px!important;
+}
+.documents-container .document-information {
+  overflow: hidden;
+  margin-bottom: 20px;
+  bordeR: 1px solid black;
+  padding: 20px 0;
+}

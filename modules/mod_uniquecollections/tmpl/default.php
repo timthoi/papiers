@@ -29,28 +29,36 @@ defined('_JEXEC') or die;
 	<div class="row">
 		<div class="col-md-8">
             <div class="zone_champs_home">
-            <form action="/vi/" method="post" name="adminForm3" id="adminForm3">
+				<form action="<?php echo (JRoute::_("index.php")); ?>" method="post" name="adminForm" id="adminForm">
 
-                    <p class="title"><?php echo Jtext::_('PAPIERSDEFAMILLES_TEXT_FIND_THE_ARCHIVES_OF_YOUR_FAMILY_')?></p>
-                    <div class="row">
-                        <div class="col-md-5">
-                            <input type="text" class="form-control champ_home" placeholder="<?php echo Jtext::_('PAPIERSDEFAMILLES_FIELD_MAIN_PERSON') . ' (' . Jtext::_('PAPIERSDEFAMILLES_TEXT_REQUIRED') . ')'?>">
-                            <input type="text" class="form-control champ_home" placeholder="<?php echo Jtext::_('PAPIERSDEFAMILLES_TEXT_JOIN')?>">
-                        </div>
-                        <div class="col-md-5">
-                            <input type="text" class="form-control champ_home" placeholder="<?php echo Jtext::_('PAPIERSDEFAMILLES_FIELD_COUNTRY')?>">
-                            <input type="text" class="form-control champ_home" placeholder="<?php echo Jtext::_('PAPIERSDEFAMILLES_FIELD_REGION')?>">
-                        </div>
-                        <div class="col-md-2">
-                            <a href="" class="btn_champ_home"><i class="fa fa-search" aria-hidden="true"></i></a>
-                        </div>
-                    </div>
-
-                    <p class="center">
-                        <a href="" class="btn_champ_home"><?php echo Jtext::_('PAPIERSDEFAMILLES_TEXT_ADD_ANOTHER_PERSON')?></a>
-                    </p>
-
-            </form>
+					<div class="custom mod_booking_search">
+						<div class="row">
+							<div class="col-md-5">
+								<input type="text" class="form-control champ_home" placeholder="Main Person (Required)" name="search_main_person" value="<?php echo $sessionSearch['main_person']?>">
+								<input type="text" class="form-control champ_home" placeholder="Join" name="search_join" value="<?php echo $sessionSearch['join']?>">
+							</div>
+							<div class="col-md-5">
+								<input type="text" class="form-control champ_home" placeholder="Country" name="search_country" value="<?php echo $sessionSearch['country']?>">
+								<input type="text" class="form-control champ_home" placeholder="Region" name="search_region value="<?php echo $sessionSearch['region']?>">
+							</div>
+							<div class="col-md-2">
+								<a href="#" onclick="Joomla.submitbutton('documents.setSessionSearch');" class="btn_champ_home"><i class="fa fa-search" aria-hidden="true"></i></a>
+							</div>
+						</div>
+					</div>
+                    <?php
+                    $jinput = JFactory::getApplication()->input;
+                    echo JDom::_('html.form.footer', array(
+                            'values' => array(
+                                'option' => 'com_papiersdefamilles',
+                                'view' => 'documents',
+                                'layout' => 'default',
+                                'boxchecked' => '0',
+                                'task' => 'setSessionSearch'
+                            ))
+                    );
+                    ?>
+				</form>
             </div>
 		</div>
 		<div class="col-md-4">

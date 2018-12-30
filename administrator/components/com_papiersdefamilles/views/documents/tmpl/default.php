@@ -54,6 +54,7 @@ JDom::_('html.toolbar');
 			<!-- BRICK : filters -->
 			<div class="pull-left">
 				<?php echo $this->filters['search_search']->input;?>
+
 			</div>
 
 
@@ -70,6 +71,34 @@ JDom::_('html.toolbar');
 
 			<div class="pull-right">
 				<?php echo $this->filters['limit']->input;?>
+			</div>
+
+			<div class="clearfix"></div>
+
+			<div class="row-fluid filter-row">
+				<div class="span3">
+					<?php echo $this->filters['filter_country_id']->input;?>
+				</div>
+				<div class="span3">
+                    <?php echo $this->filters['filter_region_id']->input;?>
+				</div>
+				<!--
+				<div class="span3">
+                    <?php echo $this->filters['filter_city_id']->input;?>
+				</div>
+				-->
+				<div class="span3">
+                    <?php echo $this->filters['filter_district_id']->input;?>
+				</div>
+			</div>
+
+			<div class="row-fluid filter-row">
+				<div class="span3">
+                    <?php echo $this->filters['filter_category_id']->input;?>
+				</div>
+				<div class="span3">
+                    <?php echo $this->filters['filter_typedocument_id']->input;?>
+				</div>
 			</div>
 
 

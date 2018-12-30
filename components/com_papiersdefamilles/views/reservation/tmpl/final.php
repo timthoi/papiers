@@ -29,8 +29,8 @@ JDom::_('html.toolbar');
 </script>
 
 <form action="<?php echo(JRoute::_("index.php")); ?>" method="post" name="adminForm" id="adminForm" class='form-validate' enctype='multipart/form-data'>
-	<div class="row-fluid">
-		<div id="contents" class="span12">
+	<div class="row">
+		<div id="contents" class="">
 			<!-- BRICK : form -->
 			<?php echo $this->loadTemplate('form'); ?>
 			<!-- BRICK : toolbar_sing -->

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+    <field name="name"
+           alias="name"
+           label="PAPIERSDEFAMILLES_FIELD_NAME"
+           filter="STRING"
+           type="cktext"/>
+
+    <field name="first_name"
+           alias="first_name"
+           label="PAPIERSDEFAMILLES_FIELD_NAME_1"
+           filter="STRING"
+           type="cktext"/>
+</form>

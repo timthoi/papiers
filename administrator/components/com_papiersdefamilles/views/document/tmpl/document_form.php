@@ -67,7 +67,7 @@ $mainPic = json_decode($this->item->avatars);
 		<div class="span4">
 			<div class="drag_drop_zone_2">
 				<div class="control-group-heading">
-					<a href="" class="see_gallery_pic">view pic</a><br>
+					<a href="" class="see_gallery_pic">	Voir l'image</a><br>
 					<h4><?php echo JText::_('PAPIERSDEFAMILLES_FIELD_MAIN_PIC')?></h4>
 				</div>
 				<div class="clearfix"></div>
@@ -100,7 +100,26 @@ $mainPic = json_decode($this->item->avatars);
 
 		</div>
 		<div class="span8">
+
             <?php
+            // traceability
+            $field = $fieldSet['jform_traceability'];
+            $cidTmp = (isset($this->item->id)) ? $this->item->id : '';
+            ?>
+			<div class="control-group <?php echo 'field-' . $field->id . $field->responsive; ?>">
+				<div class="control-label">
+                    <?php echo $field->label; ?>
+				</div>
+
+				<div class="controls">
+
+					<input type="text" id="" name="" value="<?php echo $cidTmp?>" size="32" disabled>
+				</div>
+			</div>
+            <?php echo(PapiersdefamillesHelperHtmlValidator::loadValidator($field)); ?>
+
+
+			<?php
             // code
             $field = $fieldSet['jform_num_id'];
             ?>
@@ -115,10 +134,10 @@ $mainPic = json_decode($this->item->avatars);
 			</div>
             <?php echo(PapiersdefamillesHelperHtmlValidator::loadValidator($field)); ?>
 
-
             <?php
-            // traceability
-            $field = $fieldSet['jform_traceability'];
+            // price
+            $field = $fieldSet['jform_price'];
+            $cidTmp = (isset($this->item->id)) ? $this->item->id : '';
             ?>
 			<div class="control-group <?php echo 'field-' . $field->id . $field->responsive; ?>">
 				<div class="control-label">
@@ -126,11 +145,10 @@ $mainPic = json_decode($this->item->avatars);
 				</div>
 
 				<div class="controls">
-                    <?php echo $field->input; ?>
+  					<?php echo $field->input; ?>
 				</div>
 			</div>
             <?php echo(PapiersdefamillesHelperHtmlValidator::loadValidator($field)); ?>
-
 
 			<div class="row-fluid">
 				<div class="span6">

@@ -35,7 +35,7 @@ class PapiersdefamillesViewReservations extends PapiersdefamillesClassView
 	*
 	* @var array
 	*/
-	protected $layouts = array('default', 'modal');
+	protected $layouts = array('default');
 
 	/**
 	* Execute and display a template : Reservations
@@ -94,59 +94,6 @@ class PapiersdefamillesViewReservations extends PapiersdefamillesClassView
 			'list' => $this->getSortFields('default')
 		);
 
-		// Limit
-		$filters['limit']->jdomOptions = array(
-			'pagination' => $this->pagination
-		);
-
-		// Toolbar
-
-		// Delete
-		if ($model->canDelete())
-			JToolBarHelper::deleteList(JText::_('PAPIERSDEFAMILLES_JTOOLBAR_ARE_YOU_SURE_TO_DELETE'), 'reservation.delete', "PAPIERSDEFAMILLES_JTOOLBAR_DELETE");
-
-		// Publish
-		if ($model->canEditState())
-			JToolBarHelper::publishList('reservations.publish', "PAPIERSDEFAMILLES_JTOOLBAR_PUBLISH");
-
-		// Unpublish
-		if ($model->canEditState())
-			JToolBarHelper::unpublishList('reservations.unpublish', "PAPIERSDEFAMILLES_JTOOLBAR_UNPUBLISH");
-
-		$this->toolbar = JToolbar::getInstance();
-	}
-
-	/**
-	* Execute and display a template : Reservations
-	*
-	* @access	protected
-	* @param	string	$tpl	The name of the template file to parse; automatically searches through the template paths.
-	*
-	*
-	* @since	11.1
-	*
-	* @return	mixed	A string if successful, otherwise a JError object.
-	*/
-	protected function displayModal($tpl = null)
-	{
-		$this->model		= $model	= $this->getModel();
-		$this->state		= $state	= $this->get('State');
-		$this->params 		= JComponentHelper::getParams('com_papiersdefamilles', true);
-		$state->set('context', 'reservations.modal');
-		$this->items		= $items	= $this->get('Items');
-		$this->canDo		= $canDo	= PapiersdefamillesHelper::getActions();
-		$this->pagination	= $this->get('Pagination');
-		$this->filters = $filters = $model->getForm('modal.filters');
-		$this->menu = PapiersdefamillesHelper::addSubmenu('reservations', 'modal');
-		$lists = array();
-		$this->lists = &$lists;
-
-		// Define the title
-		$this->_prepareDocument(JText::_('PAPIERSDEFAMILLES_LAYOUT_RESERVATIONS'));
-
-		
-
-		//Filters
 		// Limit
 		$filters['limit']->jdomOptions = array(
 			'pagination' => $this->pagination

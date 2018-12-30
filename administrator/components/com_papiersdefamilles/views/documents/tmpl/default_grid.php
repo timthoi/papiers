@@ -62,32 +62,34 @@ JDom::_('framework.sortablelist', array(
             <?php endif; ?>
 
 			<th style="text-align:center">
+                <?php echo JHTML::_('grid.sort', "PAPIERSDEFAMILLES_FIELD_ID", 'a.id', $listDirn,
+                    $listOrder); ?>
+			</th>
+
+			<th style="text-align:center">
                 <?php echo JHTML::_('grid.sort', "PAPIERSDEFAMILLES_FIELD_CODE", 'a.num_id', $listDirn,
                     $listOrder); ?>
 			</th>
 
+			<!--
 			<th style="text-align:left">
                 <?php echo JText::_("PAPIERSDEFAMILLES_FIELD_MAIN_PIC"); ?>
 			</th>
-
+				-->
 			<th style="text-align:left">
                 <?php echo JText::_("PAPIERSDEFAMILLES_FIELD_NAME"); ?>
 			</th>
 
+			<th style="text-align:left">
+                <?php echo JText::_("PAPIERSDEFAMILLES_FIELD_CATEGORY"); ?>
+			</th>
+
+			<th style="text-align:left">
+                <?php echo JText::_("PAPIERSDEFAMILLES_FIELD_TYPE"); ?>
+			</th>
+
 			<th style="text-align:center; display: none">
                 <?php echo JText::_("PAPIERSDEFAMILLES_FIELD_DESCRIPTION"); ?>
-			</th>
-
-			<th style="text-align:left">
-                <?php echo JText::_("PAPIERSDEFAMILLES_FIELD_FORMAT_DOCUMENT"); ?>
-			</th>
-
-			<th style="text-align:left">
-                <?php echo JText::_("PAPIERSDEFAMILLES_FIELD_NUMBER_OF_PAGES"); ?>
-			</th>
-
-			<th style="text-align:left">
-                <?php echo JText::_("PAPIERSDEFAMILLES_FIELD_QUALITIES"); ?>
 			</th>
 
 			<th style="text-align:left">
@@ -96,11 +98,6 @@ JDom::_('framework.sortablelist', array(
 
 			<th style="text-align:center">
                 <?php echo JText::_("PAPIERSDEFAMILLES_FIELD_IS_SALE_EBAY"); ?>
-			</th>
-
-
-			<th style="text-align:center">
-                <?php echo JText::_("PAPIERSDEFAMILLES_FIELD_NOTE"); ?>
 			</th>
 
             <?php if ($model->canEditState()): ?>
@@ -150,6 +147,13 @@ JDom::_('framework.sortablelist', array(
 					</td>
                 <?php endif; ?>
 
+				<td style="text-align:center">
+                    <?php echo JDom::_('html.fly', array(
+                        'dataKey'    => 'id',
+                        'dataObject' => $row,
+                        'route'      => array('view' => 'document', 'layout' => 'document', 'cid[]' => $row->id)
+                    )); ?>
+				</td>
 
 				<td style="text-align:center">
                     <?php echo JDom::_('html.fly', array(
@@ -158,7 +162,7 @@ JDom::_('framework.sortablelist', array(
                         'route'      => array('view' => 'document', 'layout' => 'document', 'cid[]' => $row->id)
                     )); ?>
 				</td>
-
+				<!--
 				<td style="text-align:center">
                     <?php
 
@@ -180,6 +184,7 @@ JDom::_('framework.sortablelist', array(
 
 					<img src="<?php echo $scrTmp ?>" alt="main pic" style="width: 100px">
 				</td>
+				-->
 				<td style="text-align:center; display: none">
                     <?php echo JDom::_('html.fly', array(
                         'dataKey'    => 'description',
@@ -197,22 +202,34 @@ JDom::_('framework.sortablelist', array(
 				</td>
 
 				<td style="text-align:left">
-                    <?php echo PapiersdefamillesHelperEnum::_('format_documents')[$row->format_document]['text'] ?>
-				</td>
+                    <?php
+                    $tmpName = json_decode($row->categories);
+                    $strTmp = '';
 
+                    if (isset($tmpName[0]))
+					{
+                        foreach ($tmpName as $tmp) $strTmp =  $tmp . ', ';
+                        echo substr($strTmp, 0, -2);
+					}
+					else
+						echo '-';
+                    ?>
+				</td>
 
 				<td style="text-align:left">
-                    <?php echo JDom::_('html.fly', array(
-                        'dataKey'    => 'number_of_pages',
-                        'dataObject' => $row
-                    )); ?>
-				</td>
-
-				<td style="text-align:center">
                     <?php
+                    $tmpName = json_decode($row->types);
 
-                    $qualities = (isset(PapiersdefamillesHelperEnum::_('qualities')[$row->qualities])) ?  PapiersdefamillesHelperEnum::_('qualities')[$row->qualities]['text'] : '-';
-                    echo $qualities; ?>
+                    $strTmp = '';
+
+                    if (isset($tmpName[0]))
+                    {
+                        foreach ($tmpName as $tmp) $strTmp =  $tmp . ', ';
+                        echo substr($strTmp, 0, -2);
+                    }
+                    else
+                        echo '-';
+                    ?>
 				</td>
 
 				<td style="text-align:center">
@@ -230,13 +247,6 @@ JDom::_('framework.sortablelist', array(
                         'dataObject' => $row,
                         'togglable'  => false,
                         'viewType'   => 'icon'
-                    )); ?>
-				</td>
-
-				<td style="text-align:left">
-                    <?php echo JDom::_('html.fly', array(
-                        'dataKey'    => 'note',
-                        'dataObject' => $row
                     )); ?>
 				</td>
 

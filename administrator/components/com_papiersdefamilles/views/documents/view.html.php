@@ -84,6 +84,50 @@ class PapiersdefamillesViewDocuments extends PapiersdefamillesClassView
 			'pagination' => $this->pagination
 		);
 
+        // Region > Title
+        $modelRegions = CkJModel::getInstance('regions', 'PapiersdefamillesModel');
+        $modelRegions->set('context', $modelRegions->get('context'));
+        $filters['filter_region_id']->jdomOptions = array(
+            'list' => $modelRegions->getItems()
+        );
+
+        // Countries > Title
+        $modelCountries = CkJModel::getInstance('countries', 'PapiersdefamillesModel');
+        $modelCountries->set('context', $modelCountries->get('context'));
+        $filters['filter_country_id']->jdomOptions = array(
+            'list' => $modelCountries->getItems()
+        );
+
+        // Cities > Title
+       /* $modelCities = CkJModel::getInstance('cities', 'PapiersdefamillesModel');
+        // Need to use Ajax to improve speed - Harvey
+        $modelCities->setState('limit', '50');
+        $modelCities->setState('start', '50');
+        $modelCities->setState('context', 'cities.filter');
+        $filters['filter_city_id']->jdomOptions = array(
+            'list' => $modelCities->getItems()
+        );*/
+
+        // Districts > Title
+        $modelDistricts = CkJModel::getInstance('districts', 'PapiersdefamillesModel');
+        $modelDistricts->set('context', $modelDistricts->get('context'));
+        $filters['filter_district_id']->jdomOptions = array(
+            'list' => $modelDistricts->getItems()
+        );
+
+        // Categories > Title
+        $modelCategories = CkJModel::getInstance('categories', 'PapiersdefamillesModel');
+        $modelCategories->set('context', $modelCategories->get('context'));
+        $filters['filter_category_id']->jdomOptions = array(
+            'list' => $modelCategories->getItems()
+        );
+
+        // Typedocuments > Title
+        $modelTypedocuments = CkJModel::getInstance('typedocuments', 'PapiersdefamillesModel');
+        $modelTypedocuments->set('context', $modelTypedocuments->get('context'));
+        $filters['filter_typedocument_id']->jdomOptions = array(
+            'list' => $modelTypedocuments->getItems()
+        );
 		// Toolbar
 		JToolBarHelper::title(JText::_('PAPIERSDEFAMILLES_LAYOUT_DOCUMENTS'), 'list');
 

@@ -29,8 +29,8 @@ echo JLayoutHelper::render('title', array(
 	'browserTitle' => null
 )); ?>
 <form action="<?php echo(JRoute::_("index.php")); ?>" method="post" name="adminForm" id="adminForm" enctype='multipart/form-data'>
-	<div class="row-fluid">
-		<div id="contents" class="span12">
+	<div class="row">
+		<div id="contents" class="">
 			<!-- BRICK : toolbar_sing -->
 			<?php echo $this->renderToolbar();?>
 			<!-- BRICK : fly -->

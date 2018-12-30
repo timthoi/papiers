@@ -2,120 +2,60 @@
 
 
 <form>
+
 	<fieldset name="reservation.form" addfieldpath="/administrator/components/com_papiersdefamilles/models/fields">
-		<field name="ticket_type_id"
-				alias="_ticket_type_id_num_id"
-				label="PAPIERSDEFAMILLES_FIELD_TICKET_TYPE"
+		<field name="joomla_user_id"
+			   alias="_joomla_user_id_name"
+			   label="PAPIERSDEFAMILLES_FIELD_USER_NAME"
+			   filter="INT"
+			   listKey="id"
+			   labelKey="name"
+			   type="ckcombo"
+			   nullLabel="PAPIERSDEFAMILLES_JSEARCH_SELECT_USER_NAME"
+			   required="true"
+			   class="validate[required]"/>
+
+		<field name="document_id"
+				alias="document_id"
+				label="PAPIERSDEFAMILLES_FIELD_DOCUMENT"
 				filter="INT"
 				listKey="id"
 				labelKey="num_id"
 				type="ckcombo"
-				nullLabel="PAPIERSDEFAMILLES_JSEARCH_SELECT_TICKET_TYPE"
-			   	required="true"
-				class="validate[required]"/>
+				nullLabel="PAPIERSDEFAMILLES_JSEARCH_SELECT_DOCUMENT"/>
 
-		<field name="departure_city_id"
-				alias="_departure_city_id_name"
-				label="PAPIERSDEFAMILLES_FIELD_DEPARTURE_CITY"
-				filter="INT"
-				listKey="id"
-				labelKey="name"
-				type="ckcombo"
-				nullLabel="PAPIERSDEFAMILLES_JSEARCH_SELECT_DEPARTURE_CITY"
-			    required="true"
-				class="validate[required]"/>
+		<field name="subscriptionplan_id"
+			   alias="subscriptionplan_id"
+			   label="PAPIERSDEFAMILLES_FIELD_SUBSCRIPTIONPLAN"
+			   filter="INT"
+			   listKey="id"
+			   labelKey="name"
+			   type="ckcombo"
+			   nullLabel="PAPIERSDEFAMILLES_JSEARCH_SELECT_SUBSCRIPTIONPLAN"/>
 
-		<field 
-				name="departure_date"
-				alias="departure_date"
-				type="calendar" 
-				default="" 
-				label="PAPIERSDEFAMILLES_FIELD_DEPARTURE_DATE"
-				description=""
-				class="input-small validate[required,custom[date]]"
-				hint="dd-mm-yyyy"
-				required="true"
-				filter="user_utc"
-				showtime="false" 
-				todaybutton="false" 
-				filltable="false"
-				format='%d-%m-%Y'
-				translateformat="true" />
+		<field name="subscriptionplan_price"
+			   alias="subscriptionplan_price"
+			   label="PAPIERSDEFAMILLES_FIELD_SUBSCRIPTIONPLAN_PRICE"
+			   filter="STRING"
+			   type="cktext"/>
 
-		<field 
-				name="arrival_date"
-				alias="arrival_date"
-				type="calendar" 
-				default="" 
-				label="PAPIERSDEFAMILLES_FIELD_ARRIVAL_DATE"
-				description=""
-				class="input-small validate[required,custom[date]]"
-				hint="dd-mm-yyyy"
-				filter="user_utc"
-				showtime="false" 
-				todaybutton="false" 
-				filltable="false"
-				format='%d-%m-%Y'
-				translateformat="true" />
+		<field name="note"
+			   alias="note"
+			   label="PAPIERSDEFAMILLES_FIELD_NOTE"
+			   filter="STRING"
+			   type="cktext"/>
 
-		<field name="number_adult_ticket"
-				alias="number_adult_ticket"
-				label="PAPIERSDEFAMILLES_FIELD_NUMBER_ADULT_TICKET"
-				filter="STRING"
-			    class="validate[required, custom[integer]]"
-			   	required="true"
-				type="cktext"/>
+		<field name="price_total"
+			   alias="price_total"
+			   label="PAPIERSDEFAMILLES_FIELD_PRICE_TOTAL"
+			   filter="STRING"
+			   type="cktext"/>
 
-		<field name="number_childrent_ticket_1"
-				alias="number_childrent_ticket_1"
-				label="PAPIERSDEFAMILLES_FIELD_NUMBER_CHILDRENT_TICKET_1"
-				filter="STRING"
-			    class="validate[custom[integer]]"
-				type="cktext"/>
-
-		<field name="number_childrent_ticket_2"
-				alias="number_childrent_ticket_2"
-				label="PAPIERSDEFAMILLES_FIELD_NUMBER_CHILDRENT_TICKET_2"
-				filter="STRING"
-			    class="validate[custom[integer]]"
-			 	type="cktext"/>
-
-		<field name="information_adult"
-				type="subform"
-				label="PAPIERSDEFAMILLES_FIELD_INFORMATION_ADULT"
-				min="0"
-				max="10"          
-				formsource= "administrator/components/com_papiersdefamilles/models/forms/subtraveller.xml"
-				multiple= "true"
-				default= '[{"name":"", "surname":"", "birthday":""}]'
-				buttons= "add,remove"
-				layout="joomla.form.field.subform.repeatable-table"
-				groupByFieldset="false"/>
-
-		<field name="information_child_1"
-				type="subform"
-				label="PAPIERSDEFAMILLES_FIELD_INFORMATION_CHILD_1"
-				min="0"
-				max="10"        
-				formsource= "administrator/components/com_papiersdefamilles/models/forms/subtraveller.xml"
-				multiple= "true"
-				default= '[{"name":"", "surname":"", "birthday":""}]'
-				buttons= "add,remove"
-				layout="joomla.form.field.subform.repeatable-table"
-				groupByFieldset="false"/>
-
-		<field name="information_child_2"
-				type="subform"
-				label="PAPIERSDEFAMILLES_FIELD_INFORMATION_CHILD_2"
-				min="0"
-				max="10"
-				formsource= "administrator/components/com_papiersdefamilles/models/forms/subtraveller.xml"
-				multiple= "true"
-				default= '[{"name":"", "surname":"", "birthday":""}]'
-				buttons= "add,remove"
-				layout="joomla.form.field.subform.repeatable-table"
-				groupByFieldset="false"/>		
-	
+		<field name="discount"
+			   alias="discount"
+			   label="PAPIERSDEFAMILLES_FIELD_DISCOUNT"
+			   filter="STRING"
+			   type="cktext"/>
 
 		<field name="name"
 				alias="name"
@@ -133,7 +73,6 @@
 				alias="phone"
 				label="PAPIERSDEFAMILLES_FIELD_PHONE"
 				filter="STRING"
-			   placeholder="PAPIERSDEFAMILLES_FIELD_PHONE"
 				type="cktext"/>
 
 		<field name="address"
@@ -146,13 +85,11 @@
 				alias="zip_code"
 				label="PAPIERSDEFAMILLES_FIELD_ZIP_CODE"
 				filter="STRING"
-			   placeholder="PAPIERSDEFAMILLES_FIELD_ZIP_CODE"
 				type="cktext"/>
 
 		<field name="city"
 				alias="city"
 				label="PAPIERSDEFAMILLES_FIELD_CITY"
-			   placeholder="PAPIERSDEFAMILLES_FIELD_CITY"
 				filter="STRING"
 				type="cktext"/>
 
@@ -160,7 +97,6 @@
 				alias="email"
 				label="PAPIERSDEFAMILLES_FIELD_EMAIL"
 				filter="STRING"
-			   placeholder="PAPIERSDEFAMILLES_FIELD_EMAIL"
 				type="cktext"/>
 
 		<field name="birthday"
@@ -194,7 +130,6 @@
 				filter="BOOL"
 				listKey="value"
 				type="ckradio"
-			    default="0"
 				viewType="both">
 			<option value="0" icon="icomoon-cancel" color="danger">PAPIERSDEFAMILLES_FIELDS_BOOL_NO</option>
 			<option value="1" icon="icomoon-ok" color="success">PAPIERSDEFAMILLES_FIELDS_BOOL_YES</option>
@@ -206,7 +141,6 @@
 				filter="BOOL"
 				listKey="value"
 				type="ckradio"
-			    default="0"
 				viewType="both">
 			<option value="0" icon="icomoon-cancel" color="danger">PAPIERSDEFAMILLES_FIELDS_BOOL_NO</option>
 			<option value="1" icon="icomoon-ok" color="success">PAPIERSDEFAMILLES_FIELDS_BOOL_YES</option>
@@ -216,7 +150,6 @@
 				alias="is_paypal_refund"
 				label="PAPIERSDEFAMILLES_FIELD_PAYPAL_REFUND"
 				filter="BOOL"
-			    default="0"
 				listKey="value"
 				type="ckradio"
 				viewType="both">
@@ -228,7 +161,6 @@
 				alias="payment_status"
 				label="PAPIERSDEFAMILLES_FIELD_PAYMENT_STATUS"
 				filter="BOOL"
-			    default="0"
 				listKey="value"
 				type="ckradio"
 				viewType="both">
@@ -236,70 +168,15 @@
 			<option value="1" icon="icomoon-ok" color="success">PAPIERSDEFAMILLES_FIELDS_BOOL_YES</option>
 		</field>
 
-		<field name="is_insurance"
-			   alias="is_insurance"
-			   label="PAPIERSDEFAMILLES_FIELD_IS_INSURANCE"
-			   filter="BOOL"
-			   default="0"
-			   listKey="value"
-			   type="ckradio"
-			   viewType="both">
-			<option value="0" icon="icomoon-cancel" color="danger">PAPIERSDEFAMILLES_FIELDS_BOOL_NO</option>
-			<option value="1" icon="icomoon-ok" color="success">PAPIERSDEFAMILLES_FIELDS_BOOL_YES</option>
-		</field>
-
-		<field name="is_baggage_insurance"
-			   alias="is_baggage_insurance"
-			   label="PAPIERSDEFAMILLES_FIELD_IS_BAGGAGE_INSURANCE"
-			   filter="BOOL"
-			   default="0"
-			   listKey="value"
-			   type="ckradio"
-			   viewType="both">
-			<option value="0" icon="icomoon-cancel" color="danger">PAPIERSDEFAMILLES_FIELDS_BOOL_NO</option>
-			<option value="1" icon="icomoon-ok" color="success">PAPIERSDEFAMILLES_FIELDS_BOOL_YES</option>
-		</field>
-
-		<field name="baggage_insurance_price"
-			   alias="baggage_insurance_price"
-			   label="PAPIERSDEFAMILLES_FIELD_TICKET_BAGGAGE_INSURANCE_PRICE"
-			   filter="STRING"
-			   type="cktext"/>
-
-		<field name="insurance_price"
-			   alias="insurance_price"
-			   label="PAPIERSDEFAMILLES_FIELD_TICKET_INSURANCE_PRICE"
-			   filter="STRING"
-			   type="cktext"/>
-
-		<field
-				name="type_flight"
-				type="ckradio"
-				filter="STRING"
-				required="true"
-				listKey="value"
-				class="validate[required]"
-				label="PAPIERSDEFAMILLES_FIELD_TYPE_FLIGHT"
-				viewType="both"
-				description="">
-			<option value="1">PAPIERSDEFAMILLES_ENUM_TYPE_FLIGHT_1</option>
-			<option value="2">PAPIERSDEFAMILLES_ENUM_TYPE_FLIGHT_2</option>
-			<option value="3">PAPIERSDEFAMILLES_ENUM_TYPE_FLIGHT_3</option>
-		</field>
-
-		<field
-				name="gender"
-				type="ckradio"
-				filter="STRING"
-				required="true"
-				listKey="value"
-				class="validate[required]"
-				label="PAPIERSDEFAMILLES_FIELD_GENDER"
-				viewType="both"
-				description="">
-			<option value="1">PAPIERSDEFAMILLES_ENUM_GENDER_1</option>
-			<option value="2">PAPIERSDEFAMILLES_ENUM_GENDER_2</option>
-		</field>
+		<field name="created_by"
+				alias="_created_by_name"
+				label="PAPIERSDEFAMILLES_FIELD_USER_NAME"
+				filter="INT"
+				listKey="id"
+				labelKey="email"
+				type="ckcombo"
+				nullLabel="PAPIERSDEFAMILLES_JSEARCH_SELECT_USER_NAME"
+				/>
 
 		<field name="published"
 				alias="published"
@@ -314,7 +191,6 @@
 		</field>
 	</fieldset>
 
-
 	<fieldset name="default.filters" addfieldpath="/administrator/components/com_papiersdefamilles/models/fields">
 
 		<field name="filter_published"
@@ -327,41 +203,14 @@
 				class="element-filter span-2"
 				ui="chosen"/>
 
-		<field name="filter_departure_date"
-				type="ckcalendar"
-				submit="true"
-				placeholder="PAPIERSDEFAMILLES_FILTER_NULL_DEPARTURE_DATE"
-				format="Y-m-d"
-				label="PAPIERSDEFAMILLES_JSEARCH_DEPARTURE_DATE"
-				class="element-filter"
-				ui="chosen"/>
-
-		<field name="filter_arrival_date"
-				type="ckcalendar"
-				submit="true"
-				placeholder="PAPIERSDEFAMILLES_FILTER_NULL_ARRIVAL_DATE"
-				format="Y-m-d"
-				label="PAPIERSDEFAMILLES_JSEARCH_ARRIVAL_DATE"
-				class="element-filter"
-				ui="chosen"/>
-
-		<field name="filter_ticket_type_id"
+		<field name="filter_subscriptionplan_id"
 				listKey="id"
 				labelKey="num_id"
 				type="ckcombo"
 				submit="true"
-				nullLabel="PAPIERSDEFAMILLES_FILTER_NULL_TICKET_TYPE_NUM_ID"
+				nullLabel="PAPIERSDEFAMILLES_FILTER_NULL_SUBSCRIPTIONPLAN_NAME"
 				class="span-2 element-filter"
-				label="PAPIERSDEFAMILLES_JSEARCH_TICKET_TYPE_NUM_ID"
-				ui="chosen"/>
-
-		<field name="filter_birthday"
-				type="ckcalendar"
-				submit="true"
-				placeholder="PAPIERSDEFAMILLES_FILTER_NULL_BIRTHDAY"
-				format="Y-m-d"
-				label="PAPIERSDEFAMILLES_JSEARCH_BIRTHDAY"
-				class="element-filter"
+				label="PAPIERSDEFAMILLES_JSEARCH_SUBSCRIPTIONPLAN_NAME"
 				ui="chosen"/>
 
 		<field name="filter_created_by"
@@ -372,34 +221,6 @@
 				nullLabel="PAPIERSDEFAMILLES_FILTER_NULL_CREATED_BY_NAME"
 				class="span-2 element-filter"
 				label="PAPIERSDEFAMILLES_JSEARCH_CREATED_BY_NAME"
-				ui="chosen"/>
-
-		<field name="filter_modified_by"
-				listKey="id"
-				labelKey="name"
-				type="ckcombo"
-				submit="true"
-				nullLabel="PAPIERSDEFAMILLES_FILTER_NULL_MODIFIED_BY_NAME"
-				class="span-2 element-filter"
-				label="PAPIERSDEFAMILLES_JSEARCH_MODIFIED_BY_NAME"
-				ui="chosen"/>
-
-		<field name="filter_creation_date_from"
-				placeholder="PAPIERSDEFAMILLES_FILTER_CREATION_DATE_CREATION_DATE_FROM"
-				type="ckcalendar"
-				submit="true"
-				format="Y-m-d H:i"
-				label="PAPIERSDEFAMILLES_JSEARCH_CREATION_DATE"
-				class="element-filter input-small"
-				ui="chosen"/>
-
-		<field name="filter_creation_date_to"
-				placeholder="PAPIERSDEFAMILLES_FILTER_CREATION_DATE_CREATION_DATE_TO"
-				type="ckcalendar"
-				submit="true"
-				format="Y-m-d H:i"
-				label="PAPIERSDEFAMILLES_JSEARCH_CREATION_DATE"
-				class="element-filter input-small"
 				ui="chosen"/>
 
 		<field name="filter_modification_date_from"
@@ -420,10 +241,28 @@
 				class="element-filter input-small"
 				ui="chosen"/>
 
+		<field name="filter_creation_date_from"
+				placeholder="PAPIERSDEFAMILLES_FILTER_CREATION_DATE_CREATION_DATE_FROM"
+				type="ckcalendar"
+				submit="true"
+				format="Y-m-d H:i"
+				label="PAPIERSDEFAMILLES_JSEARCH_CREATION_DATE"
+				class="element-filter input-small"
+				ui="chosen"/>
+
+		<field name="filter_creation_date_to"
+				placeholder="PAPIERSDEFAMILLES_FILTER_CREATION_DATE_CREATION_DATE_TO"
+				type="ckcalendar"
+				submit="true"
+				format="Y-m-d H:i"
+				label="PAPIERSDEFAMILLES_JSEARCH_CREATION_DATE"
+				class="element-filter input-small"
+				ui="chosen"/>
+
 		<field name="search_search"
 				type="cksearch"
-				placeholder="PAPIERSDEFAMILLES_FILTER_NULL_NUMBER_ADULT_TICKET_NUMBER_CHILDRENT_TICKET_1_NUMBER_CHILDRENT_TICKET_2_INFORMATION_ADULT_INFORMATION_CHILD_1_INFORMATION_CHILD_2_NAME_SURNAME_PHONE_ADDRESS_ZIP_CODE_CITY_EMAIL_TICKET_PRICE_TICKET_TOTAL_DISCOUNT"
-				label="PAPIERSDEFAMILLES_JSEARCH_NUMBER_ADULT_TICKET_NUMBER_CHILDRENT_TICKET_1_NUMBER_CHILDRENT_TICKET_2_INFORMATION_ADULT_INFORMATION_CHILD_1_INFORMATION_CHILD_2_NAME_SURNAME_PHONE_ADDRESS_ZIP_CODE_CITY_EMAIL_TICKET_PRICE_TICKET_TOTAL_DISCOUNT"
+				placeholder="PAPIERSDEFAMILLES_FILTER_NULL_NUMBER_ADULT_TICKET_NUMBER_CHILDRENT_TICKET_1_NUMBER_CHILDRENT_TICKET_2_INFORMATION_ADULT_INFORMATION_CHILD_1_INFORMATION_CHILD_2_NAME_SURNAME_PHONE_ADDRESS_ZIP_CODE_CITY_EMAIL_TICKET_PRICE_TICKET_TOTAL"
+				label="PAPIERSDEFAMILLES_JSEARCH_NUMBER_ADULT_TICKET_NUMBER_CHILDRENT_TICKET_1_NUMBER_CHILDRENT_TICKET_2_INFORMATION_ADULT_INFORMATION_CHILD_1_INFORMATION_CHILD_2_NAME_SURNAME_PHONE_ADDRESS_ZIP_CODE_CITY_EMAIL_TICKET_PRICE_TICKET_TOTAL"
 				class="element-filter element-search search-query"
 				ui="chosen"/>
 

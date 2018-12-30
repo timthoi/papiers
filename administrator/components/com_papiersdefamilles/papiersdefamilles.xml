@@ -60,6 +60,8 @@
 		<menu img="components/com_papiersdefamilles/images/icon-16-papiersdefamilles.png">PAPIERSDEFAMILLES_MENU_PAPIERSDEFAMILLES</menu>
 
 		<submenu>
+			<menu img="components/com_papiersdefamilles/images/icon-16-papiersdefamilles_regions.png" link="option=com_papiersdefamilles&amp;view=regions">PAPIERSDEFAMILLES_MENU_REGIONS</menu>
+			
 			<menu img="components/com_papiersdefamilles/images/icon-16-papiersdefamilles_countries.png" link="option=com_papiersdefamilles&amp;view=countries">PAPIERSDEFAMILLES_MENU_COUNTRIES</menu>
 
 			<menu img="components/com_papiersdefamilles/images/icon-16-papiersdefamilles_subscriptionplans.png" link="option=com_papiersdefamilles&amp;view=subscriptionplans">PAPIERSDEFAMILLES_MENU_SUBSCRIPTIONPLANS</menu>

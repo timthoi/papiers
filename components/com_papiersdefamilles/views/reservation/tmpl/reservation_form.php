@@ -33,8 +33,8 @@ $array_image = $this->item->galleries;
 
     <!-- Gallery -->
     <div class="gallery">
-        <div class="row-fluid">
-        <div class="span12">
+        <div class="row">
+        <div class="">
         <div class="slider ">
 	        <?php if (!empty($this->item->main_pic)):?>
                 <div class="">
@@ -64,7 +64,7 @@ $array_image = $this->item->galleries;
 
     <!-- Title -->
     <div class="description">
-        <div class="row-fluid">
+        <div class="row">
             <div class="span8">
                 <p class="city"><?php echo $this->ticketDetail->_city_id_name?></p>
                 <p class="long-presentation"><?php echo Jtext::sprintf('PAPIERSDEFAMILLES_TEXT_LOWEST_PRICE_2', $this->ticketPriceArray['lowest_price']['price'], $this->ticketPriceArray['lowest_price']['month'])?></p>
@@ -82,7 +82,7 @@ $array_image = $this->item->galleries;
     <!-- Form + Pricelist -->
     <div class="fieldsform form-horizontal destination">
 
-            <div class="row-fluid">
+            <div class="row">
                 <div class="span6">
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#description" class="btt-tab-description"><?php echo JText::_('PAPIERSDEFAMILLES_TEXT_DESCRIPTION')?></a></li>

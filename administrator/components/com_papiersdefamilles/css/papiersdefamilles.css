@@ -239,3 +239,14 @@ div.cpanel-right {
 table.adminlist.table-striped tr th:last-child{
 	display: none;
 }
+.subform-repeatable-group .control-group .chzn-container {
+	width: 150px!important;
+}
+.filter-row {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.form-search .input-append .search-query,
+.form-search .input-append .btn{
+	border-radius: 0!important;
+}

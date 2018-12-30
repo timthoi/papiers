@@ -383,12 +383,12 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
 
                     // Update ticket Number
                     $flagUpdate = true;
-                    $tmpNum     = 'TK' . sprintf('%05d', $item->id);
-
-                    if ($tmpNum != $item->num_id) {
-                        $flagUpdate     = true;
-                        $object->num_id = $tmpNum;
-                    }
+//                    $tmpNum     = 'TK' . sprintf('%05d', $item->id);
+//
+//                    if ($tmpNum != $item->num_id) {
+//                        $flagUpdate     = true;
+//                        $object->num_id = $tmpNum;
+//                    }
 
                 }
 

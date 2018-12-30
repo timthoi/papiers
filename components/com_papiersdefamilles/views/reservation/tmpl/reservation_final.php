@@ -98,8 +98,8 @@ $token = JSession::getFormToken();
         <div class="block-quote">
             <h3><?php echo Jtext::_('PAPIERSDEFAMILLES_TEXT_SUMMARY_INFORMATION')?></h3>
             <!-- Departure-->
-            <div class="row-fluid">
-                <div class="span12">
+            <div class="row">
+                <div class="">
                     <div class="header-label">
                         <span><?php echo Jtext::_('PAPIERSDEFAMILLES_FIELD_DEPARTURE_DATE')?></span>
                         <span class="gaps date departure_date"></span>
@@ -111,8 +111,8 @@ $token = JSession::getFormToken();
             </div>
 
             <!-- Arrival -->
-            <div class="row-fluid">
-                <div class="span12">
+            <div class="row">
+                <div class="">
                     <div class="header-label">
                         <span><?php echo Jtext::_('PAPIERSDEFAMILLES_FIELD_ARRIVAL_DATE')?></span>
                         <span class="gaps date arrival_date"></span>
@@ -125,7 +125,7 @@ $token = JSession::getFormToken();
 
             <p class="note"><?php echo Jtext::_('PAPIERSDEFAMILLES_TEXT_FINAL_BILL_NOTE')?></p>
 
-            <div class="row-fluid">
+            <div class="row">
                 <!-- Number People -->
                 <div class="span6">
                     <p><?php echo Jtext::_('PAPIERSDEFAMILLES_FIELD_NUMBER_ADULT_TICKET')?>: <span class="number_adult_ticket"></span></p>

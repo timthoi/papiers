@@ -1,9 +1,10 @@
 <?php
-/** 
+/**
+* @version		
 * @package		Papiersdefamilles
 * @subpackage	Users
 * @copyright	
-* @author		 -  - 
+* @author		 Harvey - timthoi
 * @license		
 *
 *             .oooO  Oooo.
@@ -84,12 +85,12 @@ class PapiersdefamillesModelThirduser extends PapiersdefamillesClassModelItem
 
 		$acl = PapiersdefamillesHelper::getActions();
 
-		//FROM : Main table
+		// FROM : Main table
 		$query->from('#__users AS a');
 
 
 
-		//IMPORTANT REQUIRED FIELDS
+		// IMPORTANT REQUIRED FIELDS
 		$this->addSelect(	'a.id');
 
 
@@ -97,15 +98,15 @@ class PapiersdefamillesModelThirduser extends PapiersdefamillesClassModelItem
 		{
 
 			case 'all':
-				//SELECT : raw complete query without joins
+				// SELECT : raw complete query without joins
 				$query->select('a.*');
 				break;
 		}
 
-		//WHERE : Item layout (based on $pk)
+		// WHERE : Item layout (based on $pk)
 		$query->where('a.id = ' . (int) $pk);		//TABLE KEY
 
-		//FILTER - Access for : Root table
+		// FILTER - Access for : Root table
 
 
 		// Apply all SQL directives to the query

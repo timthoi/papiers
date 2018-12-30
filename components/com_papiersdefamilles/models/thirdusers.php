@@ -1,9 +1,10 @@
 <?php
-/** 
+/**
+* @version		
 * @package		Papiersdefamilles
 * @subpackage	Users
 * @copyright	
-* @author		 -  - 
+* @author		 Harvey - timthoi
 * @license		
 *
 *             .oooO  Oooo.
@@ -42,7 +43,7 @@ class PapiersdefamillesModelThirdusers extends PapiersdefamillesClassModelList
 	*/
 	public function __construct($config = array())
 	{
-		//Define the sortables fields (in lists)
+		// Define the sortables fields (in lists)
 		if (empty($config['filter_fields'])) {
 			$config['filter_fields'] = array(
 
@@ -134,12 +135,12 @@ class PapiersdefamillesModelThirdusers extends PapiersdefamillesClassModelList
 
 		$acl = PapiersdefamillesHelper::getActions();
 
-		//FROM : Main table
+		// FROM : Main table
 		$query->from('#__users AS a');
 
 
 
-		//IMPORTANT REQUIRED FIELDS
+		// IMPORTANT REQUIRED FIELDS
 		$this->addSelect(	'a.id');
 
 
@@ -147,13 +148,13 @@ class PapiersdefamillesModelThirdusers extends PapiersdefamillesClassModelList
 		{
 			case 'thirdusers.modal':
 
-				//BASE FIELDS
+				// BASE FIELDS
 				$this->addSelect(	'a.name');
 
 
 				break;
 			case 'all':
-				//SELECT : raw complete query without joins
+				// SELECT : raw complete query without joins
 				$this->addSelect('a.*');
 
 				// Disable the pagination
@@ -162,10 +163,10 @@ class PapiersdefamillesModelThirdusers extends PapiersdefamillesClassModelList
 				break;
 		}
 
-		//FILTER - Access for : Root table
+		// FILTER - Access for : Root table
 
 
-		//WHERE - SEARCH : search_search : search on Search
+		// WHERE - SEARCH : search_search : search on Search
 		$search_search = $this->getState('search.search');
 		$this->addSearch('search', 'a.name', 'like');
 		$this->addSearch('search', 'a.username', 'like');

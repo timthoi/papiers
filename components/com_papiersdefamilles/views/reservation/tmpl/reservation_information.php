@@ -34,7 +34,7 @@ $item = $this->item;
 
 <div class="">
     <div class="fieldsform form-horizontal">
-        <div class="row-fluid">
+        <div class="row">
             <div class="span8">
 
                 <div class="information-block information-main-adult">

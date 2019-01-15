@@ -293,7 +293,7 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
         $item   = $model->getItem();
         $result = false;
 
-        $itemIdOld = (isset($item->id)) ?: 0;
+        $itemIdOld = (isset($item->id)) ? $item->id : 0;
 
         if ($model->canEdit($item, true)) {
             $result = parent::save();
@@ -331,13 +331,10 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
                     // Create folder to save avatar image
                     $path = explode("/", json_decode($item->gallery_pic));
 
-                    if (isset($path[1]) && !empty($path[1]))
-                    {
-                        $mainPath = $path[0];
+                    if (isset($path[1]) && ! empty($path[1])) {
+                        $mainPath    = $path[0];
                         $folderClean = $path[1];
-                    }
-                    else
-                    {
+                    } else {
                         $folderClean = JUserHelper::genRandomPassword(40);
                         $folderClean = preg_replace('/[^A-Za-z0-9 _\-\+\&]/', '', $folderClean);
                         $folderClean = strtolower($folderClean);
@@ -349,7 +346,7 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
                         $restultCreate = JFolder::create(JPATH_SITE . '/' . $mainPath);
                     }
 
-                    $ticketPath = JPATH_SITE . '/' . $mainPath . '/'  . $folderClean;
+                    $ticketPath = JPATH_SITE . '/' . $mainPath . '/' . $folderClean;
 
                     if ( ! file_exists($ticketPath)) {
                         $restultCreate = JFolder::create($ticketPath);
@@ -383,13 +380,6 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
 
                     // Update ticket Number
                     $flagUpdate = true;
-//                    $tmpNum     = 'TK' . sprintf('%05d', $item->id);
-//
-//                    if ($tmpNum != $item->num_id) {
-//                        $flagUpdate     = true;
-//                        $object->num_id = $tmpNum;
-//                    }
-
                 }
 
                 // Upload Images For Avatar
@@ -452,14 +442,17 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
 
                     // Create an object for the record we are going to update.
                     foreach ($data['locations'] as $promotion) {
-                        if (empty($promotion['region_id']) && empty($promotion['city_id']) && empty($promotion['country_id'])) break;
-                        $objectDocumentlocations = new stdClass();
-                        $objectDocumentlocations->document_id = $item->id;
-                        $objectDocumentlocations->region_id = $promotion['region_id'];
-                        $objectDocumentlocations->city_id = $promotion['city_id'];
+                        if (empty($promotion['region_id']) && empty($promotion['city_id']) && empty($promotion['country_id'])) {
+                            break;
+                        }
+                        $objectDocumentlocations                 = new stdClass();
+                        $objectDocumentlocations->document_id    = $item->id;
+                        $objectDocumentlocations->region_id      = $promotion['region_id'];
+                        $objectDocumentlocations->city_id        = $promotion['city_id'];
                         $objectDocumentlocations->departement_id = $promotion['departement_id'];
-                        $objectDocumentlocations->country_id = $promotion['country_id'];
-                        $resultInsertDocumentmainnames = JFactory::getDbo()->insertObject('#__papiersdefamilles_documentlocations', $objectDocumentlocations);
+                        $objectDocumentlocations->country_id     = $promotion['country_id'];
+                        $resultInsertDocumentmainnames           = JFactory::getDbo()->insertObject('#__papiersdefamilles_documentlocations',
+                            $objectDocumentlocations);
                     }
                 }
 
@@ -469,7 +462,9 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
                     $tmp = '[';
 
                     foreach ($data['main_persons'] as $promotion) {
-                        if (empty($promotion['name']) && empty($promotion['surname'])) break;
+                        if (empty($promotion['name']) && empty($promotion['surname'])) {
+                            break;
+                        }
                         $tmp .= '{"ordering":"' . $promotion['ordering'] . '", "surname":"' . $promotion['surname'] . '", "name":"' . $promotion['name'] . '", "sex":"' . $promotion['sex'] . '"},';
                     }
 
@@ -489,14 +484,17 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
 
                     // Create an object for the record we are going to update.
                     foreach ($data['main_persons'] as $promotion) {
-                        if (empty($promotion['name']) && empty($promotion['surname'])) break;
-                        $objectDocumentmainnames = new stdClass();
+                        if (empty($promotion['name']) && empty($promotion['surname'])) {
+                            break;
+                        }
+                        $objectDocumentmainnames              = new stdClass();
                         $objectDocumentmainnames->document_id = $item->id;
-                        $objectDocumentmainnames->name = $promotion['name'];
-                        $objectDocumentmainnames->sur_name = $promotion['surname'];
-                        $objectDocumentmainnames->sex = $promotion['sex'];
-                        $objectDocumentmainnames->ordering = $promotion['ordering'];
-                        $resultInsertDocumentmainnames = JFactory::getDbo()->insertObject('#__papiersdefamilles_documentmainnames', $objectDocumentmainnames);
+                        $objectDocumentmainnames->name        = $promotion['name'];
+                        $objectDocumentmainnames->sur_name    = $promotion['surname'];
+                        $objectDocumentmainnames->sex         = $promotion['sex'];
+                        $objectDocumentmainnames->ordering    = $promotion['ordering'];
+                        $resultInsertDocumentmainnames        = JFactory::getDbo()->insertObject('#__papiersdefamilles_documentmainnames',
+                            $objectDocumentmainnames);
                     }
                 }
 
@@ -506,7 +504,9 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
                     $tmp = '[';
 
                     foreach ($data['secondary_persons'] as $promotion) {
-                        if (empty($promotion['name']) && empty($promotion['first_name'])) break;
+                        if (empty($promotion['name']) && empty($promotion['first_name'])) {
+                            break;
+                        }
                         $tmp .= '{"name":"' . $promotion['name'] . '", "first_name":"' . $promotion['first_name'] . '"},';
                     }
 
@@ -526,17 +526,51 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
 
                     // Create an object for the record we are going to update.
                     foreach ($data['secondary_persons'] as $promotion) {
-                        if (empty($promotion['name']) && empty($promotion['first_name'])) break;
-                        $objectDocumentsecondarynames = new stdClass();
+                        if (empty($promotion['name']) && empty($promotion['first_name'])) {
+                            break;
+                        }
+                        $objectDocumentsecondarynames              = new stdClass();
                         $objectDocumentsecondarynames->document_id = $item->id;
-                        $objectDocumentsecondarynames->name = $promotion['name'];
-                        $objectDocumentsecondarynames->first_name = $promotion['first_name'];
-                        $resultInsertDocumentmainnames = JFactory::getDbo()->insertObject('#__papiersdefamilles_documentsecondarynames', $objectDocumentsecondarynames);
+                        $objectDocumentsecondarynames->name        = $promotion['name'];
+                        $objectDocumentsecondarynames->first_name  = $promotion['first_name'];
+                        $resultInsertDocumentmainnames             = JFactory::getDbo()->insertObject('#__papiersdefamilles_documentsecondarynames',
+                            $objectDocumentsecondarynames);
+                    }
+                }
+
+                $categoryAlias     = '';
+                $typeDocumentAlias = '';
+
+                if (isset($data['typedocuments'][1])) {
+                    $modelTypedocument = CkJModel::getInstance('typedocument', 'PapiersdefamillesModel');
+                    $typedocumentItem  = $modelTypedocument->getItem($data['typedocuments'][1]);
+                    $typeDocumentAlias = $typedocumentItem->alias;
+                    $flagUpdate        = true;
+                }
+
+                if (isset($data['categories'][1])) {
+                    $modelCategories = CkJModel::getInstance('category', 'PapiersdefamillesModel');
+                    $categoryItem    = $modelCategories->getItem($data['categories'][1]);
+                    $categoryAlias   = $categoryItem->alias;
+                    $flagUpdate      = true;
+                }
+
+               // $nextNumId = 0;
+
+                if (isset($data['num_id']) && !empty($data['num_id'])) {
+                    $nextNumId = intval(preg_replace('/[^0-9]+/', '', $data['num_id']), 10);
+                }
+                else {
+                    $maxNumId = PapiersdefamillesHelper::getMaxNumId();
+
+                    if (isset($maxNumId['num_id'])) {
+                        $nextNumId = intval(preg_replace('/[^0-9]+/', '', $maxNumId['num_id']), 10) + 1;
                     }
                 }
 
                 if ($flagUpdate) {
                     $object->id = $item->id;
+                    $object->num_id = $typeDocumentAlias . $categoryAlias . $nextNumId;
                     $model->update($object);
                 }
             }
@@ -593,6 +627,35 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
                 break;
         }
     }
+
+    public function renderAjaxListRegion()
+    {
+        JSession::checkToken() or JSession::checkToken('get') or jexit(JText::_('JINVALID_TOKEN'));
+
+        $jinput = JFactory::getApplication()->input;
+
+        $regionId = $jinput->get('region_id');
+        $isAll    = $jinput->get('all', 0);
+        $html     = PapiersdefamillesHelper::getListRegion($regionId, $isAll);
+
+        echo json_encode($html);
+        exit();
+    }
+
+    public function renderAjaxListCity()
+    {
+        JSession::checkToken() or JSession::checkToken('get') or jexit(JText::_('JINVALID_TOKEN'));
+
+        $jinput = JFactory::getApplication()->input;
+
+        $cityId = $jinput->get('city_id');
+        $isAll  = $jinput->get('all', 0);
+        $html   = PapiersdefamillesHelper::getListCity($cityId, $isAll);
+
+        echo json_encode($html);
+        exit();
+    }
+
 }
 
 

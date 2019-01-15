@@ -228,7 +228,6 @@ class PapiersdefamillesModelDocuments extends PapiersdefamillesClassModelList
      */
     protected function prepareQuery(&$query)
     {
-
         $acl = PapiersdefamillesHelper::getActions();
 
         // FROM : Main table
@@ -397,29 +396,37 @@ class PapiersdefamillesModelDocuments extends PapiersdefamillesClassModelList
             }
         }
 
+        // WHERE - SEARCH : search_search : search on Num ID + Main Pic + Gallery Pic + Alias
+        $jinput = JFactory::getApplication()->input;
+        $getSearchValUrl = $jinput->get('search_search', '');
 
-        $getSearchValUrl = JRequest::getVar('search_search', '');
-        $searchSearch    = $this->getState('search.search');
-
-        if ( ! empty($searchSearch)) {
-            if ( ! empty($getSearchValUrl)) {
-                $mainframe = JFactory::getApplication();
+        $searchSearch = $this->getState('search.search');
+//&& !empty($searchSearch)
+        if ($searchSearch !== 'not search' && !empty($searchSearch))
+        {
+            if (!empty($getSearchValUrl))
+            {
+                $mainframe =JFactory::getApplication();
                 $mainframe->setUserState("module.main_person", $getSearchValUrl);
             }
 
             $sessionSearch = PapiersdefamillesHelper::getSearchSessionUser();
 
-            if (isset($sessionSearch['main_person']) && ! empty($sessionSearch['main_person']) && empty($getSearchValUrl)) {
+
+            if (isset($sessionSearch['main_person']) && !empty($sessionSearch['main_person']) && empty($getSearchValUrl))
+            {
                 $this->setState('search.search', $sessionSearch['main_person']);
                 $searchSearch = $this->getState('search.search');
             }
-        } else {
+        }
+        else
+        {
+            $mainframe =JFactory::getApplication();
+            $mainframe->setUserState("module.main_person", '');
             $this->setState('search.search', '');
         }
 
-       // var_dump($this->getState('search.search'));die;
-        // WHERE - SEARCH : searchSearch : search on Num ID + Main Pic + Gallery Pic + Alias
-        $searchSearch = $this->getState('search.search');
+
         $this->addSearch('search', 'a.num_id', 'like');
         $this->addSearch('search', 'a.traceability', 'like');
         $this->addSearch('search', 'a.id', 'like');
@@ -432,13 +439,18 @@ class PapiersdefamillesModelDocuments extends PapiersdefamillesClassModelList
         /*   $this->addSearch('search', '_documentsecondarynames_.name', 'like');
            $this->addSearch('search', '_documentsecondarynames_.first_name', 'like');*/
 
-        if (($searchSearch != '') && ($searchSearch_val = $this->buildSearch('search', $searchSearch))) {
+        if (($searchSearch != '') && ($searchSearch_val = $this->buildSearch('search', $searchSearch, array('join' => 'OR', 'ignoredLength' => 2)))) {
             $this->addWhere($searchSearch_val);
         }
 
         // var_dump($query->__toString());
         // Apply all SQL directives to the query
         $this->applySqlStates($query);
+
+        /* var_dump($searchSearch);
+         echo "<pre>";
+         print_r($query->__toString());
+         echo "</pre>";die;*/
     }
 }
 

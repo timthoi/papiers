@@ -39,7 +39,7 @@ JDom::_('framework.sortablelist', array(
 $app    = JFactory::getApplication();
 $menu   = $app->getMenu();
 $active = $menu->getActive();
-$itemId = $active->id;
+$itemId = (isset($active->id)) ? $active->id : 0
 ?>
 
 <div class="clearfix"></div>
@@ -142,3 +142,32 @@ $itemId = $active->id;
     ?>
 
 </div>
+
+
+
+
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+
+        $('#adminForm .btn-search').on('click', function(e){
+            Joomla.submitform();
+
+            e.preventDefault();
+            return false;
+        })
+
+        $('#adminForm .btn-reset-filter').on('click', function(e){
+            $(this).parents('#adminForm').find("input[name*='filter_country_id[]']").val('');
+            $(this).parents('#adminForm').find("input[name*='filter_region_id[]']").val('');
+            $(this).parents('#adminForm').find("input[name*='filter_category_id[]']").val('');
+            $(this).parents('#adminForm').find("input[name*='filter_typedocument_id[]']").val('');
+
+            $(this).parents('#adminForm').find("#directionTable").val('asc');
+
+            Joomla.submitform();
+            e.preventDefault();
+            return false;
+        })
+
+    })
+</script>

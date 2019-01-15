@@ -56,11 +56,11 @@ function migrateDocuments()
     $numGets = 10;
     //11391 15273 18700 22585 26286 30197 22285 11100
     //30462  30452 34310 38207
-    $numOffet = 0;
+    $numOffet = 40570;
     $results  = array(1);
 
     //&& $numOffet<50
-    while ( ! empty($results) && $numOffet<10) {
+    while ( ! empty($results)) {
         echo '----begin transaction-----';
         $limits   = ' LIMIT ' . $numGets . ' OFFSET ' . $numOffet;
         $numOffet += $numGets;
@@ -98,7 +98,7 @@ function migrateDocuments()
             $db->transactionStart();
             // create path if not exist
 
-            /* if (empty($item->path) && isset($item->origin_image)) {
+             /*if (empty($item->path) && isset($item->origin_image)) {
                  $tmpPath    = explode("/", $item->origin_image);
                  $tmpPath    = explode("_", $tmpPath[1]);
                  $item->path = $tmpPath[0];
@@ -221,9 +221,9 @@ function migrateDocuments()
                      $tmp     = JFile::copy($file, $newfile);
                      chmod($newfile, 0777);
                  }
-             }
-            */
-             $obj              = new stdClass();
+             }*/
+
+             /*$obj              = new stdClass();
              $obj->id          = $item->id;
              $obj->birthday    = $item->birthday;
              $obj->gallery_pic = json_encode($gallery_pic);
@@ -244,9 +244,12 @@ function migrateDocuments()
              $obj->age             = $item->age;
              $obj->published       = 1;
              $obj->ordering        = $ordering;
-             $obj->price           = $item->price;
+             $obj->price           = $item->price;*/
+
+            $obj              = new stdClass();
+            $obj->id          = $item->id;
              // Find locations
-             $sql = "SELECT e.id AS city_id, e.pays AS country_id, d.num_departement AS departement_id, f.num_region AS region_id
+             $sql = "SELECT e.nom AS city_id, e.pays AS country_id, d.num_departement AS departement_id, f.num_region AS region_id
                  FROM  GA_document_has_lieu AS a"
                  . ' LEFT JOIN GA_lieu AS b ON a.lieu_id = b.id '
                  . ' LEFT JOIN lieux_unique AS e ON b.villes_unique = e.id '
@@ -259,10 +262,10 @@ function migrateDocuments()
              $dbOld->query();
              $resultLocations = $dbOld->loadAssocList();
 
- //            echo "<pre>"Location;
- //           print_r($results);
- //
- //            echo "</pre>";
+            /* echo "<pre>";
+            print_r($resultLocations);
+
+             echo "</pre>";*/
              $tmp = '[';
 
 
@@ -282,7 +285,7 @@ function migrateDocuments()
                  $objDocumentlocations->departement_id = $promotion['departement_id'];
 
                  try {
-                     $where1 = ($promotion['city_id']) ? ' AND a.city_id = "' . $promotion['city_id'] . '"' : '';
+                     //$where1 = ($promotion['city_id']) ? ' AND a.city_id = "' . $promotion['city_id'] . '"' : '';
                      $where2 = ($promotion['country_id']) ? ' AND a.country_id = "' . $promotion['country_id'] . '"' : '';
                      $where3 = ($promotion['region_id']) ? ' AND a.region_id = "' . $promotion['region_id'] . '"' : '';
                      $where4 = ($promotion['departement_id']) ? ' AND a.departement_id = "' . $promotion['departement_id'] . '"' : '';
@@ -291,7 +294,7 @@ function migrateDocuments()
                         FROM  ivi7e_papiersdefamilles_documentlocations AS a"
 
                          . ' WHERE a.document_id = ' . $item->id
-                         . $where1
+                        // . $where1
                          . $where2
                          . $where3
                          . $where4;
@@ -322,7 +325,7 @@ function migrateDocuments()
              $obj->locations = $tmp;
 
              // Find main and secondary names
-             $sql = "SELECT a.type, b.nom AS name, b.prenom AS first_name, a.ordre AS ordering,
+             /*$sql = "SELECT a.type, b.nom AS name, b.prenom AS first_name, a.ordre AS ordering,
                  CASE b.sexe
                     WHEN 'H' THEN '1'
                     WHEN 'F' THEN '2'
@@ -439,7 +442,7 @@ function migrateDocuments()
             // Insert in documents
 
             $obj->categories = '["' . $item->category_name . '"]';
-            $obj->types      = '["' . $item->type_name . '"]';
+            $obj->types      = '["' . $item->type_name . '"]';*/
 
             try {
                 // Find Documentsecondarynames
@@ -469,7 +472,7 @@ function migrateDocuments()
 
             echo $obj->id . ' success <br>';
             // Insert in documenttypes
-            $objDocumenttype                   = new stdClass();
+            /*$objDocumenttype                   = new stdClass();
             $objDocumenttype->document_id      = $item->id;
             $objDocumenttype->type_document_id = $item->format_document;
 
@@ -501,7 +504,7 @@ function migrateDocuments()
             } catch (Exception $e) {
                 $db->transactionRollback();
                 echo $e->getMessage();
-            }
+            }*/
 
 
             // Insert in documentcategories

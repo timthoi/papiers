@@ -158,6 +158,8 @@ class PapiersdefamillesHelper
                     default:
                         $links = array(
                             'admin.countries.default',
+                            'admin.provinces.default',
+                            'admin.regions.default',
                             'admin.subscriptionplans.default',
                             'admin.categories.default',
                             'admin.typedocuments.default',
@@ -444,6 +446,20 @@ class PapiersdefamillesHelper
             'view'   => 'countries',
             'layout' => 'default',
             'icon'   => 'papiersdefamilles_countries'
+        );
+
+        $items['admin.regions.default'] = array(
+            'label'  => 'PAPIERSDEFAMILLES_LAYOUT_REGIONS',
+            'view'   => 'regions',
+            'layout' => 'default',
+            'icon'   => 'papiersdefamilles_regions'
+        );
+
+        $items['admin.provinces.default'] = array(
+            'label'  => 'PAPIERSDEFAMILLES_LAYOUT_PROVINCES',
+            'view'   => 'provinces',
+            'layout' => 'default',
+            'icon'   => 'papiersdefamilles_provinces'
         );
 
         $items['admin.subscriptionplans.default'] = array(
@@ -1319,6 +1335,114 @@ class PapiersdefamillesHelper
         }
 
         return $tmp;
+    }
+
+    /**
+     * Print Out Locations
+     *
+     * @access    public static
+     *
+     *
+     * @since     v.1.0
+     *
+     * @return    string
+     */
+    public static function getListRegion($regionId, $isAll) {
+        $limitQuery = "";
+
+        if (!$isAll) {
+            $limitQuery = " WHERE id <= " . $regionId . " ORDER BY id DESC LIMIT 10 ";
+        }
+
+        // Get 30 items
+        $db    = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query = "SELECT id, name
+                FROM #__papiersdefamilles_regions" . $limitQuery;
+
+        $db->setQuery($query);
+        $results = $db->loadObjectList();
+
+        $html = '<option value="">- Select Region -</option>';
+        foreach ($results as $result) {
+            $selected = '';
+
+            if ($result->id == $regionId) {
+                $selected = ' selected';
+            }
+
+            $html .= '<option value="' . $result->id . '" ' . $selected . '>' . $result->name . '</option>';
+        }
+
+        return $html;
+    }
+
+    /**
+     * Print Out Locations
+     *
+     * @access    public static
+     *
+     *
+     * @since     v.1.0
+     *
+     * @return    string
+     */
+    public static function getListCity($cityId, $isAll) {
+        $limitQuery = "";
+
+        if (!$isAll) {
+            $limitQuery = " WHERE id <= " . $cityId . " ORDER BY id DESC LIMIT 10 ";
+        }
+
+        // Get 30 items
+        $db    = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query = "SELECT id, name
+                FROM #__papiersdefamilles_cities" . $limitQuery;
+
+
+
+        $db->setQuery($query);
+        $results = $db->loadObjectList();
+
+        $html = '<option value="">- Select City -</option>';
+        foreach ($results as $result) {
+            $selected = '';
+
+            if ($result->id == $cityId) {
+                $selected = ' selected';
+            }
+
+            $html .= '<option value="' . $result->id . '" ' . $selected . '>' . $result->name . '</option>';
+        }
+
+        return $html;
+    }
+
+    /**
+     * Get Avatar Image
+     *
+     * @access    public static
+     *
+     * @param    int $userId user id
+     *
+     *
+     * @since     v.1.0
+     *
+     * @return    intg
+     */
+    public static function getMaxNumId()
+    {
+        $db = JFactory::getDbo();
+
+        $query = $db->getQuery(true)
+            ->select('MAX(a.id)')
+            ->select('a.num_id')
+            ->from($db->qn('#__papiersdefamilles_documents', 'a'));
+
+        $result = $db->setQuery($query)->loadAssoc();
+
+        return $result;
     }
 }
 

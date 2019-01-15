@@ -11,17 +11,17 @@ defined('_JEXEC') or die;
 
 ?>
 <div class="module module-homepage-1">
-	<h3>Des Collections Uniques</h3>
-	<p class="content">Plus d’un million de documents originaux inédits au service de l’histoire de vos ancêtres :<br> Faire-part de naissance, mariage, décès, état-civil, portraits identifiés, mémentos, biographies... des 17e, 18e et 19e siècles, toujours rares, souvent uniques, et une Librairie Ancienne consacrée à la généalogie.</p>
+	<h3><?php echo JText::_('PAPIERSDEFAMILLES_TEXT_MODULENIQUECOLLECTION_HEADER')?></h3>
+	<p class="content"><?php echo JText::_('PAPIERSDEFAMILLES_TEXT_MODULENIQUECOLLECTION_CONTENT')?></p>
 	<div class="block-content row">
-		<div class="col-md-6">
-			<div class="bulle_1_home">
-				« Quelle magie ! J'ai pu retrouver des portraits photographiques inconnus de mes arrières grands-parents. Merci et belle continuation à Papiers de Familles :) »<col-md- class="auteur">Christophe Vedic</col-md-><img src="<?php echo JUri::root() . '/images/trec1.png' ?>" class="trec_b1">
+		<div class="col-md-5">
+			<div class="bulle_1_home"><?php echo JText::_('PAPIERSDEFAMILLES_TEXT_MODULENIQUECOLLECTION_BULLE_1_HOME')?>
+				<img src="<?php echo JUri::root() . '/images/trec1.png' ?>" class="trec_b1">
 			</div>
 		</div>
-		<div class="col-md-6">
-			<div class="bulle_2_home">
-				« Merci mille fois pour les faire-parts de ma famille dénichés parmi vos incroyables collections ! Grace à vous, j'ai retracé des filiations et pu contacter de proches cousinages. Un site qui manquait. Bravo ! »<col-md- class="auteur">C. Faure</col-md-><img src="<?php echo JUri::root() . '/images/trec2.png' ?>" class="trec_b2">
+		<div class="col-md-7">
+			<div class="bulle_2_home"><?php echo JText::_('PAPIERSDEFAMILLES_TEXT_MODULENIQUECOLLECTION_BULLE_2_HOME')?>
+				<img src="<?php echo JUri::root() . '/images/trec2.png' ?>" class="trec_b2">
 			</div>
 		</div>
 	</div>
@@ -29,7 +29,9 @@ defined('_JEXEC') or die;
 	<div class="row">
 		<div class="col-md-8">
             <div class="zone_champs_home">
-				<form action="<?php echo (JRoute::_("index.php")); ?>" method="post" name="adminForm" id="adminForm">
+				<p class="title"><?php echo JText::_('PAPIERSDEFAMILLES_TEXT_MODULENIQUECOLLECTION_HEADER2')?></p>
+
+				<form action="<?php echo (JRoute::_("index.php")); ?>" method="post" name="adminForm3" id="adminForm3">
 
 					<div class="custom mod_booking_search">
 						<div class="row">
@@ -42,7 +44,7 @@ defined('_JEXEC') or die;
 								<input type="text" class="form-control champ_home" placeholder="Region" name="search_region value="<?php echo $sessionSearch['region']?>">
 							</div>
 							<div class="col-md-2">
-								<a href="#" onclick="Joomla.submitbutton('documents.setSessionSearch');" class="btn_champ_home"><i class="fa fa-search" aria-hidden="true"></i></a>
+								<a href="#" class="btn_champ_home"><i class="fa fa-search" aria-hidden="true"></i></a>
 							</div>
 						</div>
 					</div>
@@ -59,6 +61,8 @@ defined('_JEXEC') or die;
                     );
                     ?>
 				</form>
+
+				<p align="center"><?php echo JText::_('PAPIERSDEFAMILLES_TEXT_MODULENIQUECOLLECTION_HEADER3')?></p>
             </div>
 		</div>
 		<div class="col-md-4">
@@ -66,3 +70,28 @@ defined('_JEXEC') or die;
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        Joomla.submitform3 = function(task){
+            if (task) {
+                document.adminForm3.task.value = task;
+            }
+            else
+                document.adminForm3.task.value = "";
+
+            if (typeof document.adminForm3.onsubmit == "function") {
+                document.adminForm3.onsubmit();
+            }
+            document.adminForm3.submit();
+        }
+
+        $('.btn_champ_home').on('click', function(e){
+            Joomla.submitform3('documents.setSessionSearch');
+
+            e.preventDefault();
+            return false;
+        })
+
+    })
+</script>

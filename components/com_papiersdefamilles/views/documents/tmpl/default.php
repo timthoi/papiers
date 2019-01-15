@@ -49,7 +49,15 @@ JDom::_('html.toolbar');
 
 				<!-- BRICK : filters -->
 				<div class="pull-left">
-                    <?php echo $this->filters['search_search']->input;?>
+					<div class="pull-left">
+						<div class=" form-search btn-group"><div class="input-append"><input type="text" id="search_search" name="search_search" class="element-filter element-search search-query" title="" placeholder="<?php echo Jtext::_('PAPIERSDEFAMILLES_FILTER_NULL_NUM_ID_MAIN_PIC_GALLERY_PIC_ALIAS')?>" value="<?php echo $this->state->get('search.search')?>">
+
+								<a class="btn hasTooltip btn-search" style="cursor:pointer;" type="button"><i class="icon-search icomoon "></i></a>
+								<a class="btn hasTooltip btn-reset-filter" style="cursor:pointer;" onclick="Joomla.resetFilters();" type="button"><i class="icon-remove icomoon "></i></a></div></div>
+
+                        <?php //echo $this->filters['search_search']->input;?>
+
+					</div>
 
 				</div>
 

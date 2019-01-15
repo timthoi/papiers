@@ -17,16 +17,56 @@ defined('_JEXEC') or die;
         </div>
 
         <div class="search col-md-6">
-            <div class="input-prepend">
-                <input id="search" type="text" class="form-control" name="search_search" value="" placeholder=""
-                       autocomplete="off">
-                <span class="add-on">
-                    <span class="fa fa-search hasTooltip" title="" data-original-title="Search"></span>
-                </span>
-            </div>
+			<form action="<?php echo (JRoute::_("index.php")); ?>" method="post" name="adminFormTopSearch" id="adminFormTopSearch">
+				<div class="input-prepend">
+					<input id="module-logo-search" type="text" class="form-control" name="search_main_person" value="<?php echo $sessionSearch['main_person']?>" placeholder="<?php echo Jtext::_('PAPIERSDEFAMILLES_TEXT_MODULELOGO_PLACEHOLDER')?>"
+						   autocomplete="off">
+					<span class="add-on btn-module-logo-search">
+						<span class="fa fa-search hasTooltip" title="" data-original-title="Search"></span>
+					</span>
+				</div>
 
-            <p class="note">Découvrez un million d’archives inédites en ligne ...</p>
+                <?php
+                $jinput = JFactory::getApplication()->input;
+                echo JDom::_('html.form.footer', array(
+                        'values' => array(
+                            'option' => 'com_papiersdefamilles',
+                            'view' => 'documents',
+                            'layout' => 'default',
+                            'boxchecked' => '0',
+                            'task' => 'setSessionSearch'
+                        ))
+                );
+                ?>
+			</form>
+            <p class="note"><?php echo Jtext::_('PAPIERSDEFAMILLES_TEXT_MODULELOGO_HEADER')?></p>
 
         </div>
     </div>
 </div>
+
+
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        Joomla.submitformAdminFormTopSearch = function(task){
+            if (task) {
+                document.adminFormTopSearch.task.value = task;
+            }
+            else
+                document.adminFormTopSearch.task.value = "";
+
+            if (typeof document.adminFormTopSearch.onsubmit == "function") {
+                document.adminFormTopSearch.onsubmit();
+            }
+            document.adminFormTopSearch.submit();
+        }
+
+        $('.btn-module-logo-search').on('click', function(e){
+            Joomla.submitformAdminFormTopSearch('documents.setSessionSearch');
+
+            e.preventDefault();
+            return false;
+        })
+
+    })
+</script>

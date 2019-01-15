@@ -411,13 +411,18 @@ class PapiersdefamillesModelDocuments extends PapiersdefamillesClassModelList
         /*   $this->addSearch('search', '_documentsecondarynames_.name', 'like');
            $this->addSearch('search', '_documentsecondarynames_.first_name', 'like');*/
 
-        if (($search_search != '') && ($search_search_val = $this->buildSearch('search', $search_search))) {
+        if (($search_search != '') && ($search_search_val = $this->buildSearch('search', $search_search, array('join' => 'OR', 'ignoredLength' => 2)))) {
             $this->addWhere($search_search_val);
         }
 
         // var_dump($query->__toString());
         // Apply all SQL directives to the query
         $this->applySqlStates($query);
+
+       /* var_dump($search_search);
+        echo "<pre>";
+        print_r($query->__toString());
+        echo "</pre>";die;*/
     }
 
 

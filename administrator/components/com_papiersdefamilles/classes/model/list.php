@@ -533,7 +533,11 @@ class PapiersdefamillesClassModelList extends JModelList
 
 		$where = implode(" " . $join . " ", $searchesParts);
 
-		return $where;
+		if ($options['ignoredLength'] == 2){
+            return '(' . $where . ')';
+        }
+
+        return $where;
 	}
 
 	/**

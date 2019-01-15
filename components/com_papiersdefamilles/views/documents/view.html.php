@@ -46,6 +46,10 @@ class PapiersdefamillesViewDocuments extends PapiersdefamillesClassView
 	*/
 	protected function displayDefault($tpl = null)
 	{
+        // Solve session search
+        PapiersdefamillesHelper::setInitSessionSearch();
+        $sessionSearch = PapiersdefamillesHelper::getSearchSessionUser();
+
 		$this->model		= $model	= $this->getModel();
 
     /*    $model->loadRelations('categories');

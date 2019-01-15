@@ -250,3 +250,11 @@ table.adminlist.table-striped tr th:last-child{
 .form-search .input-append .btn{
 	border-radius: 0!important;
 }
+.field-location {
+	padding: 0 10px;
+	border:2px solid #ccc;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	margin-bottom: 20px;
+}

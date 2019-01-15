@@ -13,22 +13,52 @@
 }
 .module-logo .input-prepend input {
   border-radius: 4px 0px 0px 4px;
-  height: 35px;
   width: 430px;
+  height: 41px;
+  padding: 11px 12px;
+  font-size: 17px;
+  font-style: italic;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #38373a;
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+  -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  box-shadow: none;
 }
 .module-logo .input-prepend .add-on {
-  background-color: #46a546;
-  color: #fff;
-  margin-left: -1px;
+  background-color: #f36809;
   border-radius: 0px 4px 4px 0px;
-  height: 35px;
+  height: 40px;
   min-width: 35px;
-  line-height: 31px;
+  line-height: 28px;
+  z-index: 2;
+  margin-left: -1px;
+  border-radius: 0px 10px 10px 0px;
+  font-size: 19px;
+  padding: 6px 11px;
+  color: #d5d4d0;
+  margin-left: 10px;
+  border-radius: 24px;
+  cursor: pointer;
+}
+.module-logo .input-prepend .add-on:hover {
+  background-color: #e6e6e6;
+  border-color: #adadad;
 }
 .module-logo .note {
-  color: #ff6801;
-  font-weight: bold;
-  font-size: 20px;
+  font-size: 17px;
+  color: #38373a;
+  margin-top: 6px;
+  margin-bottom: 0px;
+  font-style: italic;
+  letter-spacing: 1.3px;
+  margin-right: 60px;
 }
 .module-logo .search {
   text-align: right;
@@ -70,6 +100,7 @@ ul.menutop-menu.nav li a:hover {
 }
 .menu-header .navbar {
   margin-bottom: 0px;
+  min-height: unset;
 }
 .menu-header .navbar .navbar-inner {
   background-color: #3ce2d4;
@@ -77,19 +108,23 @@ ul.menutop-menu.nav li a:hover {
   border: none;
 }
 .menu-header .navbar .navbar-inner .nav > li > a {
+  padding: 15px 15px 15px;
   color: #fff;
   letter-spacing: 1px;
   text-transform: uppercase;
   text-shadow: none;
   font-weight: bold;
+  line-height: 20px;
+  font-size: 16px;
 }
 .menu-header .navbar .navbar-inner .nav > li > a:hover {
-  color: #000;
+  background-color: #f36809;
+  color: #fff;
 }
 .menu-header .navbar .navbar-inner .nav > .active > a {
-  background-color: transparent;
+  background-color: #f36809;
+  color: #fff;
   box-shadow: none;
-  color: #000;
   letter-spacing: 1px;
   text-transform: uppercase;
   text-shadow: none;
@@ -134,6 +169,9 @@ ul.menutop-menu.nav li a:hover {
   width: 140px;
   left: 90px;
 }
+.module-homepage-1 .block-content .bulle_1_home {
+  width: 100%;
+}
 .module-homepage-1 .block-content .bulle_1_home,
 .module-homepage-1 .block-content .bulle_2_home {
   padding: 25px 50px;
@@ -146,11 +184,16 @@ ul.menutop-menu.nav li a:hover {
   position: relative;
   margin: 0px 120px 0px 20px;
 }
+.module-homepage-1 .img_docs_home {
+  max-height: 220px;
+}
+.module-homepage-1 .block-content {
+  margin-bottom: 80px;
+}
 .module-homepage-1 .zone_champs_home {
   background: #fff;
   text-align: left;
   padding: 20px;
-  margin: 50px 0px 20px 0px;
 }
 .module-homepage-1 .zone_champs_home .title {
   font-size: 17px;
@@ -259,18 +302,34 @@ ul.menutop-menu.nav li a:hover {
   border-right: none;
 }
 #footer .social {
-  font-size: 35px;
+  font-size: 25px;
   margin-top: 10px;
 }
-#footer .social a {
-  visibility: hidden;
-  color: #fff;
+#footer .social [class*="fa fa-"] {
+  background-color: transparent;
+  border-radius: 30px;
+  height: 50px;
+  line-height: 30px;
+  margin: auto 15px;
+  width: 50px;
+  text-align: center;
+  border: 1px solid #fff;
+  padding: 10px 0;
 }
-#footer .social a.fa:before {
-  visibility: initial;
+#footer .social a {
+  color: #fff;
 }
 #footer .social a:hover {
+  text-decoration: none;
   color: #fff;
+}
+#footer .social a.fa-facebook:hover {
+  background: #4267b2;
+  border-color: #4267b2;
+}
+#footer .social a.fa-twitter:hover {
+  background: #1da1f2;
+  border-color: #1da1f2;
 }
 .homepage-grid-2 {
   background-color: #ead9c0;

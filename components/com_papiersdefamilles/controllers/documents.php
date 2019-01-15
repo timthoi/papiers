@@ -162,8 +162,6 @@ class PapiersdefamillesControllerDocuments extends PapiersdefamillesClassControl
 
         $mainframe = JFactory::getApplication();
 
-        $mainframe->setUserState("module.module_search_document", $searchSearch);
-
         $mainframe->setUserState("module.main_person", $main_person);
 
         $mainframe->setUserState("module.join", $join);
@@ -181,7 +179,7 @@ class PapiersdefamillesControllerDocuments extends PapiersdefamillesClassControl
             ), array(
                 'cid'           => $documentId,
                 'Itemid'        => 136,
-                'search_search' => $searchSearch
+                'search_search' => $main_person
             ));
         } else {
             switch ($this->getLayout() . '.' . $this->getTask()) {
@@ -192,7 +190,7 @@ class PapiersdefamillesControllerDocuments extends PapiersdefamillesClassControl
                     ), array(
                         'cid[]'         => null,
                         'Itemid'        => 136,
-                        'search_search' => $searchSearch
+                        'search_search' => $main_person
                     ));
                     break;
 

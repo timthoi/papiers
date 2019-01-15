@@ -64,6 +64,10 @@ JDom::_('framework.sortablelist', array(
 					<?php echo JHTML::_('grid.sort',  "PAPIERSDEFAMILLES_FIELD_NAME", 'a.name', $listDirn, $listOrder ); ?>
 				</th>
 
+				<th style="text-align:left">
+                    <?php echo JHTML::_('grid.sort',  "PAPIERSDEFAMILLES_FIELD_ALIAS", 'a.alias', $listDirn, $listOrder ); ?>
+				</th>
+
                 <th style="text-align:center">
                     <?php echo JText::_("PAPIERSDEFAMILLES_FIELD_DESCRIPTION"); ?>
                 </th>
@@ -117,6 +121,14 @@ JDom::_('framework.sortablelist', array(
 						'dataObject' => $row,
 						'route' => array('view' => 'typedocument','layout' => 'typedocument','cid[]' => $row->id)
 					));?>
+				</td>
+
+				<td style="text-align:left">
+                    <?php echo JDom::_('html.fly', array(
+                        'dataKey' => 'alias',
+                        'dataObject' => $row,
+                        'route' => array('view' => 'typedocument','layout' => 'typedocument','cid[]' => $row->id)
+                    ));?>
 				</td>
 
                 <td style="text-align:left">

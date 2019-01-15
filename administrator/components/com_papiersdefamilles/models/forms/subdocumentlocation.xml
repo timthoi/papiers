@@ -13,14 +13,8 @@
 
     <field
             name="city_id"
-            type="sql"
-            default=""
-            label="PAPIERSDEFAMILLES_FIELD_CITY"
-            query="SELECT id, name FROM #__papiersdefamilles_cities WHERE published=1 ORDER BY id"
-            key_field="id"
-            value_field="name">
-        <option value="">PAPIERSDEFAMILLES_JSEARCH_SELECT_CITY</option>
-    </field>
+            type="text"
+            label="PAPIERSDEFAMILLES_FIELD_CITY"/>
 
 
     <field

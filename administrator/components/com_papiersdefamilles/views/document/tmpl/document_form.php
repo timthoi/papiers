@@ -27,14 +27,30 @@ JText::script('PAPIERSDEFAMILLES_TEXT_ARE_YOU_SURE');
 JText::script('PAPIERSDEFAMILLES_TEXT_DRAG_DROP_IMAGE');
 JText::script('PAPIERSDEFAMILLES_ERROR_DUPLICATE');
 
+$token = JSession::getFormToken();
 ?>
 
 <?php $fieldSet = $this->form->getFieldset('document.form');
-$pathGalleries = json_decode($this->item->gallery_pic);
-$galleries = json_decode($this->item->galleries);
+$pathGalleries = '';
 
-$pathMainPics = json_decode($this->item->main_pic);
-$mainPic = json_decode($this->item->avatars);
+if (isset($this->item->gallery_pic)) {
+    $pathGalleries = json_decode($this->item->gallery_pic);
+    $pathGalleries = json_decode($this->item->gallery_pic);
+}
+
+if (isset($this->item->galleries)) {
+    $galleries = json_decode($this->item->galleries);
+}
+
+$pathMainPics = '';
+if (isset($this->item->main_pic)) {
+    $pathMainPics = json_decode($this->item->main_pic);
+}
+
+$mainPic = '';
+if (isset($this->item->avatars)) {
+    $mainPic = json_decode($this->item->avatars);
+}
 ?>
 <fieldset class="fieldsform form-horizontal">
 
@@ -51,15 +67,18 @@ $mainPic = json_decode($this->item->avatars);
 	</div>
 
 	<div class="wrapper-gallery-pic">
-		<?php foreach ($galleries as $pic):
-			$srcPic = JUri::root() . $pathGalleries . '/' . $pic;
-        ?>
-		<div class="image" style="display: none">
-			<a rel="gallery" title="" href="<?php echo $srcPic?>">
-				<img src="<?php echo $srcPic?>">
-			</a>
-		</div>
-        <?php endforeach;?>
+		<?php if (!empty($galleries)): ?>
+			<?php
+				foreach ($galleries as $pic):
+				$srcPic = JUri::root() . $pathGalleries . '/' . $pic;
+			?>
+			<div class="image" style="display: none">
+				<a rel="gallery" title="" href="<?php echo $srcPic?>">
+					<img src="<?php echo $srcPic?>">
+				</a>
+			</div>
+			<?php endforeach;?>
+		<?php endif;?>
 	</div>
 
 
@@ -348,23 +367,41 @@ $mainPic = json_decode($this->item->avatars);
 				</fieldset>
 			</div>
 
+			<div class="row-fluid">
+                <?php
+                // is sale
+                $field = $fieldSet['jform_is_sale'];
+                ?>
+				<div class="control-group <?php echo 'field-' . $field->id . $field->responsive; ?> span6">
+					<div class="control-label">
+                        <?php echo $field->label; ?>
+					</div>
 
-            <?php
-            // is sale
-            $field = $fieldSet['jform_is_sale'];
-            ?>
-			<div class="control-group <?php echo 'field-' . $field->id . $field->responsive; ?>">
-				<div class="control-label">
-                    <?php echo $field->label; ?>
+					<div class="controls">
+                        <?php echo $field->input; ?>
+					</div>
 				</div>
+                <?php echo(PapiersdefamillesHelperHtmlValidator::loadValidator($field)); ?>
 
-				<div class="controls">
-                    <?php echo $field->input; ?>
+				<?php if (isset($this->item->modification_date) && !empty($this->item->modification_date)):?>
+                <?php
+                // modification date
+                ?>
+				<div class="control-group field-jform_modification_date span6">
+					<div class="control-label">
+                        <?php echo Jtext::_('PAPIERSDEFAMILLES_FIELD_MODIFICATION_DATE'); ?>
+					</div>
+
+					<div class="controls">
+						<?php echo JDom::_('html.fly.datetime', array(
+							'dataKey' => 'modification_date',
+							'dataObject' => $this->item,
+							'dateFormat' => 'd-m-Y H:i:s'
+						));?>
+					</div>
 				</div>
+				<?php endif;?>
 			</div>
-            <?php echo(PapiersdefamillesHelperHtmlValidator::loadValidator($field)); ?>
-
-
 
             <?php
             // is sale ebay
@@ -460,19 +497,77 @@ $document->addStyleSheet($baseAdmin . '/js/basic.min.css');
 $document->addScript($baseAdmin . '/js/jquery.fullscreenslides.js');
 $document->addStyleSheet($baseAdmin . '/js/fullscreenstyle.css');
 ?>
-<style>
-	.field-location {
-		padding: 0 40px;
-		border:2px solid #ccc;
-		-moz-border-radius:8px;
-		-webkit-border-radius:8px;
-		border-radius:8px;
-		margin-bottom: 20px;
-	}
-</style>
 
 <script>
+jQuery(document).ready(function($){
+    var locations = '<?php echo isset($this->item->locations) ? $this->item->locations : "" ?>';
 
+    if (locations) {
+        locations = $.parseJSON(locations);
+
+        for(i = 0; i < locations.length; i++) {
+            var location = locations[i];
+
+            var regionId = location.region_id;
+
+            var departementId = location.departement_id;
+            var countryId = location.country_id;
+
+            renderAjaxListRegion(i, regionId);
+        }
+	}
+
+    function renderAjaxListRegion($locationOffset, $regionId) {
+        jQuery.ajax({
+            type: "POST",
+            data: {
+                'region_id': $regionId,
+                'all': 0,
+                "<?php echo $token ?>": "1"
+            },
+            url: window.location.protocol + "//" + window.location.host + window.location.pathname + '?option=com_papiersdefamilles&task=document.renderAjaxListRegion',
+            success: function (response) {
+                var listRegions = jQuery.parseJSON(response);
+				var elementLocationRegion = '#jform_locations__locations' + $locationOffset + '__region_id';
+                $(elementLocationRegion).empty().append(listRegions);
+
+                // Event open this
+                $(elementLocationRegion).on('liszt:showing_dropdown', function(evt, params) {
+                    renderAjaxGetRegions($locationOffset, $regionId);
+                });
+
+                $(elementLocationRegion).trigger("liszt:updated");
+            }
+        })
+    }
+
+    function renderAjaxGetRegions($locationOffset, $regionId) {
+        jQuery.ajax({
+            type: "POST",
+            data: {
+                'region_id': $regionId,
+                'all': 1,
+                "<?php echo $token ?>": "1"
+            },
+            url: window.location.protocol + "//" + window.location.host + window.location.pathname + '?option=com_papiersdefamilles&task=document.renderAjaxListRegion',
+            success: function (response) {
+                var listRegions = jQuery.parseJSON(response);
+                var elementLocationRegion = '#jform_locations__locations' + $locationOffset + '__region_id';
+                $(elementLocationRegion).empty().append(listRegions);
+
+                // Event close this
+                /*$(elementLocationRegion).on('liszt:hiding_dropdown', function(evt, params) {
+                    renderAjaxListRegion($locationOffset, $regionId);
+                });*/
+
+                $(elementLocationRegion).trigger("liszt:updated");
+            }
+        })
+    }
+})
+</script>
+
+<script>
     jQuery(document).ready(function($){
         $('.image img').fullscreenslides();
         jQuery(document).on('click', '.see_gallery_pic', function(e) {
@@ -554,12 +649,18 @@ $document->addStyleSheet($baseAdmin . '/js/fullscreenstyle.css');
         Dropzone.autoDiscover = false;
 
         Joomla.submitbutton = function(task){
-            var myDropzone = Dropzone.forElement("div#myDropZone2");
-            myDropzone.processQueue();
 
-            setTimeout(function(){
+            if (task == 'document.cancel') {
                 Joomla.submitform(task);
-            }, 2000);
+			}
+			else {
+                var myDropzone = Dropzone.forElement("div#myDropZone2");
+                myDropzone.processQueue();
+
+                setTimeout(function(){
+                    Joomla.submitform(task);
+                }, 2000);
+			}
         }
 
         var gallery_images = '<?php echo $this->item->galleries?>';

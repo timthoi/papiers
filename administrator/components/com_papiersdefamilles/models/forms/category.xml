@@ -17,7 +17,7 @@
 				alias="alias"
 				label="PAPIERSDEFAMILLES_FIELD_ALIAS"
 				filter="STRING"
-				type="hidden"/>
+				type="cktext"/>
 
 		<field name="description"
 			   alias="description"

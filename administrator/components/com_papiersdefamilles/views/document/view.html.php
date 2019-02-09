@@ -121,16 +121,22 @@ class PapiersdefamillesViewDocument extends PapiersdefamillesClassView
 
 		if (!empty($this->item->gallery_pic))
 		{
-			$this->item->galleries = JFolder::files(JPATH_SITE . DS .  json_decode($this->item->gallery_pic), '.jpg|.png|.jpeg|.pdf', false, false, array());
-			$this->item->galleries = json_encode($this->item->galleries);
+			$this->item->pdfFiles = JFolder::files(JPATH_SITE . DS .  json_decode($this->item->gallery_pic) . DS . 'pdf', '.pdf', false, false, array());
+
+			if (isset($this->item->pdfFiles[0]))
+            {
+                $this->item->pdfFiles = json_encode($this->item->pdfFiles[0]);
+            }
+            else
+            {
+                $this->item->pdfFiles = '';
+            }
 		}
 		else
 		{
-			$this->item->galleries = '';
+			$this->item->pdfFiles = '';
 		}
-	}
-
-
+    }
 }
 
 

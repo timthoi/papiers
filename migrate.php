@@ -56,7 +56,7 @@ function migrateDocuments()
     $numGets = 10;
     //11391 15273 18700 22585 26286 30197 22285 11100
     //30462  30452 34310 38207
-    $numOffet = 40570;
+    $numOffet = 45465;
     $results  = array(1);
 
     //&& $numOffet<50
@@ -223,7 +223,7 @@ function migrateDocuments()
                  }
              }*/
 
-             /*$obj              = new stdClass();
+             $obj              = new stdClass();
              $obj->id          = $item->id;
              $obj->birthday    = $item->birthday;
              $obj->gallery_pic = json_encode($gallery_pic);
@@ -244,7 +244,7 @@ function migrateDocuments()
              $obj->age             = $item->age;
              $obj->published       = 1;
              $obj->ordering        = $ordering;
-             $obj->price           = $item->price;*/
+             $obj->price           = $item->price;
 
             $obj              = new stdClass();
             $obj->id          = $item->id;
@@ -325,7 +325,7 @@ function migrateDocuments()
              $obj->locations = $tmp;
 
              // Find main and secondary names
-             /*$sql = "SELECT a.type, b.nom AS name, b.prenom AS first_name, a.ordre AS ordering,
+             $sql = "SELECT a.type, b.nom AS name, b.prenom AS first_name, a.ordre AS ordering,
                  CASE b.sexe
                     WHEN 'H' THEN '1'
                     WHEN 'F' THEN '2'
@@ -442,7 +442,7 @@ function migrateDocuments()
             // Insert in documents
 
             $obj->categories = '["' . $item->category_name . '"]';
-            $obj->types      = '["' . $item->type_name . '"]';*/
+            $obj->types      = '["' . $item->type_name . '"]';
 
             try {
                 // Find Documentsecondarynames

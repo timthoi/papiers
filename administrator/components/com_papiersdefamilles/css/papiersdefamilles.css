@@ -258,3 +258,22 @@ table.adminlist.table-striped tr th:last-child{
 	border-radius:8px;
 	margin-bottom: 20px;
 }
+.form-horizontal .special-edit .control-label {
+	max-width: 80px;
+}
+.form-horizontal .special-edit  .controls {
+	margin-left: 0px;
+}
+#jform_number_of_pages {
+	width: 50px;
+	text-align: center;
+}
+.controls input[type="text"].small-input {
+	max-width: 80px;
+	width: 80px;
+}
+.controls input[type="text"].grey {
+	max-width: 50px;
+	width: 50px;
+	background-color: #eee;
+}

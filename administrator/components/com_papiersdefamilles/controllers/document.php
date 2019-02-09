@@ -306,36 +306,39 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
                 $flagUpdate = false;
 
                 if ($item->id != $itemIdOld) {
-                    $object->published = 0;
-                    $flagUpdate        = true;
+                    //$object->published = 0;
+                    $flagUpdate = true;
                 }
 
                 //Upload Image
-                $galleryImages = JRequest::getVar('gallery_images');
-                $avatarImages  = JRequest::getVar('avatar_images');
+                $avatarImages = JRequest::getVar('avatar_images');
+                $pdfFiles = JRequest::getVar('pdf_file');
 
-                $data            = JRequest::getVar('jform');
-                $uploadDirectory = '';
-
-                if (isset($data['gallery_pic']) && ! empty($data['gallery_pic'])) {
-                    $uploadDirectory = $data['gallery_pic'];
-                }
+                $data                   = JRequest::getVar('jform');
+                $uploadDirectoryMainPic = '';
+                $uploadDirectoryPDF = '';
 
                 if (isset($data['main_pic']) && ! empty($data['main_pic'])) {
-                    $uploadDirectory2 = $data['main_pic'];
+                    $uploadDirectoryMainPic = $data['main_pic'];
                 }
 
+                if (isset($data['gallery_pic']) && ! empty($data['gallery_pic'])) {
+                    $uploadDirectoryPDF = $data['gallery_pic'];
+                }
 
-                if (isset($item->gallery_pic)) {
+                $task   = $this->getLayout() . '.' . $this->getTask();
+                $length = 40;
+
+                if (isset($item->main_pic)) {
                     // Create folder to save gallery image
                     // Create folder to save avatar image
-                    $path = explode("/", json_decode($item->gallery_pic));
+                    $path = explode("/", json_decode($item->main_pic));
 
-                    if (isset($path[1]) && ! empty($path[1])) {
+                    if (isset($path[1]) && ! empty($path[1]) && $task != 'document.save2copy') {
                         $mainPath    = $path[0];
                         $folderClean = $path[1];
                     } else {
-                        $folderClean = JUserHelper::genRandomPassword(40);
+                        $folderClean = JUserHelper::genRandomPassword($length);
                         $folderClean = preg_replace('/[^A-Za-z0-9 _\-\+\&]/', '', $folderClean);
                         $folderClean = strtolower($folderClean);
 
@@ -346,36 +349,48 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
                         $restultCreate = JFolder::create(JPATH_SITE . '/' . $mainPath);
                     }
 
-                    $ticketPath = JPATH_SITE . '/' . $mainPath . '/' . $folderClean;
+                    $rootPathItem = JPATH_SITE . '/' . $mainPath . '/' . $folderClean;
 
-                    if ( ! file_exists($ticketPath)) {
-                        $restultCreate = JFolder::create($ticketPath);
+                    if ( ! file_exists($rootPathItem)) {
+                        $restultCreate = JFolder::create($rootPathItem);
 
                         //5ccfedad413baa37af09caf72e264a5e7d672346
                         $token = JUserHelper::genRandomPassword($length);
 
                         chmod(JPATH_SITE . '/' . $mainPath, 0777);
-                        chmod($ticketPath, 0777);
-
+                        chmod($rootPathItem, 0777);
+                        chmod($rootPathItem . '/', 0777);
+                        chmod(JPATH_SITE . '/' . $mainPath . 'dat-lich-hen/', 0777);
                         // Create 2 folder in this foldernum_id
                         if ($restultCreate) {
-                            $avatarPath    = $ticketPath . '/document_avatar';
-                            $restultCreate = JFolder::create($avatarPath);
-
-                            $galleryPath   = $ticketPath . '';
-                            $restultCreate = JFolder::create($galleryPath);
-
-
-                            chmod(JPATH_SITE . '/' . $mainPath . '/', 0777);
-                            chmod($ticketPath . '/document_avatar/', 0777);
-                            chmod($ticketPath . '/', 0777);
-
-                            $flagUpdate          = true;
-                            $object->gallery_pic = json_encode($mainPath . '/' . $folderClean . '/');
-                            $object->main_pic    = json_encode($mainPath . '/' . $folderClean . '/document_avatar');
-                            $uploadDirectory     = $object->gallery_pic;
-                            $uploadDirectory2    = $object->main_pic;
+                            $flagUpdate             = true;
+                            // Root path for this item
+                            $object->gallery_pic       = json_encode($mainPath . '/' . $folderClean);
+                            $object->main_pic       = json_encode($mainPath . '/' . $folderClean . '/document_avatar');
+                            $uploadDirectoryMainPic = $object->main_pic;
+                            $uploadDirectoryPDF = json_encode($mainPath . '/' . $folderClean);
                         }
+                    }
+
+                    $avatarPath    = $rootPathItem . '/document_avatar';
+
+                    if ( ! file_exists($avatarPath)) {
+                        $restultCreate = JFolder::create($avatarPath);
+                        chmod($rootPathItem . '/document_avatar/', 0777);
+                    }
+
+                    $avatarPathThumb   = $rootPathItem . '/document_avatar/thumb';
+
+                    if ( ! file_exists($avatarPathThumb)) {
+                        $restultCreate = JFolder::create($avatarPathThumb);
+                        chmod($rootPathItem . '/document_avatar/thumb', 0777);
+                    }
+
+                    $pdfPath    = $rootPathItem . '/pdf';
+
+                    if ( ! file_exists($pdfPath)) {
+                        $restultCreate = JFolder::create($pdfPath);
+                        chmod($rootPathItem . '/pdf', 0777);
                     }
 
                     // Update ticket Number
@@ -383,35 +398,36 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
                 }
 
                 // Upload Images For Avatar
-                if ( ! empty($avatarImages) && ! empty($uploadDirectory2)) {
-                    $uploadDirectory2 = json_decode($uploadDirectory2);
+                if ( ! empty($avatarImages) && ! empty($uploadDirectoryMainPic)) {
+                    $uploadDirectoryMainPic = json_decode($uploadDirectoryMainPic);
 
                     foreach ($avatarImages as $image) {
                         $fileName = uniqid('document', true);
-                        $target   = JPATH_SITE . '/' . $uploadDirectory2 . '/' . $fileName . '.jpg';
+                        $target   = JPATH_SITE . '/' . $uploadDirectoryMainPic . '/' . $fileName . '.jpg';
+                        $targetThumb   = JPATH_SITE . '/' . $uploadDirectoryMainPic . '/thumb/' . $fileName . '.jpg';
+                        $imagefile = JPATH_SITE . '/' . $image;
 
                         if ( ! empty($image)) {
-                            if (isset($galleryImages) && ! empty($galleryImages) && in_array($image, $galleryImages)) {
-                                copy(JPATH_SITE . '/' . $image, $target);
-                            } else {
-                                rename(JPATH_SITE . '/' . $image, $target);
-                            }
+                            $resource = imagecreatefromjpeg($imagefile);
+                            imagejpeg($resource, $targetThumb, 0.1);
+                            rename($imagefile, $target);
                         }
 
                     }
                 }
 
-                // Upload Images For Gallery
-                if ( ! empty($galleryImages) && ! empty($uploadDirectory)) {
-                    $uploadDirectory = json_decode($uploadDirectory);
+                // Upload PDF
+                if ( ! empty($pdfFiles) && ! empty($uploadDirectoryPDF)) {
+                    var_dump($uploadDirectoryPDF);
+                    $uploadDirectoryPDF = json_decode($uploadDirectoryPDF) . '/pdf';
 
-                    foreach ($galleryImages as $image) {
-                        if ( ! empty($image)) {
-                            $fileName = uniqid('document', true);
-                            $target   = JPATH_SITE . '/' . $uploadDirectory . '/' . $fileName . '.jpg';
+                    foreach ($pdfFiles as $pdf) {
+                        $fileName = uniqid('document', true);
+                        $target   = JPATH_SITE . '/' . $uploadDirectoryPDF . '/' . $fileName . '.pdf';
+                        $pdfFile = JPATH_SITE . '/' . $pdf;
 
-                            $tmp = rename(JPATH_SITE . '/' . $image, $target);
-
+                        if ( ! empty($pdf)) {
+                            rename($pdfFile, $target);
                         }
 
                     }
@@ -545,31 +561,49 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
                     $modelTypedocument = CkJModel::getInstance('typedocument', 'PapiersdefamillesModel');
                     $typedocumentItem  = $modelTypedocument->getItem($data['typedocuments'][1]);
                     $typeDocumentAlias = $typedocumentItem->alias;
-                    $flagUpdate        = true;
+
+                    $tmpType = array();
+                    foreach ($data['typedocuments'] as $dataTypedocument) {
+                        $modelTypedocument = CkJModel::getInstance('typedocument', 'PapiersdefamillesModel');
+                        $typedocumentItem  = $modelTypedocument->getItem($dataTypedocument);
+
+                        if ( ! empty($typedocumentItem->name)) {
+                            $tmpType[] = $typedocumentItem->name;
+                        }
+                    }
+
+                    $object->types = json_encode($tmpType);
+                    $flagUpdate    = true;
                 }
 
                 if (isset($data['categories'][1])) {
                     $modelCategories = CkJModel::getInstance('category', 'PapiersdefamillesModel');
                     $categoryItem    = $modelCategories->getItem($data['categories'][1]);
                     $categoryAlias   = $categoryItem->alias;
-                    $flagUpdate      = true;
-                }
 
-               // $nextNumId = 0;
+                    $tmpCategory = array();
+                    foreach ($data['categories'] as $dataCategory) {
+                        $modelCategories = CkJModel::getInstance('category', 'PapiersdefamillesModel');
+                        $categoryItem    = $modelCategories->getItem($dataCategory);
 
-                if (isset($data['num_id']) && !empty($data['num_id'])) {
-                    $nextNumId = intval(preg_replace('/[^0-9]+/', '', $data['num_id']), 10);
-                }
-                else {
-                    $maxNumId = PapiersdefamillesHelper::getMaxNumId();
-
-                    if (isset($maxNumId['num_id'])) {
-                        $nextNumId = intval(preg_replace('/[^0-9]+/', '', $maxNumId['num_id']), 10) + 1;
+                        if ( ! empty($categoryItem->name)) {
+                            $tmpCategory[] = $categoryItem->name;
+                        }
                     }
+
+                    $object->categories = json_encode($tmpCategory);
+                    $flagUpdate         = true;
+                }
+
+                if (isset($data['num_id']) && ! empty($data['num_id']) && $task != 'document.save2copy') {
+                    $nextNumId = intval(preg_replace('/[^0-9]+/', '', $data['num_id']), 10);
+                } else {
+                    $maxNumId  = PapiersdefamillesHelper::getMaxNumId();
+                    $nextNumId = intval(preg_replace('/[^0-9]+/', '', $maxNumId), 10);
                 }
 
                 if ($flagUpdate) {
-                    $object->id = $item->id;
+                    $object->id     = $item->id;
                     $object->num_id = $typeDocumentAlias . $categoryAlias . $nextNumId;
                     $model->update($object);
                 }

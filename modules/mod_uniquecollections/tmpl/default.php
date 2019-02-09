@@ -36,12 +36,12 @@ defined('_JEXEC') or die;
 					<div class="custom mod_booking_search">
 						<div class="row">
 							<div class="col-md-5">
-								<input type="text" class="form-control champ_home" placeholder="Main Person (Required)" name="search_main_person" value="<?php echo $sessionSearch['main_person']?>">
+								<input type="text" class="form-control champ_home" placeholder="<?php echo JText::_('PAPIERSDEFAMILLES_FIELD_PLACEHOLDER_MAIN_PERSON')?>" name="search_main_person" value="<?php echo $sessionSearch['main_person']?>">
 								<input type="text" class="form-control champ_home" placeholder="Join" name="search_join" value="<?php echo $sessionSearch['join']?>">
 							</div>
 							<div class="col-md-5">
-								<input type="text" class="form-control champ_home" placeholder="Country" name="search_country" value="<?php echo $sessionSearch['country']?>">
-								<input type="text" class="form-control champ_home" placeholder="Region" name="search_region value="<?php echo $sessionSearch['region']?>">
+								<input type="text" class="form-control champ_home" placeholder="<?php echo JText::_('PAPIERSDEFAMILLES_FIELD_COUNTRY')?>" name="search_country" value="<?php echo $sessionSearch['country']?>">
+								<input type="text" class="form-control champ_home" placeholder="<?php echo JText::_('PAPIERSDEFAMILLES_FIELD_REGION')?>" name="search_region value="<?php echo $sessionSearch['region']?>">
 							</div>
 							<div class="col-md-2">
 								<a href="#" class="btn_champ_home"><i class="fa fa-search" aria-hidden="true"></i></a>

@@ -44,6 +44,11 @@ JDom::_('html.toolbar');
 						<?php echo $this->filters['filter_creation_date_to']->input;?>
 					<hr class="hr-condensed">
 					<?php echo $this->filters['filter_created_by']->input;?>
+					<div class="static">
+						<p>Total document: <?php echo  PapiersdefamillesHelper::getTotalDocuments();?> </p>
+						<p>Total Faire part décès : <?php echo  PapiersdefamillesHelper::getTotalCategoryDocuments(5);?> </p>
+						<p>Total faire part mariage : <?php echo  PapiersdefamillesHelper::getTotalCategoryDocuments(1);?> </p>
+					</div>
 				</div>
 
 

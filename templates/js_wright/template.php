@@ -13,7 +13,35 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+$app             = JFactory::getApplication();
+$menuitem        = $app->getMenu()->getActive();
+$doc             = JFactory::getDocument();
+$user            = JFactory::getUser();
+$this->language  = $doc->language;
+$this->direction = $doc->direction;
 
+$option = $app->input->getCmd('option', '');
+$view   = $app->input->getCmd('view', '');
+$layout = $app->input->getCmd('layout', '');
+$task   = $app->input->getCmd('task', '');
+$itemId = $app->input->getCmd('Itemid', '');
+
+$buffer           = JResponse::getBody();
+$docs             = new DOMDocument();
+$meta_description = JFactory::getDocument()->getMetaData("description");
+$title            = JFactory::getDocument()->getTitle();
+@$docs->loadHTML($buffer);
+if ($menuitem == $app->getMenu()->getDefault()) {
+    $image = JURI::root() . 'images/health_img_fb.jpg';
+}
+if ($option == 'com_content'):
+    $images_og = $docs->getElementsByTagName('img');
+
+else:
+    $image = JURI::root() . 'images/health_img_fb.jpg';
+endif;
+$uri          = JFactory::getURI();
+$absolute_url = $uri->toString();
 ?>
 <doctype>
 	<html>
@@ -86,8 +114,7 @@ defined('_JEXEC') or die('Restricted access');
 
 
     <?php
-    if ($this->countModules('homepage-grid-1'))
-        :
+    if ($this->countModules('homepage-grid-1'))  :
         ?>
 		<div class="homepage-grid-1">
 			<div class="<?php echo $wrightContainerClass; ?>">
@@ -101,8 +128,7 @@ defined('_JEXEC') or die('Restricted access');
 
 
     <?php
-    if ($this->countModules('homepage-grid-2'))
-        :
+    if ($this->countModules('homepage-grid-2')) :
         ?>
 		<div class="homepage-grid-2">
 			<div class="<?php echo $wrightContainerClass; ?>">
@@ -113,6 +139,11 @@ defined('_JEXEC') or die('Restricted access');
     endif;
     ?>
 
+    <?php if ($view == 'login'): ?>
+		<w:content/>
+    <?php
+    endif;
+    ?>
 
 	<div class="<?php echo $wrightContainerClass; ?>">
 
@@ -157,9 +188,7 @@ defined('_JEXEC') or die('Restricted access');
 			<!-- main -->
 			<section id="main">
                 <?php
-                if ($this->countModules('above-content'))
-                    :
-                    ?>
+                if ($this->countModules('above-content')) :?>
 					<!-- above-content -->
 					<div id="above-content">
 						<w:module type="none" name="above-content"/>
@@ -168,9 +197,7 @@ defined('_JEXEC') or die('Restricted access');
                 endif;
                 ?>
                 <?php
-                if ($this->countModules('breadcrumbs'))
-                    :
-                    ?>
+                if ($this->countModules('breadcrumbs')) : ?>
 					<!-- breadcrumbs -->
 					<div id="breadcrumbs">
 						<w:module name="breadcrumbs" chrome="none"/>
@@ -179,11 +206,15 @@ defined('_JEXEC') or die('Restricted access');
                 endif;
                 ?>
 				<!-- component -->
-				<w:content/>
+
+                <?php if ($view != 'login'): ?>
+					<w:content/>
                 <?php
-                if ($this->countModules('below-content'))
-                    :
-                    ?>
+                endif;
+                ?>
+
+                <?php
+                if ($this->countModules('below-content')):?>
 					<!-- below-content -->
 					<div id="below-content" class="m-t-1">
 						<w:module type="none" name="below-content"/>

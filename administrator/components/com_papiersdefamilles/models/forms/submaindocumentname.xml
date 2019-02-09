@@ -3,6 +3,7 @@
     <field name="ordering"
            alias="ordering"
            label="PAPIERSDEFAMILLES_FIELD_ORDERING"
+           class="small-input grey"
            filter="STRING"
            type="cktext"/>
 

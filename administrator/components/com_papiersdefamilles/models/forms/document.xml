@@ -115,7 +115,7 @@
 				required= "true"
 				formsource= "administrator/components/com_papiersdefamilles/models/forms/submaindocumentname.xml"
 				multiple= "true"
-				default= '[{"ordering":"","surname":"", "name":"", "sex":""}]'
+				default= '[{"ordering":"1","surname":"", "name":"", "sex":""}]'
 				buttons= "move,add,remove"
 				layout="joomla.form.field.subform.repeatable-table"
 				groupByFieldset="false"/>
@@ -189,7 +189,7 @@
 				type="ckradio"
 				viewType="both"
 				required="true"
-			    default="1"
+			    default="0"
 				class="validate[required]">
 			<option value="0" icon="icomoon-cancel" color="danger">PAPIERSDEFAMILLES_FIELDS_BOOL_NO</option>
 			<option value="1" icon="icomoon-ok" color="success">PAPIERSDEFAMILLES_FIELDS_BOOL_YES</option>

@@ -204,6 +204,7 @@ JDom::_('framework.sortablelist', array(
 				<td style="text-align:left">
                     <?php
                     $tmpName = json_decode($row->categories);
+
                     $strTmp = '';
 
                     if (isset($tmpName[0]))

@@ -1320,7 +1320,7 @@ class PapiersdefamillesHelper
             }
 
             if ($count == 2) {
-                if (!empty($tmp)) {
+                if ( ! empty($tmp)) {
                     $tmp = substr($tmp, 0, -2);
                     $tmp .= ' ...';
 
@@ -1330,7 +1330,7 @@ class PapiersdefamillesHelper
             }
         }
 
-        if (!empty($tmp)) {
+        if ( ! empty($tmp)) {
             $tmp = substr($tmp, 0, -2);
         }
 
@@ -1347,10 +1347,11 @@ class PapiersdefamillesHelper
      *
      * @return    string
      */
-    public static function getListRegion($regionId, $isAll) {
+    public static function getListRegion($regionId, $isAll)
+    {
         $limitQuery = "";
 
-        if (!$isAll) {
+        if ( ! $isAll) {
             $limitQuery = " WHERE id <= " . $regionId . " ORDER BY id DESC LIMIT 10 ";
         }
 
@@ -1387,10 +1388,11 @@ class PapiersdefamillesHelper
      *
      * @return    string
      */
-    public static function getListCity($cityId, $isAll) {
+    public static function getListCity($cityId, $isAll)
+    {
         $limitQuery = "";
 
-        if (!$isAll) {
+        if ( ! $isAll) {
             $limitQuery = " WHERE id <= " . $cityId . " ORDER BY id DESC LIMIT 10 ";
         }
 
@@ -1399,8 +1401,6 @@ class PapiersdefamillesHelper
         $query = $db->getQuery(true);
         $query = "SELECT id, name
                 FROM #__papiersdefamilles_cities" . $limitQuery;
-
-
 
         $db->setQuery($query);
         $results = $db->loadObjectList();
@@ -1435,12 +1435,65 @@ class PapiersdefamillesHelper
     {
         $db = JFactory::getDbo();
 
-        $query = $db->getQuery(true)
-            ->select('MAX(a.id)')
-            ->select('a.num_id')
-            ->from($db->qn('#__papiersdefamilles_documents', 'a'));
+        $query = $db->getQuery(true);
 
-        $result = $db->setQuery($query)->loadAssoc();
+        $query = "SELECT num_id
+                 FROM #__papiersdefamilles_documents AS a 
+                 WHERE a.id  =
+                    (SELECT MAX(id) FROM #__papiersdefamilles_documents WHERE num_id != '')";
+
+        $result = $db->setQuery($query)->loadResult();
+
+        return $result;
+    }
+
+    /**
+     * Get Number of total document
+     *
+     * @access    public static
+     *
+     *
+     *
+     * @since     v.1.0
+     *
+     * @return    int
+     */
+    public static function getTotalDocuments()
+    {
+        $db = JFactory::getDbo();
+
+        $query = $db->getQuery(true);
+
+        $query = "SELECT COUNT(id) FROM #__papiersdefamilles_documents WHERE num_id != ''";
+
+        $result = $db->setQuery($query)->loadResult();
+
+        return $result;
+    }
+
+    /**
+     * Get Number of category total document
+     *
+     * @access    public static
+     *
+     *
+     *
+     * @since     v.1.0
+     *
+     * @return    int
+     */
+    public static function getTotalCategoryDocuments($categoryId)
+    {
+        $db = JFactory::getDbo();
+
+        $query = $db->getQuery(true);
+
+        $query = "SELECT COUNT(a.id) FROM #__papiersdefamilles_documents AS a
+                  INNER JOIN #__papiersdefamilles_documentcategories AS b
+                  ON a.id = b.document_id
+                  WHERE b.category_id = $categoryId AND a.num_id != ''";
+
+        $result = $db->setQuery($query)->loadResult();
 
         return $result;
     }

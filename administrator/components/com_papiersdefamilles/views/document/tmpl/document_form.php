@@ -31,64 +31,70 @@ JText::script('PAPIERSDEFAMILLES_ERROR_DUPLICATE');
 $token = JSession::getFormToken();
 ?>
 
-<?php $fieldSet = $this->form->getFieldset('document.form');
-$pathMainPics = '';
-if (isset($this->item->main_pic)) {
-    $pathMainPics = json_decode($this->item->main_pic);
-}
+<?php
 
-$mainPic = '';
-if (isset($this->item->avatars)) {
-    $mainPic = json_decode($this->item->avatars);
-}
+$fieldSet = $this->form->getFieldset('document.form');
+
 ?>
 <fieldset class="fieldsform form-horizontal">
 
 	<div class="wrapper-main-pic">
-        <?php
-        $srcPic = JUri::root() . $pathMainPics . '/' . $mainPic;
-        ?>
 		<div class="image" style="display: none">
-			<a rel="gallery" title="" href="<?php echo $srcPic ?>">
-				<img src="<?php echo $srcPic ?>">
-			</a>
-		</div>
-	</div>
-
-	<div class="wrapper-main-pic-thumb">
-        <?php
-        $srcPic = JUri::root() . $pathMainPics . '/thumb/' . $mainPic;
-        ?>
-		<div class="image" style="display: none">
-			<a rel="gallery" title="" href="<?php echo $srcPic ?>">
-				<img src="<?php echo $srcPic ?>">
+			<a rel="gallery" title="" href="<?php echo $this->mainPicPath ?>">
+				<img src="<?php echo $this->mainPicPath ?>">
 			</a>
 		</div>
 	</div>
 
 	<div class="row-fluid">
 		<div class="span4">
-			<div class="drag_drop_zone_main_pic">
-				<div class="control-group-heading">
-					<?php if (isset($this->item->avatars)): ?>
-					<a href="" class="see_main_pic"> Voir l'image</a><br>
-					<a href="" class="see_main_pic_thumb"> Voir l'image thumb</a><br>
-                    <?php endif;?>
-					<h4><?php echo JText::_('PAPIERSDEFAMILLES_FIELD_MAIN_PIC') ?></h4>
+			<h4><?php echo JText::_('PAPIERSDEFAMILLES_FIELD_MAIN_PIC') ?></h4>
+			<div class="drag_drop_zone">
+				<div class="upload-btn-wrapper">
+					<button class="btn">Upload a file</button>
+					<input type="file" name="main_pic" accept="image/*"/>
 				</div>
 				<div class="clearfix"></div>
-				<div id="myDropZoneMainPic" style="" class="dropzone clsbox"></div>
+				<img class="upload-file see_main_pic" src="<?php echo $this->mainPicPath?>" alt="<?php echo $this->mainPicName?>">
 			</div>
 
 			<div class="clearfix"></div>
 
 			<!-- Add pdf -->
-			<div class="drag_drop_zone_pdf">
-				<div class="control-group-heading">
-					<h4><?php echo JText::_('PAPIERSDEFAMILLES_FIELD_ADD_PDF') ?></h4>
+			<h4><?php echo JText::_('PAPIERSDEFAMILLES_FIELD_ADD_PDF') ?></h4>
+			<a target="_blank" href="<?php echo $this->pdfFilePath ?>"><?php echo $this->pdfFileName ?></a>
+			<div class="drag_drop_zone">
+				<div class="upload-btn-wrapper">
+					<button class="btn">Upload a file</button>
+					<input type="file" name="pdf_file" accept="application/pdf"/>
 				</div>
 				<div class="clearfix"></div>
-				<div id="myDropZonePDF" style="" class="dropzone clsbox"></div>
+			</div>
+
+			<div class="clearfix"></div>
+
+			<!-- Add original pdf file -->
+			<h4><?php echo JText::_('PAPIERSDEFAMILLES_FIELD_ADD_ORIGINAL') ?></h4>
+			<a target="_blank" href="<?php echo $this->originalFilePath ?>"><?php echo $this->originalFileName ?></a>
+			<div class="drag_drop_zone">
+				<div class="upload-btn-wrapper">
+					<button class="btn">Upload a file</button>
+					<input type="file" name="original_file" accept="application/pdf"/>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+
+			<div class="clearfix"></div>
+
+			<!-- Add tif file -->
+			<h4><?php echo JText::_('PAPIERSDEFAMILLES_FIELD_ADD_TIF') ?></h4>
+			<a target="_blank" href="<?php echo $this->tiffFilePath ?>"><?php echo $this->tiffFileName ?></a>
+			<div class="drag_drop_zone">
+				<div class="upload-btn-wrapper">
+					<button class="btn">Upload a file</button>
+					<input type="file" name="tiff_file" accept="application/pdf"/>
+				</div>
+				<div class="clearfix"></div>
 			</div>
 
 			<div class="clearfix"></div>
@@ -479,9 +485,6 @@ if (isset($this->item->avatars)) {
 <?php
 $baseAdmin = JURI::root(true) . '/administrator/components/' . COM_PAPIERSDEFAMILLES;
 $document  = JFactory::getDocument();
-$document->addScript($baseAdmin . '/js/dropzone.js');
-$document->addStyleSheet($baseAdmin . '/js/dropzone.css');
-$document->addStyleSheet($baseAdmin . '/js/basic.min.css');
 
 $document->addScript($baseAdmin . '/js/jquery.fullscreenslides.js');
 $document->addStyleSheet($baseAdmin . '/js/fullscreenstyle.css');
@@ -489,6 +492,14 @@ $document->addStyleSheet($baseAdmin . '/js/fullscreenstyle.css');
 
 <script>
     jQuery(document).ready(function ($) {
+
+        jQuery(document).on('click', '.see_main_pic', function (e) {
+            $('.wrapper-main-pic .image:first-child a').click();
+
+            e.preventDefault();
+            return false;
+        });
+
         var locations = '<?php echo isset($this->item->locations) ? $this->item->locations : "" ?>';
 
         if (locations) {
@@ -502,7 +513,9 @@ $document->addStyleSheet($baseAdmin . '/js/fullscreenstyle.css');
                 var departementId = location.departement_id;
                 var countryId = location.country_id;
 
-                renderAjaxListRegion(i, regionId);
+               	if (regionId) {
+                    renderAjaxListRegion(i, regionId);
+				}
             }
         }
 
@@ -565,269 +578,6 @@ $document->addStyleSheet($baseAdmin . '/js/fullscreenstyle.css');
             e.preventDefault();
             return false;
         });
-
-        jQuery(document).on('click', '.see_main_pic_thumb', function (e) {
-            $('.wrapper-main-pic-thumb .image:first-child a').click();
-
-            e.preventDefault();
-            return false;
-        });
-        // All events are bound to this container element
-        var $container = $('#fullscreenSlideshowContainer');
-
-        $container
-        //This is triggered once:
-            .bind("init", function () {
-                // The slideshow does not provide its own UI, so add your own
-                // check the fullscreenstyle.css for corresponding styles
-                $container
-                    .append('<div class="ui" id="fs-close">&times;</div>')
-                    .append('<div class="ui" id="fs-loader">Loading...</div>')
-                    .append('<div class="ui" id="fs-prev">&lt;</div>')
-                    .append('<div class="ui" id="fs-next">&gt;</div>')
-                    .append('<div class="ui" id="fs-caption"><span></span></div>');
-
-                // Bind to the ui elements and trigger slideshow events
-                $('#fs-prev').click(function () {
-                    // You can trigger the transition to the previous slide
-                    $container.trigger("prevSlide");
-                });
-                $('#fs-next').click(function () {
-                    // You can trigger the transition to the next slide
-                    $container.trigger("nextSlide");
-                });
-                $('#fs-close').click(function () {
-                    // You can close the slide show like this:
-                    $container.trigger("close");
-                });
-
-            })
-            // When a slide starts to load this is called
-            .bind("startLoading", function () {
-                // show spinner
-                $('#fs-loader').show();
-            })
-            // When a slide stops to load this is called:
-            .bind("stopLoading", function () {
-                // hide spinner
-                $('#fs-loader').hide();
-            })
-            // When a slide is shown this is called.
-            // The "loading" events are triggered only once per slide.
-            // The "start" and "end" events are called every time.
-            // Notice the "slide" argument:
-            .bind("startOfSlide", function (event, slide) {
-                // set and show caption
-                $('#fs-caption span').text(slide.title);
-                $('#fs-caption').show();
-            })
-            // before a slide is hidden this is called:
-            .bind("endOfSlide", function (event, slide) {
-                $('#fs-caption').hide();
-            });
-
-        function isValidDate(dateString) {
-            var regEx = /^\d{4}-\d{2}-\d{2}$/;
-            return dateString.match(regEx) != null;
-        }
-
-        var tmpDate = $('#jform_birthday').val();
-
-        if (isValidDate(tmpDate)) {
-            // convert date
-            var tmpDate = $('#jform_birthday').val();
-            var neeDate = tmpDate.split("-").reverse().join("-");
-            $('#jform_birthday').val(neeDate);
-        }
-
-
-        $('#jform_num_id').attr('readonly', 'true');
-
-        Dropzone.autoDiscover = false;
-
-        Joomla.submitbutton = function (task) {
-            // disabled all button
-            $('button').attr("onclick", "").unbind("click");
-            if (task == 'document.cancel') {
-                Joomla.submitform(task);
-            } else {
-             	if (myDropZonePDF.files.length && myDropZoneMainPic.files.length && myDropZonePDF.files[0].status == 'queued' && myDropZoneMainPic.files[0].status == 'queued') {
-                        myDropZonePDF.processQueue();
-
-                        myDropZonePDF.on("complete", function (file) {
-                            myDropZoneMainPic.processQueue();
-
-                            myDropZoneMainPic.on("complete", function (file) {
-                                Joomla.submitform(task);
-                                return false;
-                            });
-                        });
-                }
-                else if (myDropZonePDF.files.length && myDropZonePDF.files[0].status == 'queued') {
-                        myDropZonePDF.processQueue();
-
-                        myDropZonePDF.on("complete", function (file) {
-                            Joomla.submitform(task);
-                            return false;
-                        });
-                }
-                else if (myDropZoneMainPic.files.length && myDropZoneMainPic.files[0].status == 'queued') {
-                        myDropZoneMainPic.processQueue();
-
-                        myDropZoneMainPic.on("complete", function (file) {
-                            Joomla.submitform(task);
-                            return false;
-                        });
-                }
-            }
-        }
-
-        var avatar_images = '<?php echo $this->item->avatars?>';
-        var tmp_avatar_path = '<?php echo json_decode($this->item->main_pic)?>';
-
-        if (!(tmp_avatar_path)) {
-            avatar_path = "<?php echo JUri::root()?>" + "images_documents";
-            tmp_avatar_path = "images_documents";
-        } else {
-            avatar_path = "<?php echo JUri::root()?>" + tmp_avatar_path;
-        }
-
-        $("div#myDropZoneMainPic").dropzone({
-            url: '<?php echo JUri::root()?>' + "endpoint.php",
-            maxFiles: 1,
-            maxFilesize: 1,
-            acceptedFiles: '.jpg, .jpeg',
-            autoProcessQueue: false,
-            addRemoveLinks: true,
-            dictRemoveFile: '<?php echo Jtext::_('PAPIERSDEFAMILLES_TEXT_REMOVE_FILE')?>',
-            dictRemoveFileConfirmation: '<?php echo Jtext::_('PAPIERSDEFAMILLES_TEXT_ARE_YOU_SURE')?>',
-            dictDefaultMessage: "<img class='add_new avatar' src='" + '<?php echo JUri::root()?>' + "images/extrabutton_2.png'><img class='add_more avatar' src='" + "<?php echo JUri::root()?>" + "images/extrabutton_2.png'><span class='add_new avatar'>" + Joomla.JText._('PAPIERSDEFAMILLES_TEXT_DRAG_DROP_IMAGE') + "</span>",
-            init: function () {
-                myDropZoneMainPic = this;
-
-                // Load File
-                var arr_images = jQuery.parseJSON(avatar_images);
-
-                if (arr_images)
-                {
-                    var mockFile = {name: arr_images, type: 'image/*', accepted: 'true', status: "success"};
-
-                    this.options.addedfile.call(this, mockFile);
-                    this.options.thumbnail.call(this, mockFile, avatar_path + '/' + arr_images);
-                    myDropZoneMainPic.files.push(mockFile);
-                }
-
-                this.on( "addedfile", function() { // event triggered when a file is added to the Dropzone
-                    if ( this.files[1] != null ){ // we check to see if we have added a file to the files array
-                        this.removeFile( this.files[0] ); // remove the existing file from the files array
-                    }
-                });
-
-                // Delete File
-                this.on("removedfile", function(file, responseText) {
-                    // Remove origin
-                    jQuery.ajax({
-                        type: "POST",
-                        data: {
-                            filename: file.name,
-                            filepath: tmp_avatar_path
-                        },
-                        url: '<?php echo JUri::root()?>' + "endpoint_delete.php",
-                        success: function(response) {
-                            //console.log(response);
-                        }
-                    });
-
-                    // Remove thumb
-                    jQuery.ajax({
-                        type: "POST",
-                        data: {
-                            filename: file.name,
-                            filepath: tmp_avatar_path + '/thumb'
-                        },
-                        url: '<?php echo JUri::root()?>' + "endpoint_delete.php",
-                        success: function(response) {
-                            //console.log(response);
-                        }
-                    });
-                });
-
-                // After success append to input hidden for move to new folder
-                this.on("success", function(file, responseText) {
-                    var html = '<input type="hidden" name="avatar_images[]" value=' + responseText + '>';
-                    $('.drag_drop_zone_main_pic').append(html);
-                    myDropZoneMainPic.options.autoProcessQueue = true;
-                });
-            }
-        });
-
-        var pdf_files = '<?php echo $this->item->pdfFiles?>';
-        var tmp_pdf_path = '<?php echo json_decode($this->item->gallery_pic)?>';
-
-        if (!(tmp_pdf_path)) {
-            pdf_path = "<?php echo JUri::root()?>" + "images_documents";
-            tmp_pdf_path = "images_documents";
-        } else {
-            pdf_path = "<?php echo JUri::root()?>" + tmp_pdf_path + '/pdf';
-        }
-
-		// DropZonePDF
-        $("div#myDropZonePDF").dropzone({
-            url: '<?php echo JUri::root()?>' + "endpoint.php",
-            maxFiles: 1,
-            maxFilesize: 5,
-            acceptedFiles: '.pdf',
-            autoProcessQueue: false,
-            addRemoveLinks: true,
-            dictRemoveFile: '<?php echo Jtext::_('PAPIERSDEFAMILLES_TEXT_REMOVE_FILE')?>',
-            dictRemoveFileConfirmation: '<?php echo Jtext::_('PAPIERSDEFAMILLES_TEXT_ARE_YOU_SURE')?>',
-            dictDefaultMessage: "<img class='add_new avatar' src='" + '<?php echo JUri::root()?>' + "images/extrabutton_2.png'><img class='add_more avatar' src='" + "<?php echo JUri::root()?>" + "images/extrabutton_2.png'><span class='add_new avatar'>" + Joomla.JText._('PAPIERSDEFAMILLES_TEXT_DRAG_DROP_IMAGE') + "</span>",
-            init: function () {
-                myDropZonePDF = this;
-
-                // Load File
-                var pdf_file = jQuery.parseJSON(pdf_files);
-
-                if (pdf_file)
-                {
-                    var mockFile = {name: pdf_file, type: 'image/*', accepted: 'true', status: "success"};
-
-                    this.options.addedfile.call(this, mockFile);
-                    this.options.thumbnail.call(this, mockFile, "<?php echo JUri::root()?>" + 'images' + '/' + 'pdf.png');
-                    myDropZonePDF.files.push(mockFile);
-                }
-
-                this.on( "addedfile", function() { // event triggered when a file is added to the Dropzone
-                    if ( this.files[1] != null ){ // we check to see if we have added a file to the files array
-                        this.removeFile( this.files[0] ); // remove the existing file from the files array
-                    }
-                });
-
-                // Delete File
-               this.on("removedfile", function(file, responseText) {
-                    // Remove origin
-                    jQuery.ajax({
-                        type: "POST",
-                        data: {
-                            filename: file.name,
-                            filepath: tmp_pdf_path
-                        },
-                        url: '<?php echo JUri::root()?>' + "endpoint_delete.php",
-                        success: function(response) {
-                            //console.log(response);
-                        }
-                    });
-                });
-
-                // After success append to input hidden for move to new folder
-                this.on("success", function(file, responseText) {
-                    var html = '<input type="hidden" name="pdf_file[]" value=' + responseText + '>';
-                    $('.drag_drop_zone_pdf').append(html);
-                    myDropZonePDF.options.autoProcessQueue = true;
-                });
-            }
-        });
-
 
         // Increase ordering
         $(document).on('subform-row-add', function (event, row) {

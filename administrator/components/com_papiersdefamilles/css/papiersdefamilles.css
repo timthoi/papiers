@@ -277,3 +277,49 @@ table.adminlist.table-striped tr th:last-child{
 	width: 50px;
 	background-color: #eee;
 }
+
+.upload-btn-wrapper {
+	position: relative;
+	overflow: hidden;
+	display: inline-block;
+	cursor: pointer;
+}
+.upload-btn-wrapper:hover {
+	cursor: pointer;
+}
+.upload-btn-wrapper .btn {
+	cursor: pointer;
+	border: 2px solid gray;
+	color: gray;
+	background-color: white;
+	padding: 8px 20px;
+	border-radius: 8px;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.upload-btn-wrapper .btn:hover{
+	cursor: pointer;
+}
+
+.upload-btn-wrapper input[type=file] {
+	cursor: pointer;
+	font-size: 100px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	opacity: 0;
+}
+
+.upload-btn-wrapper input[type=file]:hover {
+	cursor: pointer;
+}
+.drag_drop_zone {
+	margin: 20px 0px;
+}
+
+.drag_drop_zone .upload-file {
+	cursor: pointer;
+	width: 400px;
+	margin-top: 20px;
+}

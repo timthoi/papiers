@@ -288,6 +288,7 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
     public function save($key = null, $urlVar = null)
     {
         JSession::checkToken() or JSession::checkToken('get') or jexit(JText::_('JINVALID_TOKEN'));
+
         //Check the ACLs
         $model  = $this->getModel();
         $item   = $model->getItem();
@@ -297,6 +298,7 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
 
         if ($model->canEdit($item, true)) {
             $result = parent::save();
+
             //Get the model through postSaveHook()
             if ($this->model) {
                 $model = $this->model;
@@ -310,40 +312,20 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
                     $flagUpdate = true;
                 }
 
-                //Upload Image
-                $avatarImages = JRequest::getVar('avatar_images');
-                $pdfFiles = JRequest::getVar('pdf_file');
-
-                $data                   = JRequest::getVar('jform');
-                $uploadDirectoryMainPic = '';
-                $uploadDirectoryPDF = '';
-
-                if (isset($data['main_pic']) && ! empty($data['main_pic'])) {
-                    $uploadDirectoryMainPic = $data['main_pic'];
-                }
-
-                if (isset($data['gallery_pic']) && ! empty($data['gallery_pic'])) {
-                    $uploadDirectoryPDF = $data['gallery_pic'];
-                }
+                $data = JRequest::getVar('jform');
 
                 $task   = $this->getLayout() . '.' . $this->getTask();
                 $length = 40;
+                $jinput = JFactory::getApplication()->input;
 
-                if (isset($item->main_pic)) {
+                if ( ! isset($item->gallery_pic) || empty($item->gallery_pic)) {
                     // Create folder to save gallery image
                     // Create folder to save avatar image
-                    $path = explode("/", json_decode($item->main_pic));
+                    $folderClean = JUserHelper::genRandomPassword($length);
+                    $folderClean = preg_replace('/[^A-Za-z0-9 _\-\+\&]/', '', $folderClean);
+                    $folderClean = strtolower($folderClean);
 
-                    if (isset($path[1]) && ! empty($path[1]) && $task != 'document.save2copy') {
-                        $mainPath    = $path[0];
-                        $folderClean = $path[1];
-                    } else {
-                        $folderClean = JUserHelper::genRandomPassword($length);
-                        $folderClean = preg_replace('/[^A-Za-z0-9 _\-\+\&]/', '', $folderClean);
-                        $folderClean = strtolower($folderClean);
-
-                        $mainPath = 'images_documents';
-                    }
+                    $mainPath = 'images_documents';
 
                     if ( ! file_exists(JURI::root() . $mainPath)) {
                         $restultCreate = JFolder::create(JPATH_SITE . '/' . $mainPath);
@@ -354,83 +336,101 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
                     if ( ! file_exists($rootPathItem)) {
                         $restultCreate = JFolder::create($rootPathItem);
 
-                        //5ccfedad413baa37af09caf72e264a5e7d672346
-                        $token = JUserHelper::genRandomPassword($length);
-
                         chmod(JPATH_SITE . '/' . $mainPath, 0777);
                         chmod($rootPathItem, 0777);
                         chmod($rootPathItem . '/', 0777);
                         chmod(JPATH_SITE . '/' . $mainPath . 'dat-lich-hen/', 0777);
                         // Create 2 folder in this foldernum_id
                         if ($restultCreate) {
-                            $flagUpdate             = true;
+                            $flagUpdate = true;
                             // Root path for this item
-                            $object->gallery_pic       = json_encode($mainPath . '/' . $folderClean);
-                            $object->main_pic       = json_encode($mainPath . '/' . $folderClean . '/document_avatar');
-                            $uploadDirectoryMainPic = $object->main_pic;
-                            $uploadDirectoryPDF = json_encode($mainPath . '/' . $folderClean);
+                            $object->gallery_pic = json_encode($mainPath . '/' . $folderClean);
+                            $object->main_pic    = json_encode($mainPath . '/' . $folderClean . '/document_avatar');
                         }
                     }
 
-                    $avatarPath    = $rootPathItem . '/document_avatar';
+                    $mainPicPath = $rootPathItem . '/document_avatar';
 
-                    if ( ! file_exists($avatarPath)) {
-                        $restultCreate = JFolder::create($avatarPath);
+                    if ( ! file_exists($mainPicPath)) {
+                        $restultCreate = JFolder::create($mainPicPath);
                         chmod($rootPathItem . '/document_avatar/', 0777);
                     }
 
-                    $avatarPathThumb   = $rootPathItem . '/document_avatar/thumb';
+                    $thumbPicMainPath = $rootPathItem . '/document_avatar/thumb';
 
-                    if ( ! file_exists($avatarPathThumb)) {
-                        $restultCreate = JFolder::create($avatarPathThumb);
+                    if ( ! file_exists($thumbPicMainPath)) {
+                        $restultCreate = JFolder::create($thumbPicMainPath);
                         chmod($rootPathItem . '/document_avatar/thumb', 0777);
                     }
 
-                    $pdfPath    = $rootPathItem . '/pdf';
+                    $pdfPath = $rootPathItem . '/pdf';
 
                     if ( ! file_exists($pdfPath)) {
                         $restultCreate = JFolder::create($pdfPath);
-                        chmod($rootPathItem . '/pdf', 0777);
+                        chmod($rootPathItem . DS . 'pdf', 0777);
+                    }
+
+                    $originalPath = $rootPathItem . DS . 'original';
+
+                    if ( ! file_exists($originalPath)) {
+                        $restultCreate = JFolder::create($originalPath);
+                        chmod($rootPathItem  . DS . 'original', 0777);
+                    }
+
+                    $tiffPath = $rootPathItem . DS . 'tiff';
+
+                    if ( ! file_exists($tiffPath)) {
+                        $restultCreate = JFolder::create($tiffPath);
+                        chmod($rootPathItem  . DS . 'tiff', 0777);
                     }
 
                     // Update ticket Number
                     $flagUpdate = true;
+                } else {
+                    $mainPicPath      = JPATH_SITE . DS . json_decode($item->gallery_pic) . DS . 'document_avatar';
+                    $thumbPicMainPath = JPATH_SITE . DS . json_decode($item->gallery_pic) . DS . 'document_avatar' . DS . 'thumb';
+                    $pdfPath          = JPATH_SITE . DS . json_decode($item->gallery_pic) . DS . 'pdf';
+                    $originalPath     = JPATH_SITE . DS . json_decode($item->gallery_pic) . DS . 'original';
+                    $tiffPath         = JPATH_SITE . DS . json_decode($item->gallery_pic) . DS . 'tiff';
                 }
 
-                // Upload Images For Avatar
-                if ( ! empty($avatarImages) && ! empty($uploadDirectoryMainPic)) {
-                    $uploadDirectoryMainPic = json_decode($uploadDirectoryMainPic);
 
-                    foreach ($avatarImages as $image) {
-                        $fileName = uniqid('document', true);
-                        $target   = JPATH_SITE . '/' . $uploadDirectoryMainPic . '/' . $fileName . '.jpg';
-                        $targetThumb   = JPATH_SITE . '/' . $uploadDirectoryMainPic . '/thumb/' . $fileName . '.jpg';
-                        $imagefile = JPATH_SITE . '/' . $image;
+                // Upload main pic
+                $mainPicFile = $jinput->files->get('main_pic', 'array', null);
 
-                        if ( ! empty($image)) {
-                            $resource = imagecreatefromjpeg($imagefile);
-                            imagejpeg($resource, $targetThumb, 0.1);
-                            rename($imagefile, $target);
-                        }
+                if ( ! empty($mainPicFile['tmp_name'])) {
+                    PapiersdefamillesHelper::clearFileInFolder($mainPicPath);
+                    $mainPicName = $this->uploadOneFile($mainPicFile, $mainPicPath);
 
-                    }
+                    //Upload thumb main pic
+                    $thumbMainPicFile = imagecreatefromstring(file_get_contents($mainPicPath . DS . $mainPicName));
+                    $targetThumb      = $thumbPicMainPath . DS . $mainPicName;
+                    PapiersdefamillesHelper::clearFileInFolder($thumbPicMainPath);
+                    imagejpeg($thumbMainPicFile, $targetThumb, 0.1);
                 }
 
-                // Upload PDF
-                if ( ! empty($pdfFiles) && ! empty($uploadDirectoryPDF)) {
-                    var_dump($uploadDirectoryPDF);
-                    $uploadDirectoryPDF = json_decode($uploadDirectoryPDF) . '/pdf';
+                // Upload pdf
+                $pdfFile = $jinput->files->get('pdf_file', 'array', null);
 
-                    foreach ($pdfFiles as $pdf) {
-                        $fileName = uniqid('document', true);
-                        $target   = JPATH_SITE . '/' . $uploadDirectoryPDF . '/' . $fileName . '.pdf';
-                        $pdfFile = JPATH_SITE . '/' . $pdf;
+                if ( ! empty($pdfFile['tmp_name'])) {
+                    PapiersdefamillesHelper::clearFileInFolder($pdfPath);
+                    $pdfFileName = $this->uploadOneFile($pdfFile, $pdfPath);
+                }
 
-                        if ( ! empty($pdf)) {
-                            rename($pdfFile, $target);
-                        }
+                // Upload original
+                $originalFile = $jinput->files->get('original_file', 'array', null);
 
-                    }
+                if ( ! empty($originalFile['tmp_name'])) {
+                    PapiersdefamillesHelper::clearFileInFolder($originalPath);
+                    $originalFileName = $this->uploadOneFile($originalFile, $originalPath);
+                }
+
+                // Upload tiff
+                $tiffFile = $jinput->files->get('tiff_file', 'array', null);
+
+                if ( ! empty($tiffFile['tmp_name'])) {
+                    PapiersdefamillesHelper::clearFileInFolder($tiffPath);
+                    $tiffFileName = $this->uploadOneFile($tiffFile, $tiffPath);
                 }
 
                 // locations
@@ -690,7 +690,40 @@ class PapiersdefamillesControllerDocument extends PapiersdefamillesClassControll
         exit();
     }
 
+    public function uploadOneFile($file, $destPath)
+    {
+        if ( ! empty($file['name'])) {
+            $max      = 1024 * 1024 * 100;
+            $filename = PapiersdefamillesHelper::safeFileName($file['name']);
+
+            if ($file['size'] > $max) {
+                $msg = JText::_('ONLY_FILES_UNDER') . ' ' . $max;
+            }
+            $src  = $file['tmp_name'];
+            $dest = $destPath . DS . $filename;
+
+            $extensions = array(
+                'image/jpeg',
+                'image/png',
+                'application/pdf'
+            );
+
+            if ( ! in_array($file['type'], $extensions)) {
+                $msg = JText::_('FILE_TYPE_INVALID');
+            }
+
+            if (in_array($file['type'], $extensions) && $file['size'] <= $max && $file['error'] == 0) {
+                $upload = JFile::upload($src, $dest);
+
+                if ( ! $upload) {
+                    $msg = JText::_('ERROR_IN_UPLOAD');
+                }
+            }
+
+            return $filename;
+        } else {
+            return null;
+        }
+        $msg = "<script>alert('" . $msg . "');</script>";
+    }
 }
-
-
-

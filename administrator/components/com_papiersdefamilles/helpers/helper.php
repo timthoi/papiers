@@ -1497,6 +1497,84 @@ class PapiersdefamillesHelper
 
         return $result;
     }
+
+    public static function safeFileName($filename)
+    {
+        $filename = JFile::makeSafe($filename);
+        $ext      = JFile::getExt($filename);
+
+        /*$filename = pathinfo($filename, PATHINFO_FILENAME);
+        $filename = strtolower($filename);
+        $filename = str_replace(" ", "-", $filename);*/
+
+        $tmpName = preg_replace("/[^0-9]+/", "", microtime());
+        $token = JUserHelper::genRandomPassword(20);
+
+        $filename = strtolower($tmpName . $token);
+
+        return $filename . '.' . $ext;
+    }
+
+    public static function clearFileInFolder($destPath)
+    {
+        $fileInFolders = JFolder::files($destPath, '.jpg|.png|.jpeg|.pdf|.tiff', false, false, array());
+
+        foreach ($fileInFolders as $fileInFolder) {
+            $resultDelete = JFile::delete($destPath . DS . $fileInFolder);
+        }
+    }
+
+    public static function migrateForOldDatabase($destPath)
+    {
+        $mainPicPath      = JPATH_SITE . DS . json_decode($destPath) . DS . 'document_avatar';
+        $thumbPicMainPath = JPATH_SITE . DS . json_decode($destPath) . DS . 'document_avatar' . DS . 'thumb';
+        $pdfPath          = JPATH_SITE . DS . json_decode($destPath) . DS . 'pdf';
+        $originalPath     = JPATH_SITE . DS . json_decode($destPath) . DS . 'original';
+        $tiffPath         = JPATH_SITE . DS . json_decode($destPath) . DS . 'tiff';
+
+        if ( ! file_exists($mainPicPath)) {
+            $restultCreate = JFolder::create($mainPicPath);
+            chmod($mainPicPath, 0777);
+        }
+
+        //if ( ! file_exists($thumbPicMainPath))
+        {
+            $restultCreate = JFolder::create($thumbPicMainPath);
+            chmod($thumbPicMainPath, 0777);
+
+            $avatars = JFolder::files($mainPicPath,
+                '.jpg|.png|.jpeg|.pdf', false, false, array());
+
+
+            if (isset($avatars[0])) {
+                $mainPicName = $avatars[0];
+                $thumbMainPicFile = imagecreatefromstring(file_get_contents($mainPicPath . DS . $mainPicName));
+                $targetThumb      = $thumbPicMainPath . DS . $mainPicName;
+                self::clearFileInFolder($thumbPicMainPath);
+                $tmpResult = imagejpeg($thumbMainPicFile, $targetThumb, 0.1);
+            }
+        }
+
+        if ( ! file_exists($thumbPicMainPath)) {
+            $restultCreate = JFolder::create($thumbPicMainPath);
+            chmod($thumbPicMainPath, 0777);
+        }
+
+        if ( ! file_exists($pdfPath)) {
+            $restultCreate = JFolder::create($pdfPath);
+            chmod($pdfPath, 0777);
+        }
+
+        if ( ! file_exists($originalPath)) {
+            $restultCreate = JFolder::create($originalPath);
+            chmod($originalPath, 0777);
+        }
+
+        if ( ! file_exists($tiffPath)) {
+            $restultCreate = JFolder::create($tiffPath);
+            chmod($tiffPath, 0777);
+        }
+    }
 }
 
 

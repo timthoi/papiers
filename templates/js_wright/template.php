@@ -42,6 +42,7 @@ else:
 endif;
 $uri          = JFactory::getURI();
 $absolute_url = $uri->toString();
+$classBackground = "";
 ?>
 <doctype>
 	<html>
@@ -144,6 +145,16 @@ $absolute_url = $uri->toString();
     <?php
     endif;
     ?>
+
+	<?php
+	// remove 136 it in local
+	if ($views == 'documents'): ?>
+		<?php $classBackground = "bg-gray";?>
+	<?php endif;?>
+
+    <?php  if ($classBackground !== ''): ?>
+		<div class="<?php echo $classBackground; ?>">
+    <?php endif;?>
 
 	<div class="<?php echo $wrightContainerClass; ?>">
 
@@ -252,6 +263,9 @@ $absolute_url = $uri->toString();
         ?>
 	</div>
 
+	<?php if ($classBackground !== ''): ?>
+		</div>
+	<?php endif;?>
 	<!-- footer -->
 	<div class="wrapper-footer">
 		<footer id="footer" <?php

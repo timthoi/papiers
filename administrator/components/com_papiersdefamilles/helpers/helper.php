@@ -1224,7 +1224,7 @@ class PapiersdefamillesHelper
      *
      * @return    string
      */
-    public static function printOutRawMainPersons($jsonMainPersons)
+    public static function printOutRawMainPersons($jsonMainPersons, $categories = '')
     {
         $mainPersons = json_decode($jsonMainPersons);
         $tmp         = '';
@@ -1233,28 +1233,41 @@ class PapiersdefamillesHelper
         // sort by ordering
 
         // print out only first element
+        $k = 0;
         foreach ($mainPersons as $mainPerson) {
             $tmp .= '<div class="main-persons">';
 
-            if (isset($mainPerson->sex) && ! empty($mainPerson->sex)) {
+            if (isset($mainPerson->sex) && ! empty($mainPerson->sex) && $k == 0) {
                 // Female
                 if ($mainPerson->sex == 1) {
-                    $tmp .= '<span class="sexe_H">' . '</span>';
+                    $tmp .= '<span class="sexe_H">' . JText::_("PAPIERSDEFAMILLES_TEXT_SEXE_H") . '</span>';
                     // Male
                 } elseif ($mainPerson->sex == 2) {
-                    $tmp .= '<span class="sexe_F">' . '</span>';
+                    $tmp .= '<span class="sexe_F">' . JText::_("PAPIERSDEFAMILLES_TEXT_SEXE_F") . '</span>';
+                }
+            }
+            elseif (isset($mainPerson->sex) && ! empty($mainPerson->sex) && $k != 0) {
+                // Female
+                if ($mainPerson->sex == 1) {
+                    $tmp .= '<img class="alliances" src="' . JUri::root() . 'images/alliances.png" alt="épou">';
+                    // Male
+                } elseif ($mainPerson->sex == 2) {
+                    $tmp .= '<img class="alliances" src="' . JUri::root() . 'images/alliances.png" alt="épou">';
                 }
             }
 
+
             if (isset($mainPerson->name) && ! empty($mainPerson->name)) {
-                $tmp .= '<a href="">' . $mainPerson->name . '</a>';
+                $tmp .= '<a href="' . JRoute::_("index.php?option=com_papiersdefamilles&view=documents&layout=default&Itemid=136&search_search=" . $mainPerson->name) . '">' . $mainPerson->name . '</a>';
             }
 
             if (isset($mainPerson->surname) && ! empty($mainPerson->surname)) {
-                $tmp .= ' <span class="prenom">' . $mainPerson->surname . '</span>';
+                $text = ucwords(strtolower($mainPerson->surname));
+                $tmp  .= ' <span class="prenom">' . $text . '</span>';
             }
 
             $tmp .= '</div>';
+            $k++;
         }
 
         return $tmp;
@@ -1270,7 +1283,7 @@ class PapiersdefamillesHelper
      *
      * @return    string
      */
-    public static function printOutRawSecondaryPersons($jsonSecondaryPersons)
+    public static function printOutRawSecondaryPersons($jsonSecondaryPersons, $limit = 2)
     {
         $secondaryPersons = json_decode($jsonSecondaryPersons);
         $tmp              = '';
@@ -1279,14 +1292,26 @@ class PapiersdefamillesHelper
         // sort by ordering
 
         // print out only first element
+        $k = 0;
         foreach ($secondaryPersons as $secondaryPerson) {
             $tmp .= '<div class="secondary-persons">';
 
             if (isset($secondaryPerson->name) && ! empty($secondaryPerson->name)) {
-                $tmp .= '<a href="">' . $secondaryPerson->name . '</a>';
+                $tmp .= '<a href="' . JRoute::_("index.php?option=com_papiersdefamilles&view=documents&layout=default&Itemid=136&search_search=" . $secondaryPerson->name) . '">' . $secondaryPerson->name . '</a>';
+
+                if (isset($secondaryPersons[$k+1]) && isset($secondaryPersons[$k+1]->name) && ! empty($secondaryPersons[$k+1]->name) && $k+1<=$limit) {
+                    $tmp .= ', ';
+                }
             }
 
             $tmp .= '</div>';
+
+            $k++;
+
+            if ($k > $limit) {
+                $tmp .= "<span> ...</span>";
+                break;
+            }
         }
 
         return $tmp;
@@ -1310,12 +1335,11 @@ class PapiersdefamillesHelper
         $count = 0;
         foreach ($locations as $location) {
             if (isset($location->city_id) && ! empty($location->city_id)) {
-                $modelCity = CkJModel::getInstance('city', 'PapiersdefamillesModel');
-                $city      = $modelCity->getItem($location->city_id);
-
-                if (isset($city->name) && ! empty($city->name)) {
-                    $tmp .= $city->name . ', ';
-                    $count++;
+                if (isset($location->departement_id) && ! empty($location->departement_id)) {
+                    $tmp .= $location->city_id . '(' . $location->departement_id . '), ';
+                }
+                else {
+                    $tmp .= $location->city_id . ', ';
                 }
             }
 
@@ -1508,7 +1532,7 @@ class PapiersdefamillesHelper
         $filename = str_replace(" ", "-", $filename);*/
 
         $tmpName = preg_replace("/[^0-9]+/", "", microtime());
-        $token = JUserHelper::genRandomPassword(20);
+        $token   = JUserHelper::genRandomPassword(20);
 
         $filename = strtolower($tmpName . $token);
 
@@ -1547,7 +1571,7 @@ class PapiersdefamillesHelper
 
 
             if (isset($avatars[0])) {
-                $mainPicName = $avatars[0];
+                $mainPicName      = $avatars[0];
                 $thumbMainPicFile = imagecreatefromstring(file_get_contents($mainPicPath . DS . $mainPicName));
                 $targetThumb      = $thumbPicMainPath . DS . $mainPicName;
                 self::clearFileInFolder($thumbPicMainPath);

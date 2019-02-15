@@ -32,7 +32,7 @@ class JConfig {
 	public $ftp_root = '';
 	public $ftp_user = '';
 	public $gzip = '0';
-	public $helpurl = '';
+	public $helpurl = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
 	public $host = 'localhost';
 	public $lifetime = '15';
 	public $list_limit = '20';
@@ -52,7 +52,7 @@ class JConfig {
 	public $password = '';
 	public $robots = '';
 	public $secret = '9kMqsLxw56OvCBxsnoDAIOmwZjjWfwNT';
-	public $sef = '1';
+	public $sef = '0';
 	public $sef_rewrite = '1';
 	public $sef_suffix = '0';
 	public $sendmail = '/usr/sbin/sendmail';

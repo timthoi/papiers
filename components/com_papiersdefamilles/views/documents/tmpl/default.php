@@ -84,8 +84,9 @@ JDom::_('html.toolbar');
                 <?php echo $this->loadTemplate('grid'); ?>
 
 				<!-- BRICK : pagination -->
-                <?php echo $this->pagination->getListFooter(); ?>
-
+				<div class="pagination-container">
+					<?php echo $this->pagination->getPagesLinks(); ?>
+				</div>
 			</div>
 		</div>
 
@@ -104,3 +105,14 @@ JDom::_('html.toolbar');
         ?>
 	</form>
 </div>
+
+
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+		$('.pagination-container ul').addClass('pagination');
+		$('.pagination-container li').addClass('page-item');
+        $('.pagination-container li > a').addClass('page-link');
+        $('.pagination-container span.pagenav').parent().addClass('active');
+
+    })
+</script>

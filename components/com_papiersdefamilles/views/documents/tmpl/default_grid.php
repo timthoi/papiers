@@ -43,7 +43,7 @@ $itemId = (isset($active->id)) ? $active->id : 0
 ?>
 
 <div class="clearfix"></div>
-<div class="">
+<div class="list-documents">
     <?php
     $k = 0;
     for ($i = 0, $n = count($this->items); $i < $n; $i++):
@@ -75,6 +75,9 @@ $itemId = (isset($active->id)) ? $active->id : 0
 
         $years = substr($row->birthday, 0, 4);
 
+        if ($years) {
+            $yearText = Jtext::sprintf('PAPIERSDEFAMILLES_TEXT_YEARS', $years);
+        }
         $row->avatars = '';
 
         if ( ! empty(json_decode($row->main_pic))) {
@@ -87,15 +90,16 @@ $itemId = (isset($active->id)) ? $active->id : 0
             } else {
                 $row->avatars = '';
             }
-            $scrTmp     = JURI::root(true) . DS . json_decode($row->main_pic) . DS . 'thumb' . DS . $row->avatars;
+            $scrTmp = JURI::root(true) . DS . json_decode($row->main_pic) . DS . 'thumb' . DS . $row->avatars;
+        } else {
+            $scrTmp = JURI::root(true) . DS . "images" . DS . 'No_Image_Available.jpg';
         }
-		else {
-            $scrTmp     = JURI::root(true) . DS . "images" . DS . 'No_Image_Available.jpg';
-		}
 
         $linkDetail = JRoute::_('index.php?option=com_papiersdefamilles&view=document&layout=document&Itemid=' . $itemId . '&cid=' . $row->id);
 
         ?>
+
+
 		<div class="document-information">
 			<div class="col-xs-3 document-pic">
 				<a rel="nofollow" class=""
@@ -107,31 +111,37 @@ $itemId = (isset($active->id)) ? $active->id : 0
 			</div>
 			<div class="col-xs-9 document-information-detail">
 				<a class="link-document"
-				   href="<?php echo $linkDetail ?>"><?php echo $types . ' ' . $categories ?>, année <?php echo $years ?></a><br>
-				Noms principaux : <span class="nom_principaux">
-					<?php echo PapiersdefamillesHelper::printOutRawMainPersons($row->main_persons); ?>
-				</span>
+				   href="<?php echo $linkDetail ?>"><?php echo $types . ' ' . $categories ?><?php echo $yearText ?></a>
+
+				<div class="document-information-group main-name">
+					<span class="document-information-label"><?php echo JText::_('PAPIERSDEFAMILLES_TEXT_MAIN_NAME') ?></span>
+                    <?php echo PapiersdefamillesHelper::printOutRawMainPersons($row->main_persons, $row->categories); ?>
+				</div>
 
                 <?php
                 $tmpLocations = PapiersdefamillesHelper::printOutRawLocations($row->locations);
-                if ( ! empty($tmpLocations)) :
-                    ?>
-					Lieu : <span class="nom_principaux adresses"><span
-							class="lieu"> <?php echo PapiersdefamillesHelper::printOutRawLocations($row->locations); ?></span> </span>
-					<br>
+                if ( ! empty($tmpLocations)) : ?>
+					<div class="document-information-group address">
+						<span class="document-information-label"><?php echo JText::_('PAPIERSDEFAMILLES_TEXT_LOCATION') ?></span>
+						<span class="location">
+							<?php echo PapiersdefamillesHelper::printOutRawLocations($row->locations); ?>
+						</span>
+					</div>
                 <?php endif; ?>
 
                 <?php
                 $tmpSecondaryPersons = PapiersdefamillesHelper::printOutRawSecondaryPersons($row->secondary_persons);
-                if ( ! empty($tmpSecondaryPersons)) :
-                    ?>
-					Autres noms relevés sur ce document : <span
-						class="nom_principaux2 nomssecondaires"><?php echo $tmpSecondaryPersons; ?></span>
+                if ( ! empty($tmpSecondaryPersons)) :?>
+					<div class="document-information-group secondary-name">
+						<span class="document-information-label"><?php echo JText::_('PAPIERSDEFAMILLES_TEXT_SECONDARY_NAME') ?></span>
+						<span>
+							<?php echo $tmpSecondaryPersons; ?></span>
+						</span>
+					</div>
                 <?php endif; ?>
 
-				<a class="btn-link-detail"
-				   href="<?php echo $linkDetail ?>">Plus de détails
-					<i class="fa fa-chevron-right" aria-hidden="true"></i>
+				<a class="btn-link-detail" href="<?php echo $linkDetail ?>">
+					<?php echo JText::_("PAPIERSDEFAMILLES_TEXT_ADD_MORE")?><i class="fa fa-chevron-right" aria-hidden="true"></i>
 				</a>
 			</div>
 		</div>
@@ -144,19 +154,17 @@ $itemId = (isset($active->id)) ? $active->id : 0
 </div>
 
 
-
-
 <script type="text/javascript">
     jQuery(document).ready(function ($) {
 
-        $('#adminForm .btn-search').on('click', function(e){
+        $('#adminForm .btn-search').on('click', function (e) {
             Joomla.submitform();
 
             e.preventDefault();
             return false;
         })
 
-        $('#adminForm .btn-reset-filter').on('click', function(e){
+        $('#adminForm .btn-reset-filter').on('click', function (e) {
             $(this).parents('#adminForm').find("input[name*='filter_country_id[]']").val('');
             $(this).parents('#adminForm').find("input[name*='filter_region_id[]']").val('');
             $(this).parents('#adminForm').find("input[name*='filter_category_id[]']").val('');

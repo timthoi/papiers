@@ -2,15 +2,10 @@
 /**
  * @version
  * @package        Papiersdefamilles
- * @subpackage     Ticket Types
+ * @subpackage     Documents
  * @copyright
  * @author         Harvey - timthoi
- * @license
- *
- *             .oooO  Oooo.
- *             (   )  (   )
- * -------------\ (----) /----------------------------------------------------------- +
- *               \_)  (_/
+ * @license        Harvey - timthoi
  */
 
 // no direct access

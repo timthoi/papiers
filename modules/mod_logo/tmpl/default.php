@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 <div class="module-logo">
     <div class="row">
         <div class="logo col-md-6">
-            <a href="<?php echo JRoute::_('index.php'); ?>"><img
+            <a href="<?php echo JURI::base() ?>"><img
                         src="images/Logo-papiersdefamilles.png" alt="Logo Papiersdefamilles"></a>
         </div>
 

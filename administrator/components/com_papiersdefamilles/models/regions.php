@@ -48,7 +48,6 @@ class PapiersdefamillesModelRegions extends PapiersdefamillesClassModelList
 			$config['filter_fields'] = array(
 				'ordering', 'a.ordering',
 				'name', 'a.name'
-
 			);
 		}
 

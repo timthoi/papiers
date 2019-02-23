@@ -46,14 +46,14 @@ class PapiersdefamillesModelDocuments extends PapiersdefamillesClassModelList
         // Define the sortables fields (in lists)
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = array(
-                'ordering',
-                'a.ordering',
-                'id',
-                'a.id',
-                'num_id',
-                'a.num_id',
+                'id', 'a.id',
+                'birthday', 'a.birthday',
+                'departement_id', 'a.locations',
+                'main_persons', 'a.main_persons',
+                'secondary_persons', 'a.secondary_persons'
             );
         }
+
 
         //Define the filterable fields
         $this->set('filter_vars', array(
@@ -74,7 +74,10 @@ class PapiersdefamillesModelDocuments extends PapiersdefamillesClassModelList
 
         //Define the searchable fields
         $this->set('search_vars', array(
-            'search' => 'string'
+            'search' => 'string',
+            'search2' => 'string',
+            'search3' => 'string',
+            'search4' => 'string'
         ));
 
 
@@ -175,7 +178,9 @@ class PapiersdefamillesModelDocuments extends PapiersdefamillesClassModelList
         $id .= ':' . $this->getState('filter.creation_date');
         $id .= ':' . $this->getState('filter.created_by');
         $id .= ':' . $this->getState('search.search');
-
+        $id .= ':' . $this->getState('search.search2');
+        $id .= ':' . $this->getState('search.search3');
+        $id .= ':' . $this->getState('search.search4');
         return parent::getStoreId($id);
     }
 
@@ -426,10 +431,91 @@ class PapiersdefamillesModelDocuments extends PapiersdefamillesClassModelList
             $this->setState('search.search', '');
         }
 
+        // Search 2
+        $getSearchValUrl2 = $jinput->get('search_search2', '');
+        $searchSearch2 = $this->getState('search.search2');
 
-        $this->addSearch('search', 'a.num_id', 'like');
+        if ($searchSearch2 !== 'not search' && !empty($searchSearch2))
+        {
+            if (!empty($getSearchValUrl2))
+            {
+                $mainframe =JFactory::getApplication();
+                $mainframe->setUserState("module.main_person2", $getSearchValUrl2);
+            }
+
+            $sessionSearch = PapiersdefamillesHelper::getSearchSessionUser();
+
+            if (isset($sessionSearch['main_person2']) && !empty($sessionSearch['main_person2']) && empty($getSearchValUrl2))
+            {
+                $this->setState('search.search2', $sessionSearch['main_person2']);
+                $searchSearch2 = $this->getState('search.search2');
+            }
+        }
+        else
+        {
+            $mainframe =JFactory::getApplication();
+            $mainframe->setUserState("module.main_person2", '');
+            $this->setState('search.search2', '');
+        }
+
+        // Search 3
+        $getSearchValUrl3 = $jinput->get('search_search3', '');
+        $searchSearch3 = $this->getState('search.search3');
+
+        if ($searchSearch3 !== 'not search' && !empty($searchSearch3))
+        {
+            if (!empty($getSearchValUrl3))
+            {
+                $mainframe =JFactory::getApplication();
+                $mainframe->setUserState("module.main_person3", $getSearchValUrl3);
+            }
+
+            $sessionSearch = PapiersdefamillesHelper::getSearchSessionUser();
+
+            if (isset($sessionSearch['main_person3']) && !empty($sessionSearch['main_person3']) && empty($getSearchValUrl3))
+            {
+                $this->setState('search.search3', $sessionSearch['main_person3']);
+                $searchSearch3 = $this->getState('search.search3');
+            }
+        }
+        else
+        {
+            $mainframe =JFactory::getApplication();
+            $mainframe->setUserState("module.main_person3", '');
+            $this->setState('search.search3', '');
+        }
+
+        // Search 4
+        $getSearchValUrl4 = $jinput->get('search_search4', '');
+        $searchSearch4 = $this->getState('search.search4');
+
+        if ($searchSearch4 !== 'not search' && !empty($searchSearch4))
+        {
+            if (!empty($getSearchValUrl4))
+            {
+                $mainframe =JFactory::getApplication();
+                $mainframe->setUserState("module.main_person4", $getSearchValUrl4);
+            }
+
+            $sessionSearch = PapiersdefamillesHelper::getSearchSessionUser();
+
+            if (isset($sessionSearch['main_person4']) && !empty($sessionSearch['main_person4']) && empty($getSearchValUrl4))
+            {
+                $this->setState('search.search4', $sessionSearch['main_person4']);
+                $searchSearch4 = $this->getState('search.search4');
+            }
+        }
+        else
+        {
+            $mainframe =JFactory::getApplication();
+            $mainframe->setUserState("module.main_person4", '');
+            $this->setState('search.search4', '');
+        }
+
+
+       /* $this->addSearch('search', 'a.num_id', 'like');
         $this->addSearch('search', 'a.traceability', 'like');
-        $this->addSearch('search', 'a.id', 'like');
+        $this->addSearch('search', 'a.id', 'like');*/
         $this->addSearch('search', 'a.main_persons', 'like');
         $this->addSearch('search', 'a.secondary_persons', 'like');
 
@@ -443,11 +529,23 @@ class PapiersdefamillesModelDocuments extends PapiersdefamillesClassModelList
             $this->addWhere($searchSearch_val);
         }
 
+        if (($searchSearch2 != '') && ($searchSearch_val2 = $this->buildSearch('search', $searchSearch2, array('join' => 'OR', 'ignoredLength' => 2)))) {
+            $this->addWhere($searchSearch_val2);
+        }
+
+        if (($searchSearch3 != '') && ($searchSearch_val3 = $this->buildSearch('search', $searchSearch2, array('join' => 'OR', 'ignoredLength' => 2)))) {
+            $this->addWhere($searchSearch_val2);
+        }
+
+        if (($searchSearch4 != '') && ($searchSearch_val4 = $this->buildSearch('search', $searchSearch2, array('join' => 'OR', 'ignoredLength' => 2)))) {
+            $this->addWhere($searchSearch_val4);
+        }
+
         // var_dump($query->__toString());
         // Apply all SQL directives to the query
         $this->applySqlStates($query);
 
-        /* var_dump($searchSearch);
+       /* var_dump($searchSearch);
          echo "<pre>";
          print_r($query->__toString());
          echo "</pre>";die;*/

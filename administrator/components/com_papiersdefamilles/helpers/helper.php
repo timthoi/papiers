@@ -1059,12 +1059,28 @@ class PapiersdefamillesHelper
         $mainframe = JFactory::getApplication();
 
         $main_person = $mainframe->getUserStateFromRequest("module.main_person", 'null');
+        $main_person2 = $mainframe->getUserStateFromRequest("module.main_person2", 'null');
+        $main_person3 = $mainframe->getUserStateFromRequest("module.main_person3", 'null');
+        $main_person4 = $mainframe->getUserStateFromRequest("module.main_person4", 'null');
+
         $join        = $mainframe->getUserStateFromRequest("module.join", 'null');
         $country     = $mainframe->getUserStateFromRequest("module.country", 'null');
         $region      = $mainframe->getUserStateFromRequest("module.region", 'null');
 
         if ( ! ($main_person)) {
             $mainframe->setUserState("module.main_person", $main_person);
+        }
+
+        if ( ! ($main_person2)) {
+            $mainframe->setUserState("module.main_person2", $main_person2);
+        }
+
+        if ( ! ($main_person3)) {
+            $mainframe->setUserState("module.main_person3", $main_person3);
+        }
+
+        if ( ! ($main_person4)) {
+            $mainframe->setUserState("module.main_person3", $main_person4);
         }
 
         if ( ! ($join)) {
@@ -1098,12 +1114,19 @@ class PapiersdefamillesHelper
         $mainframe = JFactory::getApplication();
 
         $main_person = $mainframe->getUserStateFromRequest("module.main_person", 'null');
+        $main_person2 = $mainframe->getUserStateFromRequest("module.main_person2", 'null');
+        $main_person3 = $mainframe->getUserStateFromRequest("module.main_person3", 'null');
+        $main_person4 = $mainframe->getUserStateFromRequest("module.main_person4", 'null');
+
         $join        = $mainframe->getUserStateFromRequest("module.join", 'null');
         $country     = $mainframe->getUserStateFromRequest("module.country", 'null');
         $region      = $mainframe->getUserStateFromRequest("module.region", 'null');
 
         return array(
             'main_person' => $main_person,
+            'main_person2' => $main_person2,
+            'main_person3' => $main_person3,
+            'main_person4' => $main_person4,
             'join'        => $join,
             'country'     => $country,
             'region'      => $region
@@ -1327,7 +1350,7 @@ class PapiersdefamillesHelper
      *
      * @return    string
      */
-    public static function printOutRawLocations($jsonLocations)
+    public static function printOutRawCityLocations($jsonLocations)
     {
         $locations = json_decode($jsonLocations);
         $tmp       = '';
@@ -1362,7 +1385,143 @@ class PapiersdefamillesHelper
     }
 
     /**
-     * Print Out Locations
+     * Print Out Detail Locations
+     *
+     * @access    public static
+     *
+     *
+     * @since     v.1.0
+     *
+     * @return    string
+     */
+    public static function printOutRawDepartmentLocations($jsonLocations)
+    {
+        $locations = json_decode($jsonLocations);
+        $tmp       = '';
+
+        $count = 0;
+        $departmentModel = CkJModel::getInstance('Province', 'PapiersdefamillesModel');
+        foreach ($locations as $location) {
+            if (isset($location->departement_id) && ! empty($location->departement_id)) {
+                $province      = $departmentModel->getItem($location->departement_id);
+
+                if (is_object($province) && isset($province->name))
+                {
+                    $tmp .= $province->name . ', ';
+                }
+            }
+
+            if ($count == 2) {
+                if ( ! empty($tmp)) {
+                    $tmp = substr($tmp, 0, -2);
+                    $tmp .= ' ...';
+
+                    return $tmp;
+                }
+                break;
+            }
+        }
+
+        if ( ! empty($tmp)) {
+            $tmp = substr($tmp, 0, -2);
+        }
+
+        return $tmp;
+    }
+
+    /**
+     * Print Out Detail Locations
+     *
+     * @access    public static
+     *
+     *
+     * @since     v.1.0
+     *
+     * @return    string
+     */
+    public static function printOutRawRegionLocations($jsonLocations)
+    {
+        $locations = json_decode($jsonLocations);
+        $tmp       = '';
+
+        $count = 0;
+        $regiontModel = CkJModel::getInstance('Region', 'PapiersdefamillesModel');
+        foreach ($locations as $location) {
+            if (isset($location->region_id) && ! empty($location->region_id)) {
+                $region      = $regiontModel->getItem($location->region_id);
+
+                if (is_object($region) && isset($region->name))
+                {
+                    $tmp .= $region->name . ', ';
+                }
+            }
+
+            if ($count == 2) {
+                if ( ! empty($tmp)) {
+                    $tmp = substr($tmp, 0, -2);
+                    $tmp .= ' ...';
+
+                    return $tmp;
+                }
+                break;
+            }
+        }
+
+        if ( ! empty($tmp)) {
+            $tmp = substr($tmp, 0, -2);
+        }
+
+        return $tmp;
+    }
+
+    /**
+     * Print Out Detail Locations
+     *
+     * @access    public static
+     *
+     *
+     * @since     v.1.0
+     *
+     * @return    string
+     */
+    public static function printOutRawCountryLocations($jsonLocations)
+    {
+        $locations = json_decode($jsonLocations);
+        $tmp       = '';
+
+        $count = 0;
+        $countryModel = CkJModel::getInstance('Country', 'PapiersdefamillesModel');
+
+        foreach ($locations as $location) {
+            if (isset($location->country_id) && ! empty($location->country_id)) {
+                $country      = $countryModel->getItem($location->country_id);
+
+                if (is_object($country) && isset($country->name))
+                {
+                    $tmp .= $country->name . ', ';
+                }
+            }
+
+            if ($count == 2) {
+                if ( ! empty($tmp)) {
+                    $tmp = substr($tmp, 0, -2);
+                    $tmp .= ' ...';
+
+                    return $tmp;
+                }
+                break;
+            }
+        }
+
+        if ( ! empty($tmp)) {
+            $tmp = substr($tmp, 0, -2);
+        }
+
+        return $tmp;
+    }
+
+    /**
+     * get List Region
      *
      * @access    public static
      *
@@ -1403,7 +1562,7 @@ class PapiersdefamillesHelper
     }
 
     /**
-     * Print Out Locations
+     * get List City
      *
      * @access    public static
      *
@@ -1444,7 +1603,7 @@ class PapiersdefamillesHelper
     }
 
     /**
-     * Get Avatar Image
+     * get Max Num Id
      *
      * @access    public static
      *

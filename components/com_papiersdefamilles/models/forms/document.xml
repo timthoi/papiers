@@ -315,14 +315,29 @@
 				class="element-filter element-search search-query"
 				ui="chosen"/>
 
+
+		<field name="search_search2"
+			   type="cksearch"
+			   placeholder="PAPIERSDEFAMILLES_FILTER_NAME_2"
+			   label="PAPIERSDEFAMILLES_FILTER_NAME_2"
+			   class="element-filter element-search search-query"
+			   ui="chosen"/>
+
+		<field name="search_search3"
+			   type="cksearch"
+			   placeholder="PAPIERSDEFAMILLES_FILTER_NAME_3"
+			   label="PAPIERSDEFAMILLES_FILTER_NAME_3"
+			   class="element-filter element-search search-query"
+			   ui="chosen"/>
+
 		<field name="sortTable"
-				type="cksort"
-				responsive="hidden-phone"
-				submit="true"
-				nullLabel="JGLOBAL_SORT_BY"
-				class="span-2 element-filter"
-				label="Sort by"
-				ui="chosen"/>
+			   type="cksort"
+			   responsive="hidden-phone"
+			   submit="true"
+			   nullLabel="JGLOBAL_SORT_BY"
+			   class="span-2 element-filter"
+			   label="Sort by"
+			   ui="chosen"/>
 
 		<field name="directionTable"
 				type="ckdirection"

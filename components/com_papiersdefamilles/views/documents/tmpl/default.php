@@ -26,22 +26,31 @@ JDom::_('html.toolbar');
 		<div class="row">
 			<div id="sidebar" class="span2">
 				<div class="sidebar-nav">
+					<!-- BRICK : display -->
+					<div class="sortable">
+						<?php echo $this->filters['sortTable']->input;?>
+						<hr class="hr-condensed">
+					</div>
 
-					<!-- BRICK : menu -->
-                    <?php echo JDom::_('html.menu.submenu', array(
-                        'list' => $this->menu
-                    )); ?>
-
+					<div class="clearfix"></div>
 					<div class="nav-filters">
+                        <?php echo $this->filters['filter_typedocument_id']->input; ?>
+						<hr class="hr-condensed">
+						<input type="text" name="search_search" class="element-filters search_search1" title="" placeholder="<?php echo Jtext::_('PAPIERSDEFAMILLES_FILTER_NAME_1')?>" value="<?php echo $this->state->get('search.search')?>">
+
+						<input type="text" name="search_search2" class="element-filters" title="" placeholder="<?php echo Jtext::_('PAPIERSDEFAMILLES_FILTER_NAME_2')?>" value="<?php echo $this->state->get('search.search2')?>">
+
+						<input type="text" name="search_search3" class="element-filters" title="" placeholder="<?php echo Jtext::_('PAPIERSDEFAMILLES_FILTER_NAME_3')?>" value="<?php echo $this->state->get('search.search3')?>">
+
+						<input type="text" name="search_search4" class="element-filters" title="" placeholder="<?php echo Jtext::_('PAPIERSDEFAMILLES_FILTER_NAME_4')?>" value="<?php echo $this->state->get('search.search4')?>">
+						<hr class="hr-condensed">
                         <?php echo $this->filters['filter_country_id']->input; ?>
 						<hr class="hr-condensed">
                         <?php echo $this->filters['filter_region_id']->input; ?>
 						<hr class="hr-condensed">
                         <?php echo $this->filters['filter_district_id']->input; ?>
-						<hr class="hr-condensed">
-                        <?php echo $this->filters['filter_category_id']->input; ?>
-						<hr class="hr-condensed">
-                        <?php echo $this->filters['filter_typedocument_id']->input; ?>
+
+						<input type="submit" value="<?php echo JText::_('PAPIERSDEFAMILLES_TEXT_SEARCH')?>" class="filter_submit_btn">
 					</div>
 				</div>
 			</div>
@@ -49,7 +58,7 @@ JDom::_('html.toolbar');
 
 				<!-- BRICK : filters -->
 				<div class="pull-left">
-					<div class="pull-left">
+
 						<div class=" form-search btn-group"><div class="input-append"><input type="text" id="search_search" name="search_search" class="element-filter element-search search-query" title="" placeholder="<?php echo Jtext::_('PAPIERSDEFAMILLES_FILTER_NULL_NUM_ID_MAIN_PIC_GALLERY_PIC_ALIAS')?>" value="<?php echo $this->state->get('search.search')?>">
 
 								<a class="btn hasTooltip btn-search" style="cursor:pointer;" type="button"><i class="icon-search icomoon "></i></a>
@@ -57,18 +66,11 @@ JDom::_('html.toolbar');
 
                         <?php //echo $this->filters['search_search']->input;?>
 
-					</div>
-
 				</div>
 
 
-				<!-- BRICK : display -->
-				<div class="pull-right">
-                    <?php echo $this->filters['sortTable']->input;?>
-				</div>
 
-
-				<div class="pull-right">
+				<div class="pull-right hidden">
                     <?php echo $this->filters['directionTable']->input;?>
 				</div>
 
@@ -78,6 +80,12 @@ JDom::_('html.toolbar');
 				</div>
 
 				<div class="clearfix"></div>
+
+				<div class="row">
+					<div class="col-md-12">
+					<p class="search-message"><?php echo JText::sprintf('PAPIERSDEFAMILLES_FIELD_SEARCH_MESSAGE_TOTAL', $this->pagination->get('total'), $this->state->get('search.search'))?></p>
+					</div>
+				</div>
 
 
 				<!-- BRICK : grid -->

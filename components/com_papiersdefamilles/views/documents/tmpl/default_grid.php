@@ -101,15 +101,17 @@ $itemId = (isset($active->id)) ? $active->id : 0
 
 
 		<div class="document-information">
-			<div class="col-xs-3 document-pic">
+			<div class="col-xs-2">
+				<div class="document-pic">
 				<a rel="nofollow" class=""
 				   href="<?php echo $linkDetail ?>"><img
 							alt=""
 							src="<?php echo $scrTmp ?>"
 							class="image_resultat_document lazy">
 				</a>
+				</div>
 			</div>
-			<div class="col-xs-9 document-information-detail">
+			<div class="col-xs-10 document-information-detail">
 				<a class="link-document"
 				   href="<?php echo $linkDetail ?>"><?php echo $types . ' ' . $categories ?><?php echo $yearText ?></a>
 
@@ -119,12 +121,12 @@ $itemId = (isset($active->id)) ? $active->id : 0
 				</div>
 
                 <?php
-                $tmpLocations = PapiersdefamillesHelper::printOutRawLocations($row->locations);
+                $tmpLocations = PapiersdefamillesHelper::printOutRawCityLocations($row->locations);
                 if ( ! empty($tmpLocations)) : ?>
 					<div class="document-information-group address">
 						<span class="document-information-label"><?php echo JText::_('PAPIERSDEFAMILLES_TEXT_LOCATION') ?></span>
 						<span class="location">
-							<?php echo PapiersdefamillesHelper::printOutRawLocations($row->locations); ?>
+							<?php echo PapiersdefamillesHelper::printOutRawCityLocations($row->locations); ?>
 						</span>
 					</div>
                 <?php endif; ?>
@@ -158,11 +160,27 @@ $itemId = (isset($active->id)) ? $active->id : 0
     jQuery(document).ready(function ($) {
 
         $('#adminForm .btn-search').on('click', function (e) {
+
             Joomla.submitform();
 
             e.preventDefault();
             return false;
         })
+
+        $('#adminForm .filter_submit_btn').on('click', function (e) {
+            if ($('.search_search1').val()) {
+				$('#search_search').val($('.search_search1').val());
+            }
+
+            Joomla.submitform();
+
+            e.preventDefault();
+            return false;
+        })
+
+
+
+
 
         $('#adminForm .btn-reset-filter').on('click', function (e) {
             $(this).parents('#adminForm').find("input[name*='filter_country_id[]']").val('');

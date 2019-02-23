@@ -37,7 +37,7 @@ defined('_JEXEC') or die;
 						<div class="row">
 							<div class="col-md-5">
 								<input type="text" class="form-control champ_home" placeholder="<?php echo JText::_('PAPIERSDEFAMILLES_FIELD_PLACEHOLDER_MAIN_PERSON')?>" name="search_main_person" value="<?php echo $sessionSearch['main_person']?>">
-								<input type="text" class="form-control champ_home" placeholder="Join" name="search_join" value="<?php echo $sessionSearch['join']?>">
+								<input type="text" class="form-control champ_home" placeholder="<?php echo JText::_('PAPIERSDEFAMILLES_FIELD_SORTABLE_SECOND_NAME')?>" name="search_join" value="<?php echo $sessionSearch['join']?>">
 							</div>
 							<div class="col-md-5">
 								<input type="text" class="form-control champ_home" placeholder="<?php echo JText::_('PAPIERSDEFAMILLES_FIELD_COUNTRY')?>" name="search_country" value="<?php echo $sessionSearch['country']?>">
@@ -61,8 +61,6 @@ defined('_JEXEC') or die;
                     );
                     ?>
 				</form>
-
-				<p align="center"><?php echo JText::_('PAPIERSDEFAMILLES_TEXT_MODULENIQUECOLLECTION_HEADER3')?></p>
             </div>
 		</div>
 		<div class="col-md-4">

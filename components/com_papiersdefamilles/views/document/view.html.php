@@ -46,6 +46,10 @@ class PapiersdefamillesViewDocument extends PapiersdefamillesClassView
 	*/
 	protected function displayDocument($tpl = null)
 	{
+        // Solve session search
+        PapiersdefamillesHelper::setInitSessionSearch();
+        $sessionSearch = PapiersdefamillesHelper::getSearchSessionUser();
+
 		// Initialiase variables.
 		$this->model	= $model	= $this->getModel();
 
@@ -53,6 +57,9 @@ class PapiersdefamillesViewDocument extends PapiersdefamillesClassView
         $model->loadRelations('typedocuments');*/
 
 		$this->state	= $state	= $this->get('State');
+
+        $this->state->set('search.search', $sessionSearch['main_person']);
+
 		$this->params 	= $state->get('params');
 		$state->set('context', 'document.document');
 		$this->item		= $item		= $this->get('Item');

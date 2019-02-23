@@ -102,16 +102,6 @@ class PapiersdefamillesViewDocuments extends PapiersdefamillesClassView
             'list' => $modelCountries->getItems()
         );
 
-        // Cities > Title
-       /* $modelCities = CkJModel::getInstance('cities', 'PapiersdefamillesModel');
-        // Need to use Ajax to improve speed - Harvey
-        $modelCities->setState('limit', '50');
-        $modelCities->setState('start', '50');
-        $modelCities->setState('context', 'cities.filter');
-        $filters['filter_city_id']->jdomOptions = array(
-            'list' => $modelCities->getItems()
-        );*/
-
         // Districts > Title
         $modelDistricts = CkJModel::getInstance('districts', 'PapiersdefamillesModel');
         $modelDistricts->set('context', $modelDistricts->get('context'));
@@ -132,6 +122,7 @@ class PapiersdefamillesViewDocuments extends PapiersdefamillesClassView
         $filters['filter_typedocument_id']->jdomOptions = array(
             'list' => $modelTypedocuments->getItems()
         );
+
 		// Toolbar
 		JToolBarHelper::title(JText::_('PAPIERSDEFAMILLES_LAYOUT_DOCUMENTS'), 'list');
 
@@ -170,7 +161,11 @@ class PapiersdefamillesViewDocuments extends PapiersdefamillesClassView
 	protected function getSortFields($layout = null)
 	{
 		return array(
-			'a.ordering' => JText::_('PAPIERSDEFAMILLES_FIELD_ORDERING')
+			'a.id' => JText::_('PAPIERSDEFAMILLES_FIELD_SORTABLE_ID'),
+            'a.birthday' => JText::_('PAPIERSDEFAMILLES_FIELD_SORTABLE_DATE'),
+            'a.locations' => JText::_('PAPIERSDEFAMILLES_FIELD_SORTABLE_DEPARTEMENT'),
+            'a.main_persons' => JText::_('PAPIERSDEFAMILLES_FIELD_SORTABLE_MAIN_NAME'),
+            'a.secondary_persons' => JText::_('PAPIERSDEFAMILLES_FIELD_SORTABLE_SECOND_NAME')
 		);
 	}
 

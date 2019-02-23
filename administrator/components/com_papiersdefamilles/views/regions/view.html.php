@@ -114,9 +114,7 @@ class PapiersdefamillesViewRegions extends PapiersdefamillesClassView
 	{
 		return array(
 			'a.ordering' => JText::_('PAPIERSDEFAMILLES_FIELD_ORDERING'),
-			'a.name' => JText::_('PAPIERSDEFAMILLES_FIELD_NAME'),
-			'_continent_.name' => JText::_('PAPIERSDEFAMILLES_FIELD_CONTINENT_NAME'),
-			'_country_.name' => JText::_('PAPIERSDEFAMILLES_FIELD_COUNTRY_NAME')
+			'a.name' => JText::_('PAPIERSDEFAMILLES_FIELD_NAME')
 		);
 	}
 
